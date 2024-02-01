@@ -5,16 +5,26 @@ class Armor():
     defense = 0
     flatReduction = 0
 
-    strReq = 0
+    armWeight = "Light"
+    def getStrReq(self):
+        match self.armWeight:
+            case "Light":
+                return 0
+            case "Medium":
+                return 12
+            case "Heavy":
+                return 16
+    strReq = property(fget = getStrReq)
+
 
     def getDfsPercent(self): return ((-1.025) ** (-(self.defense - 186))) + 100
     defenseReduction = property(fget = getDfsPercent)
 
     # Methods
-    def __init__(self, defense, flatReduction, strReq):
+    def __init__(self, defense, flatReduction, weight):
         self.defense = defense
         self.flatReduction = flatReduction
-        self.strReq = strReq
+        self.armWeight = weight
 
     def reduceDamage(self, damage, wearer):
         if wearer.bStr >= self.strReq:
