@@ -28,6 +28,4 @@ class Weapon():
                 relevantMod = wielder.strMod
             case "Ranged":
                 relevantMod = wielder.dexMod
-            case "Magic":
-                relevantMod = wielder.intMod
         return self.getDamage() + relevantMod
