@@ -27,7 +27,7 @@ class Armor():
         self.armWeight = weight
 
     def reduceDamage(self, damage, wearer):
-        if wearer.bStr >= self.strReq:
+        if wearer.bStr >= self.strReq and self.armWeight in wearer.type.armors:
             return (damage * (self.defenseReduction / 100)) - self.flatReduction
         else:
             return damage

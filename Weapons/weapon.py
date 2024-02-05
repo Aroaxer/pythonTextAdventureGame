@@ -28,4 +28,7 @@ class Weapon():
                 relevantMod = wielder.strMod
             case "Ranged":
                 relevantMod = wielder.dexMod
-        return self.getDamage() + relevantMod
+        if wielder.type.weapon == self.dmgType:
+            return self.getDamage() + relevantMod
+        else:
+            return 0 + relevantMod

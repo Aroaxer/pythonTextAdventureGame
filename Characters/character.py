@@ -21,8 +21,8 @@ class Character():
     maxHealth = property(fget = getMaxHp)
     currentHealth = 0
 
-    weapon = Weapon()
-    armor = Armor()
+    weapon = None
+    armor = None
 
     # Methods
     def __init__(self, str, dex, con, hpPerLevel) -> None:

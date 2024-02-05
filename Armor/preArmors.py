@@ -1,4 +1,4 @@
-from armor import Armor
+from Armor.armor import Armor
 
 leatherArmor = Armor(5, 1, 0)
 studdedLeatherArmor = Armor(10, 3, 0)
