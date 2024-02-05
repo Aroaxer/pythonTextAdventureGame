@@ -19,20 +19,14 @@ class Game():
         self.beginGame()
 
     def setupPlayer(self):
-        choice = lower("""What class would you like to play as?
+        choice = ("""What class would you like to play as?
                        Warrior - 14 str 16 con 12 dex
                        Knight - 16 str 14 con 8 dex
                        Ranger - 10 str 16 con 14 dex
-                       Rogue - 8 str 12 con 16 dex""")
-        choice = lower(choice)
+                       Rogue - 8 str 12 con 16 dex""").lower()
+        choice = (choice).lower()
         self.player = Player(preTypes.types[choice])
 
-    def genEnemy(self, isBoss = False):
-        if isBoss:
-            pass
-        else:
-            return preEnemies.enemies[stage - 1][random.randint(0, len(preEnemies.enemies[stage - 1]))]
-    
     def beginGame(self):
         self.stage = preStages.Forest
         self.player = self.setupPlayer()
@@ -73,10 +67,10 @@ class Game():
 
     def takePlayerInput(self):
         input = input("What would you like to do?\n")
-        return handlePlayerInput(input)
+        return self.handlePlayerInput(input)
 
     def handlePlayerInput(self, input):
-        match lower(input):
+        match (input).lower():
             case "attack" | "a":
                 target = self.getTarget()
                 self.player.attack(target)

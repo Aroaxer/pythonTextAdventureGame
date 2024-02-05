@@ -1,8 +1,6 @@
 import random
 import math
 
-from Characters.character import Character
-
 class Weapon():
     # Stats
     dmgLow = 0

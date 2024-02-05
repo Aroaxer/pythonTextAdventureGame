@@ -1,7 +1,3 @@
-from Weapons.weapon import Weapon
-from Armor.armor import Armor
-
-from Armor import preArmors
 
 class Character():
     # Stats

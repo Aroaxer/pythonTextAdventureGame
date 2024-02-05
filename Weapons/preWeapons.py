@@ -1,4 +1,4 @@
-from Weapon.weapon import Weapon
+from Weapons.weapon import Weapon
 
 bronzeSword = Weapon(4, "Melee")
 ironSword = Weapon(6, "Melee")

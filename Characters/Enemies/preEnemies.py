@@ -1,4 +1,4 @@
-from Characters.Enemies import preEnemies
+from Characters.Enemies.enemy import Enemy
 
 enemies = [
     [Enemy("Slime"), Enemy("Skeleton"), Enemy("Zombie")],

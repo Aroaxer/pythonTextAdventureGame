@@ -11,7 +11,7 @@ class Playertype():
         self.name = name
         self.weapon = weapon
         self.hpPerLevel = hpPerLevel
-        match self.bestArmor:
+        match bestArmor:
             case "Heavy":
                 armors = ["Light", "Medium", "Heavy"]
             case "Medium":
