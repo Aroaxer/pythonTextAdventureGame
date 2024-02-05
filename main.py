@@ -2,15 +2,17 @@ import random
 import math
 
 from Characters.player import Player
-from Characters.enemy import Enemy
+from Characters.Enemies.enemy import Enemy
 from Playertypes import preTypes
-from Characters import preEnemies
+from Characters.Enemies import preEnemies
+from Stages import preStages
 
 class Game():
     player = None
     enemies = []
 
     stage = 0
+    difficulty = 0
 
     def __init__(self) -> None:
         self.beginGame()
@@ -31,16 +33,18 @@ class Game():
             return preEnemies.enemies[stage - 1][random.randint(0, len(preEnemies.enemies[stage - 1]))]
     
     def beginGame(self):
-        self.stage = 1
+        self.stage = preStages.Forest
         self.player = self.setupPlayer()
-        self.enemies.append(self.genEnemy())
+        self.difficulty = 1
+
+        self.enemies = self.stage.getEncounter(self.difficulty)
 
         self.mainLoop()
 
     def mainLoop(self):
         inResult = self.takePlayerInput()
 
-        return self.mainLoop()
+        return self.mainLoop() # Loops
 
     def takePlayerInput(self):
         input = input("What would you like to do?\n")
@@ -53,12 +57,12 @@ class Game():
                 self.player.attack(target)
                 return "Attack"
                 
-    def getTarget(self, targetsFriendly = False):
+    def getTarget(self, targetsFriendly = False, returnsIndex = False):
         if targetsFriendly:
             pass
         else:
             input = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
-            return enemies[input - 1]
+            return (enemies[input - 1]) if not returnsIndex else (input - 1)
 
 
 game = Game()

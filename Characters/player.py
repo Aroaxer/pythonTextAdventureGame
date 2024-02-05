@@ -32,4 +32,15 @@ class Player(Character):
             self.weapon = item
         elif item.type == Armor:
             self.armor = item
+
+    
+    def useSpecial(self, game):
+        if self.weapon.dmgType == "Melee":
+            for enemy in game.enemies:
+                self.attack(enemy, 0.5)
+        elif self.weapon.dmgType == "Ranged":
+            print("This attack targets the next highest index as well.")
+            target = game.getTarget(returnsIndex = True)
+            self.attack(target, 0.75)
+            self.attack(target + 1, 0.75)
     

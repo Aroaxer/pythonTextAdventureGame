@@ -32,3 +32,4 @@ class Weapon():
             return self.getDamage() + relevantMod
         else:
             return 0 + relevantMod
+        

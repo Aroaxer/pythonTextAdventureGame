@@ -36,6 +36,6 @@ class Character():
         self.hp -= self.armor.reduceDamage(amt)
         # TODO: check if dead
 
-    def attack(self, target):
-        target.takeDamage(self, self.weapon.dealDamage())
+    def attack(self, target, damageMult = 1):
+        target.takeDamage(self, self.weapon.dealDamage() * damageMult)
 
