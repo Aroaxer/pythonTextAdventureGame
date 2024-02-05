@@ -13,6 +13,7 @@ class Game():
 
     stage = 0
     difficulty = 0
+    encountersComplete = 0
 
     def __init__(self) -> None:
         self.beginGame()
@@ -36,6 +37,7 @@ class Game():
         self.stage = preStages.Forest
         self.player = self.setupPlayer()
         self.difficulty = 1
+        self.encountersComplete = 0
 
         self.enemies = self.stage.getEncounter(self.difficulty)
 
@@ -44,7 +46,30 @@ class Game():
     def mainLoop(self):
         inResult = self.takePlayerInput()
 
+        if len(self.enemies) == 0:
+            self.completeEncounter()
+
         return self.mainLoop() # Loops
+    
+    def completeEncounter(self):
+        self.encountersComplete += 1
+
+        if (self.encountersComplete + 1) % 5 == 0:
+            self.difficulty += 1
+            # TODO: Should also drop items here
+
+        if self.encountersComplete % 10 == 0:
+            match self.stage: # Move to next stage after every boss
+                case preStages.Forest:
+                    self.stage = preStages.Caves
+                case preStages.Caves:
+                    pass
+                
+        # Get next encounter
+        if (self.encountersComplete + 1) % 10 != 0:
+            self.enemies = self.stage.getEncounter(self.difficulty)
+        else: # Boss
+            self.enemies = [self.stage.boss]
 
     def takePlayerInput(self):
         input = input("What would you like to do?\n")
@@ -59,10 +84,13 @@ class Game():
                 
     def getTarget(self, targetsFriendly = False, returnsIndex = False):
         if targetsFriendly:
-            pass
+            pass # May or may not end up using this
         else:
             input = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
-            return (enemies[input - 1]) if not returnsIndex else (input - 1)
+            if input > 0 and input <= len(self.enemies):
+                return (self.enemies[input - 1]) if not returnsIndex else (input - 1)
+            else: # TODO: Bad index handling
+                pass
 
 
 game = Game()

@@ -4,6 +4,7 @@ from Characters.Enemies import preEnemies
 
 class Stage():
     index = 0
+    boss = None
 
     def getEnemies(self, isRandom):
         if isRandom:
@@ -13,8 +14,9 @@ class Stage():
     enemies = property(fget = getEnemies(False))
     randEnemy = property(fget = getEnemies(True))
 
-    def __init__(self, stage) -> None:
+    def __init__(self, stage, boss) -> None:
         self.index = stage - 1
+        self.boss = boss
 
     def getEncounter(self, challenge):
         enemsToReturn = []
