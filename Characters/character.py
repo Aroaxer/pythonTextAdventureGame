@@ -20,7 +20,7 @@ class Character():
     armor = None
 
     # Methods
-    def __init__(self, str, dex, con, hpPerLevel, gearSet = None) -> None:
+    def __init__(self, str, con , dex, hpPerLevel, gearSet = None) -> None:
         self.bStr = str
         self.bDex = dex
         self.bCon = con
@@ -35,6 +35,12 @@ class Character():
                 case "Basic Dex":
                     self.weapon = preWeapons.oakShortbow
                     self.armor = preArmors.leatherArmor
+                case "Medium Str":
+                    self.weapon = preWeapons.ironSword
+                    self.armor = preArmors.scaleMail
+                case "Medium Dex":
+                    self.weapon = preWeapons.ironShortbow
+                    self.armor = preArmors.studdedLeather
 
     def takeDamage(self, source, amt):
         self.hp -= self.armor.reduceDamage(amt, self)

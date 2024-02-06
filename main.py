@@ -2,14 +2,18 @@ import random
 import math
 
 from Characters.player import Player
-from Characters.enemy import Enemy
 from Playertypes import preTypes
-from Characters import preEnemies
 from Stages import preStages
+from Weapons import preWeapons
+from Armor import preArmors
 
 class Game():
     player = None
     enemies = []
+
+    possibleLoot = [preWeapons.ironSword, preWeapons.ironShortbow, 
+                    preArmors.chainmailArmor, preArmors.leatherArmor, 
+                    preArmors.hideArmor]
 
     stage = 0
     difficulty = 0
@@ -38,13 +42,21 @@ class Game():
         self.mainLoop()
 
     def mainLoop(self):
-        self.printInfo()
-        plResult = self.takePlayerInput()
+        self.emptyTerminal()
 
         if len(self.enemies) == 0:
             self.completeEncounter()
 
+        self.printInfo()
+        plResult = self.takePlayerInput()
+
         return self.mainLoop() # Loops
+    
+    def emptyTerminal(self):
+        cycles = 0
+        while cycles < 15:
+            print("\n\n\n")
+            cycles += 1
     
     def printInfo(self):
         print("Player (" + self.player.type.name + "): " + str(self.player.hp) + " health, " + self.player.weapon.name + ", " + self.player.armor.name)
@@ -52,6 +64,7 @@ class Game():
             print(enemy.name + ": " + str(enemy.hp) + " health")
     
     def completeEncounter(self):
+        print("You defeated the enemies!\n\n")
         self.encountersComplete += 1
 
         if (self.encountersComplete + 1) % 5 == 0:
@@ -62,6 +75,9 @@ class Game():
             match self.stage: # Move to next stage after every boss
                 case preStages.Forest:
                     self.stage = preStages.Caves
+
+                    self.possibleLoot.extend([preArmors.studdedLeather, preArmors.scaleMail,
+                                              preArmors.splintArmor])
                 case preStages.Caves:
                     pass
                 
@@ -70,6 +86,17 @@ class Game():
             self.enemies = self.stage.getEncounter(self.difficulty)
         else: # Boss
             self.enemies = [self.stage.boss]
+
+    def tryLoot(self):
+        if self.encountersComplete % 5 == 0:
+            loot = [self.getRandomLoot(), self.getRandomLoot(), self.getRandomLoot()]
+            print("You opened a chest and found some loot!\nEnter and index starting at 1 to choose\n")
+            for item in loot:
+                print(item)
+            choice = input("\n")
+
+    def getRandomLoot(self):
+        roll = random.randint(0, len(self.possibleLoot) - 1)
 
     def takePlayerInput(self):
         pIn = input("What would you like to do?\n")
@@ -87,15 +114,19 @@ class Game():
         if targetsFriendly:
             pass # May or may not end up using this
         else:
-            pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
             try:
-                pIn = int(pIn)
-                if pIn > 0 and pIn <= len(self.enemies):
-                    return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)
-                else: # TODO: Bad index handling
-                    pass
-            except ValueError: # Not a number
-                pass
+                if len(self.enemies) > 1:
+                    pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
+                    
+                    pIn = int(pIn)
+                    if pIn > 0 and pIn <= len(self.enemies):
+                        return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)
+                    else: 
+                        raise ValueError
+                else:
+                    raise ValueError
+            except ValueError:
+                return (self.enemies[0]) if not returnsIndex else 0
 
 
 game = Game()

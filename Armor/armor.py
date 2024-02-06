@@ -1,4 +1,4 @@
-
+import math
 
 class Armor():
     # Stats
@@ -28,6 +28,6 @@ class Armor():
 
     def reduceDamage(self, damage, wearer):
         if wearer.bStr >= self.getStrReq() and wearer.isProf(self):
-            return (damage * (self.defenseReduction / 100)) - self.flatReduction
+            return math.ceil((damage * (self.defenseReduction / 100)) - self.flatReduction)
         else:
             return damage

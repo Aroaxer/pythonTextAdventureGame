@@ -26,20 +26,20 @@ class Enemy(Character):
             # Stage 2
             case "Bat":
                 self.difficulty = 1
-                super().__init__(4, 8, 12, 4)
+                super().__init__(4, 8, 12, 4, "Medium Dex")
             case "Goblin":
                 self.difficulty = 2
-                super().__init__(12, 10, 12, 4)
+                super().__init__(12, 10, 12, 4, "Medium Str")
             case "Goblin Archer":
                 self.difficulty = 2
-                super().__init__(7, 10, 14, 3)
+                super().__init__(7, 10, 14, 3, "Medium Dex")
             case "Cave Bear":
                 self.difficulty = 3
-                super().__init__(15, 15, 8, 5)
+                super().__init__(15, 15, 8, 5, "Medium Str")
             # Boss
             case "Goblin Brute":
                 self.difficulty = 5
-                super().__init__(16, 16, 12, 7)
+                super().__init__(16, 16, 12, 7, "Medium Str")
                 
     def takeAction(self, game):
         self.attack(game.player)

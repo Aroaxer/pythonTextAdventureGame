@@ -12,7 +12,7 @@ class Player(Character):
 
     def __init__(self, type):
         self.type = type
-        self.armor = preArmors.leatherArmor
+        self.armor = preArmors.clothing
         match type.name:
             case "Warrior":
                 self.weapon = preWeapons.bronzeSword
