@@ -1,11 +1,11 @@
 from Armor.armor import Armor
 
-leatherArmor = Armor(5, 1, 0)
-studdedLeatherArmor = Armor(10, 3, 0)
+leatherArmor = Armor("Leather Armor", 5, 0, "Light")
+studdedLeatherArmor = Armor("Studded Leather", 10, 2, "Light")
 
-scaleMail = Armor(15, 3, 11)
-halfPlateArmor = Armor(20, 4, 13)
+scaleMail = Armor("Scale Mail", 15, 2, "Medium")
+halfPlateArmor = Armor("Half Plate", 20, 3, "Medium")
 
-chainmailArmor = Armor(10, 2, 12)
-splintArmor = Armor(15, 4, 14)
-plateArmor = Armor(20, 6, 16)
+chainmailArmor = Armor("Chainmail", 10, 1, "Heavy")
+splintArmor = Armor("Splint", 15, 2, "Heavy")
+plateArmor = Armor("Plate", 20, 4, "Heavy")

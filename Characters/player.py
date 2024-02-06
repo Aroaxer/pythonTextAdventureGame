@@ -16,16 +16,16 @@ class Player(Character):
         match type.name:
             case "Warrior":
                 self.weapon = preWeapons.bronzeSword
-                super.__init__(14, 16, 12, 6)
+                super().__init__(14, 16, 12, 6)
             case "Knight":
                 self.weapon = preWeapons.bronzeSword
-                super.__init__(16, 14, 8, 5)
+                super().__init__(16, 14, 8, 5)
             case "Ranger":
                 self.weapon = preWeapons.oakShortbow
-                super.__init__(12, 16, 14, 5)
+                super().__init__(12, 16, 14, 5)
             case "Rogue":
                 self.weapon = preWeapons.oakShortbow
-                super.__init__(8, 14, 16, 4)
+                super().__init__(8, 14, 16, 4)
 
     def getItem(self, item):
         if item.type == Weapon:
@@ -33,6 +33,8 @@ class Player(Character):
         elif item.type == Armor:
             self.armor = item
 
+    def isProf(self, armor):
+        return (armor.armWeight in self.type.armors)
     
     def useSpecial(self, game):
         if self.weapon.dmgType == "Melee":

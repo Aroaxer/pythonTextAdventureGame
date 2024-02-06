@@ -2,9 +2,9 @@ import random
 import math
 
 from Characters.player import Player
-from Characters.Enemies.enemy import Enemy
+from Characters.enemy import Enemy
 from Playertypes import preTypes
-from Characters.Enemies import preEnemies
+from Characters import preEnemies
 from Stages import preStages
 
 class Game():
@@ -19,17 +19,17 @@ class Game():
         self.beginGame()
 
     def setupPlayer(self):
-        choice = ("""What class would you like to play as?
-                       Warrior - 14 str 16 con 12 dex
-                       Knight - 16 str 14 con 8 dex
-                       Ranger - 10 str 16 con 14 dex
-                       Rogue - 8 str 12 con 16 dex""").lower()
+        choice = input("What class would you like to play as?\n" +
+                       "Warrior - 14 str 16 con 12 dex\n" +
+                       "Knight - 16 str 14 con 8 dex\n" +
+                       "Ranger - 10 str 16 con 14 dex\n" +
+                       "Rogue - 8 str 12 con 16 dex\n").lower()
         choice = (choice).lower()
         self.player = Player(preTypes.types[choice])
 
     def beginGame(self):
         self.stage = preStages.Forest
-        self.player = self.setupPlayer()
+        self.setupPlayer()
         self.difficulty = 1
         self.encountersComplete = 0
 
@@ -38,12 +38,18 @@ class Game():
         self.mainLoop()
 
     def mainLoop(self):
-        inResult = self.takePlayerInput()
+        self.printInfo()
+        plResult = self.takePlayerInput()
 
         if len(self.enemies) == 0:
             self.completeEncounter()
 
         return self.mainLoop() # Loops
+    
+    def printInfo(self):
+        print("Player (" + self.player.type.name + "): " + str(self.player.hp) + " health, " + self.player.weapon.name + ", " + self.player.armor.name)
+        for enemy in self.enemies:
+            print(enemy.name + ": " + str(enemy.hp) + " health")
     
     def completeEncounter(self):
         self.encountersComplete += 1
@@ -66,24 +72,29 @@ class Game():
             self.enemies = [self.stage.boss]
 
     def takePlayerInput(self):
-        input = input("What would you like to do?\n")
-        return self.handlePlayerInput(input)
+        pIn = input("What would you like to do?\n")
+        return self.handlePlayerInput(pIn)
 
-    def handlePlayerInput(self, input):
-        match (input).lower():
+    def handlePlayerInput(self, pIn):
+        match (pIn).lower():
             case "attack" | "a":
                 target = self.getTarget()
-                self.player.attack(target)
+                if self.player.attack(target):
+                    self.enemies.remove(target)
                 return "Attack"
                 
     def getTarget(self, targetsFriendly = False, returnsIndex = False):
         if targetsFriendly:
             pass # May or may not end up using this
         else:
-            input = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
-            if input > 0 and input <= len(self.enemies):
-                return (self.enemies[input - 1]) if not returnsIndex else (input - 1)
-            else: # TODO: Bad index handling
+            pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
+            try:
+                pIn = int(pIn)
+                if pIn > 0 and pIn <= len(self.enemies):
+                    return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)
+                else: # TODO: Bad index handling
+                    pass
+            except ValueError: # Not a number
                 pass
 
 

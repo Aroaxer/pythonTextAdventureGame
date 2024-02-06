@@ -13,8 +13,8 @@ class Playertype():
         self.hpPerLevel = hpPerLevel
         match bestArmor:
             case "Heavy":
-                armors = ["Light", "Medium", "Heavy"]
+                self.armors = ["Light", "Medium", "Heavy"]
             case "Medium":
-                armors = ["Light", "Medium"]
+                self.armors = ["Light", "Medium"]
             case "Light":
-                armors = ["Light"]
+                self.armors = ["Light"]

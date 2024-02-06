@@ -1,12 +1,12 @@
 from Weapons.weapon import Weapon
 
-bronzeSword = Weapon(4, "Melee")
-ironSword = Weapon(6, "Melee")
-steelSword = Weapon(8, "Melee")
-mythrilSword = Weapon(10, "Melee")
+bronzeSword = Weapon("Bronze Sword", 6, "Melee")
+ironSword = Weapon("Iron Sword", 8, "Melee")
+steelSword = Weapon("Steel Sword", 10, "Melee")
+mythrilSword = Weapon("Mythril Sword", 12, "Melee")
 
-oakShortbow = Weapon(6, "Ranged")
-ironShortbow = Weapon(9, "Ranged")
-oakLongbow = Weapon(12, "Ranged")
-ironLongbow = Weapon(15, "Ranged")
+oakShortbow = Weapon("Oak Shortbow", 9, "Ranged")
+ironShortbow = Weapon("Iron Shortbow", 12, "Ranged")
+oakLongbow = Weapon("Oak Longbow", 15, "Ranged")
+ironLongbow = Weapon("Iron Longbow", 18, "Ranged")
 

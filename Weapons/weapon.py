@@ -3,6 +3,7 @@ import math
 
 class Weapon():
     # Stats
+    name = ""
     dmgLow = 0
     dmgHigh = 0
 
@@ -12,7 +13,8 @@ class Weapon():
 
 
     # Methods
-    def __init__(self, dmg, type) -> None:
+    def __init__(self, name, dmg, type) -> None:
+        self.name = name
         self.dmgType = type
         
         variation = math.ceil(dmg / 5)
@@ -23,9 +25,9 @@ class Weapon():
         relevantMod = 0
         match self.dmgType:
             case "Melee":
-                relevantMod = wielder.strMod
+                relevantMod = wielder.getMod("s")
             case "Ranged":
-                relevantMod = wielder.dexMod
+                relevantMod = wielder.getMod("d")
         if wielder.type.weapon == self.dmgType:
             return self.getDamage() + relevantMod
         else:

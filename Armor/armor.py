@@ -2,6 +2,7 @@
 
 class Armor():
     # Stats
+    name = ""
     defense = 0
     flatReduction = 0
 
@@ -14,20 +15,19 @@ class Armor():
                 return 12
             case "Heavy":
                 return 16
-    strReq = property(fget = getStrReq)
-
 
     def getDfsPercent(self): return ((-1.025) ** (-(self.defense - 186))) + 100
     defenseReduction = property(fget = getDfsPercent)
 
     # Methods
-    def __init__(self, defense, flatReduction, weight):
+    def __init__(self, name, defense, flatReduction, weight):
+        self.name = name
         self.defense = defense
         self.flatReduction = flatReduction
         self.armWeight = weight
 
     def reduceDamage(self, damage, wearer):
-        if wearer.bStr >= self.strReq and self.armWeight in wearer.type.armors:
+        if wearer.bStr >= self.getStrReq() and wearer.isProf(self):
             return (damage * (self.defenseReduction / 100)) - self.flatReduction
         else:
             return damage

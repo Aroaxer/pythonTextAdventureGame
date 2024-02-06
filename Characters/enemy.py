@@ -11,17 +11,17 @@ class Enemy(Character):
             # Stage 1
             case "Slime":
                 self.difficulty = 1
-                super().__init__(12, 10, 8, 3)
+                super().__init__(12, 10, 8, 3, "Basic Str")
             case "Skeleton":
                 self.difficulty = 2
-                super().__init__(10, 8, 14, 3)
+                super().__init__(10, 8, 14, 3, "Basic Dex")
             case "Zombie":
                 self.difficulty = 2
-                super().__init__(12, 12, 6, 3)
+                super().__init__(12, 12, 6, 3, "Basic Str")
             # Boss
             case "King Slime":
                 self.difficulty = 3
-                super().__init__(14, 14, 10, 6)
+                super().__init__(14, 14, 10, 6, "Basic Str")
 
             # Stage 2
             case "Bat":
@@ -43,3 +43,6 @@ class Enemy(Character):
                 
     def takeAction(self, game):
         self.attack(game.player)
+
+    def isProf(self, armor):
+        return True
