@@ -1,6 +1,10 @@
 from Stages.stage import Stage
 from Characters.enemy import Enemy
 
-Forest = Stage(1, Enemy("King Slime"))
+Forest = Stage(1, Enemy("King Slime", 2))
 
-Caves = Stage(2, Enemy("Goblin Brute"))
+Caves = Stage(2, Enemy("Goblin Brute", 4))
+
+Castle = Stage(3, Enemy("Royal Guard", 6))
+
+Underworld = Stage(4, Enemy("Cerberus"), 8)

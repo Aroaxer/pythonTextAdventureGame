@@ -11,9 +11,9 @@ class Game():
     player = None
     enemies = []
 
-    possibleLoot = [preWeapons.ironSword, preWeapons.ironShortbow, 
-                    preArmors.chainmailArmor, preArmors.leatherArmor, 
-                    preArmors.hideArmor]
+    possibleLoot = []
+
+    nextOutput = ""
 
     stage = 0
     difficulty = 0
@@ -32,6 +32,11 @@ class Game():
         self.player = Player(preTypes.types[choice])
 
     def beginGame(self):
+        self.possibleLoot = []
+        self.possibleLoot.extend(preWeapons.tierOne)
+        self.possibleLoot.extend(preWeapons.tierTwo)
+        self.possibleLoot.extend(preArmors.tierOne)
+
         self.stage = preStages.Forest
         self.setupPlayer()
         self.difficulty = 1
@@ -44,11 +49,24 @@ class Game():
     def mainLoop(self):
         self.emptyTerminal()
 
+        print(self.nextOutput + "\n\n")
+        self.nextOutput = ""
+
         if len(self.enemies) == 0:
             self.completeEncounter()
 
         self.printInfo()
         plResult = self.takePlayerInput()
+
+        if plResult != "No Move":
+            cycles = 0
+            for enemy in self.enemies:
+                if enemy.hp <= 0:
+                    self.nextOutput += "You killed the " + self.enemies[cycles].name + "!\n"
+                    del self.enemies[cycles]
+                else:
+                    enemy.takeAction(self)
+                    cycles += 1
 
         return self.mainLoop() # Loops
     
@@ -64,22 +82,50 @@ class Game():
             print(enemy.name + ": " + str(enemy.hp) + " health")
     
     def completeEncounter(self):
+        self.player.exp += self.player.hp
+        self.player.hp = self.player.maxHealth
+
         print("You defeated the enemies!\n\n")
         self.encountersComplete += 1
 
         if (self.encountersComplete + 1) % 5 == 0:
             self.difficulty += 1
-            # TODO: Should also drop items here
+            self.tryLoot()
 
         if self.encountersComplete % 10 == 0:
             match self.stage: # Move to next stage after every boss
                 case preStages.Forest:
                     self.stage = preStages.Caves
 
-                    self.possibleLoot.extend([preArmors.studdedLeather, preArmors.scaleMail,
-                                              preArmors.splintArmor])
+                    self.removeMatches(self.possibleLoot, preWeapons.tierOne)
+
+                    self.possibleLoot.extend(preWeapons.tierThree)
+                    self.possibleLoot.extend(preArmors.tierTwo)
                 case preStages.Caves:
-                    pass
+                    self.stage = preStages.Castle
+
+                    self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
+                    self.removeMatches(self.possibleLoot, preArmors.tierOne)
+
+                    self.possibleLoot.extend(preWeapons.tierFour)
+                    self.possibleLoot.extend(preArmors.tierThree)
+                case preStages.Castle:
+                    self.stage = preStages.Underworld
+
+                    self.removeMatches(self.possibleLoot, preWeapons.tierThree)
+                    self.removeMatches(self.possibleLoot, preArmors.tierTwo)
+
+                    self.possibleLoot.extend(preWeapons.tierFive)
+                    self.possibleLoot.extend(preArmors.tierFour)
+                case preStages.Underworld:
+                    
+                    
+                    self.removeMatches(self.possibleLoot, preWeapons.tierFour)
+                    self.removeMatches(self.possibleLoot, preArmors.tierThree)
+
+                    
+
+
                 
         # Get next encounter
         if (self.encountersComplete + 1) % 10 != 0:
@@ -87,16 +133,43 @@ class Game():
         else: # Boss
             self.enemies = [self.stage.boss]
 
+    def removeMatches(self, list, remList):
+        for entry in list:
+            if entry in remList:
+                list.remove(entry)
+        return list
+
     def tryLoot(self):
-        if self.encountersComplete % 5 == 0:
-            loot = [self.getRandomLoot(), self.getRandomLoot(), self.getRandomLoot()]
-            print("You opened a chest and found some loot!\nEnter and index starting at 1 to choose\n")
-            for item in loot:
-                print(item)
-            choice = input("\n")
+        loot = []
+        cycles = 0
+        while cycles < self.difficulty + 2:
+            loot.append(self.getRandomLoot())
+            cycles += 1
+        print("You opened a chest and found some loot!\nEnter and index starting at 1 to choose\nEnter 'skip' to skip\n")
+        cycles = 1
+        for item in loot:
+            print(str(cycles) + ": " + item.name)
+            cycles += 1
+        choice = None
+        didSkip = False
+        while choice == None:
+            try:
+                choice = input("\n")
+                if choice.lower() != "skip":
+                    choice = int(choice)
+                else:
+                    didSkip = True
+                    break
+                if choice < 1 or choice > len(loot):
+                    raise ValueError
+                if not didSkip:
+                    self.player.getItem(loot[choice - 1])
+            except ValueError:
+                print("Bad Input")
+                
 
     def getRandomLoot(self):
-        roll = random.randint(0, len(self.possibleLoot) - 1)
+        return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
 
     def takePlayerInput(self):
         pIn = input("What would you like to do?\n")
@@ -106,9 +179,24 @@ class Game():
         match (pIn).lower():
             case "attack" | "a":
                 target = self.getTarget()
-                if self.player.attack(target):
-                    self.enemies.remove(target)
+                self.player.attack(target)
+                self.nextOutput += "You attacked the " + target.name + "!\n"
                 return "Attack"
+            case "block" | "b":
+                self.player.block()
+                self.nextOutput += "You blocked!\n"
+                return "Block"
+            case "charge" | "c":
+                self.player.charge()
+                self.nextOutput += "You charged your attack!\n"
+                return "Charge"
+            case "special" | "s":
+                self.player.useSpecial(self)
+                self.nextOutput += "You used your weapon's special!\n"
+                return "Special"
+            
+            case _:
+                return "No Move"
                 
     def getTarget(self, targetsFriendly = False, returnsIndex = False):
         if targetsFriendly:

@@ -15,16 +15,17 @@ class Stage():
         self.index = stage - 1
         self.boss = boss
 
-    def getRandEnemy(self):
-        return Enemy(preEnemies.enemies[self.index][random.randint(0, len(preEnemies.enemies[self.index]) - 1)])
+    def getRandEnemy(self, level):
+        return Enemy(preEnemies.enemies[self.index][random.randint(0, len(preEnemies.enemies[self.index]) - 1)], level)
 
     def getEncounter(self, challenge):
         enemsToReturn = []
+        origChal = challenge
         while challenge > 0:
             counter = 0
             didGetEnem = False
             while counter < 25:
-                tryEnemy = self.getRandEnemy()
+                tryEnemy = self.getRandEnemy(origChal)
                 if tryEnemy.difficulty <= challenge:
                     enemsToReturn.append(tryEnemy)
                     challenge -= tryEnemy.difficulty

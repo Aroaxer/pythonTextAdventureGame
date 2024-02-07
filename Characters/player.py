@@ -28,21 +28,13 @@ class Player(Character):
                 super().__init__(8, 14, 16, 4)
 
     def getItem(self, item):
-        if item.type == Weapon:
+        try:
+            item.dealDamage(self)
             self.weapon = item
-        elif item.type == Armor:
+        except Exception:
             self.armor = item
 
     def isProf(self, armor):
         return (armor.armWeight in self.type.armors)
-    
-    def useSpecial(self, game):
-        if self.weapon.dmgType == "Melee":
-            for enemy in game.enemies:
-                self.attack(enemy, 0.5)
-        elif self.weapon.dmgType == "Ranged":
-            print("This attack targets the next highest index as well.")
-            target = game.getTarget(returnsIndex = True)
-            self.attack(target, 0.75)
-            self.attack(target + 1, 0.75)
+
     

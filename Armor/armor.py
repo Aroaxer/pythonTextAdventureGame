@@ -16,9 +16,6 @@ class Armor():
             case "Heavy":
                 return 16
 
-    def getDfsPercent(self): return ((-1.025) ** (-(self.defense - 186))) + 100
-    defenseReduction = property(fget = getDfsPercent)
-
     # Methods
     def __init__(self, name, defense, flatReduction, weight):
         self.name = name
@@ -28,6 +25,6 @@ class Armor():
 
     def reduceDamage(self, damage, wearer):
         if wearer.bStr >= self.getStrReq() and wearer.isProf(self):
-            return math.ceil((damage * (self.defenseReduction / 100)) - self.flatReduction)
+            return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction)
         else:
             return damage
