@@ -145,8 +145,9 @@ class Character():
         elif self.weapon.specType == "Pierce":
             print("This attack targets the next highest index as well.")
             target = game.getTarget(returnsIndex = True)
-            self.attack(target, 0.75)
-            self.attack(target + 1, 0.75)
+            self.attack(game.enemies[target], 0.75)
+            if len(game.enemies) > 1:
+                self.attack(game.enemies[target] + 1, 0.75)
         elif self.weapon.specType == "Weakening":
             print("This attack causes the enemy's next attack to do much less damage.")
             target = game.getTarget()

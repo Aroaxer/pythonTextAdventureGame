@@ -32,6 +32,8 @@ class Game():
         self.player = Player(preTypes.types[choice])
 
     def beginGame(self):
+        self.emptyTerminal()
+
         self.possibleLoot = []
         self.possibleLoot.extend(preWeapons.tierOne)
         self.possibleLoot.extend(preWeapons.tierTwo)
@@ -68,6 +70,11 @@ class Game():
                     enemy.takeAction(self)
                     cycles += 1
 
+        if self.player.hp <= 0:
+            self.emptyTerminal()
+            print("Game Over\n\n\n")
+            return False
+
         return self.mainLoop() # Loops
     
     def emptyTerminal(self):
@@ -77,9 +84,9 @@ class Game():
             cycles += 1
     
     def printInfo(self):
-        print("Player (" + self.player.type.name + "): " + str(self.player.hp) + " health, " + self.player.weapon.name + ", " + self.player.armor.name)
+        print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, " + self.player.weapon.name + ", " + self.player.armor.name)
         for enemy in self.enemies:
-            print(enemy.name + ": " + str(enemy.hp) + " health")
+            print(enemy.name + ": " + str(round(enemy.hp)) + " health")
     
     def completeEncounter(self):
         self.player.exp += self.player.hp
@@ -165,6 +172,7 @@ class Game():
                 if not didSkip:
                     self.player.getItem(loot[choice - 1])
             except ValueError:
+                choice = None
                 print("Bad Input")
                 
 
