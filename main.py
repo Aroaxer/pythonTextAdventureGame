@@ -118,17 +118,17 @@ class Game():
                     self.possibleLoot.extend(preWeapons.tierFive)
                     self.possibleLoot.extend(preArmors.tierFour)
                 case preStages.Underworld:
-                    
+                    self.stage = preStages.Astral
                     
                     self.removeMatches(self.possibleLoot, preWeapons.tierFour)
                     self.removeMatches(self.possibleLoot, preArmors.tierThree)
-
-                    
-
-
+                case preStages.Astral:
+                    self.stage = preStages.Infinite
+                case preStages.Infinite:
+                    self.difficulty += 1
                 
         # Get next encounter
-        if (self.encountersComplete + 1) % 10 != 0:
+        if (self.encountersComplete + 1) % 10 != 0 or self.stage.index == 6:
             self.enemies = self.stage.getEncounter(self.difficulty)
         else: # Boss
             self.enemies = [self.stage.boss]

@@ -79,6 +79,39 @@ class Enemy(Character):
             case "Cerberus":
                 self.difficulty = 9
                 super().__init__(20, 16, 8, 20, "Greater Str")
+
+            # Stage 5
+            case "Githyanki Trainee":
+                self.difficulty = 1
+                super().__init__(14, 12, 12, 7, "Greater Str")
+            case "Githyanki Warrior":
+                self.difficulty = 4
+                super().__init__(16, 14, 12, 9, "Runic Str")
+            case "Githzerai Monk":
+                self.difficulty = 4
+                super().__init__(10, 14, 16, 8, "Runic Dex")
+            case "Astral Traveller":
+                self.difficulty = 7
+                super().__init__(18, 18, 18, 10, "Runic Str")
+            # Boss
+            case "Astral Spirit":
+                self.difficulty = 11
+                super().__init__(18, 20, 22, 25, "Runic Dex")
+            
+            # Stage 6
+            case "Infinity Warrior":
+                self.difficulty = 5
+                super().__init__(16, 18, 12, 13, "Runic Str")
+            case "Infinity Knight":
+                self.difficulty = 5
+                super().__init__(18, 16, 12, 12, "Runic Str")
+            case "Infinity Ranger":
+                self.difficulty = 5
+                super().__init__(12, 18, 16, 12, "Runic Dex")
+            case "Infinity Rogue":
+                self.difficulty = 5
+                super().__init__(12, 16, 18, 11, "Runic Dex")
+                
                 
     def takeAction(self, game):
         roll = random.randint(0, 100)

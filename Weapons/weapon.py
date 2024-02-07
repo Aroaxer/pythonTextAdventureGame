@@ -36,5 +36,5 @@ class Weapon():
             else:
                 return (relevantMod) / 2
         except Exception:
-            return (self.getDamage() + relevantMod) / 10
+            return (self.getDamage() + relevantMod) / 5
         
