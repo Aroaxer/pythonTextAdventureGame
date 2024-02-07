@@ -128,7 +128,7 @@ class Game():
                     self.difficulty += 1
                 
         # Get next encounter
-        if (self.encountersComplete + 1) % 10 != 0 or self.stage.index == 6:
+        if (self.encountersComplete + 1) % 10 != 0 or self.stage.boss == None:
             self.enemies = self.stage.getEncounter(self.difficulty)
         else: # Boss
             self.enemies = [self.stage.boss]
