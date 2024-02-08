@@ -114,6 +114,7 @@ class Character():
         tempHp = self.hp
         self.hp -= (self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
+        self.blockPower = 2
         return (self.hp <= 0)
 
     def attack(self, target, damageMult = 1):
@@ -156,4 +157,5 @@ class Character():
             print("This attack makes the enemy vulnerable to your next attack.")
             target = game.getTarget()
             self.attack(target, self.weapon.specMult)
-            target.blockDivisor /= 2
+            target.blockPower /= 2
+            target.blockCharges = 1

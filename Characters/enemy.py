@@ -115,12 +115,9 @@ class Enemy(Character):
                 
     def takeAction(self, game):
         roll = random.randint(0, 100)
-        if roll > 50:
+        if roll > 40:
             self.attack(game.player)
             game.nextOutput += "The " + self.name + " Attacked!\n"
-        elif roll > 25:
-            self.block()
-            game.nextOutput += "The " + self.name + " Blocked!\n"
         else:
             self.charge()
             game.nextOutput += "The " + self.name + " Charged its attack!\n"
