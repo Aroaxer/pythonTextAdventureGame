@@ -13,11 +13,12 @@ class Player(Character):
     type = None # Holds the Playertype
 
     def getLevel(self):
-        level = 0
-        while self.exp > 5 * level:
-            self.exp -= 5 * level
-            level += 1
-        return level
+        lvl = 0
+        tempExp = self.exp
+        while tempExp > 5 * lvl:
+            tempExp -= 5 * lvl
+            lvl += 1
+        return lvl
 
     def __init__(self, type):
         self.type = type

@@ -25,6 +25,9 @@ class Armor():
 
     def reduceDamage(self, damage, wearer):
         if wearer.bStr >= self.getStrReq() and wearer.isProf(self):
-            return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction)
+            if self.armWeight != "Light":
+                return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction)
+            else:
+                return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction - wearer.getMod("d"))
         else:
             return damage

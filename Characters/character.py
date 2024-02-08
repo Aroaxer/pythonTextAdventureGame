@@ -21,8 +21,8 @@ class Character():
     weapon = None
     armor = None
 
-    blockDivisor = 1
-    blockPower = 1
+    blockPower = 3
+    blockCharges = 0
 
     chargeMult = 1
     chargePower = 1
@@ -112,9 +112,8 @@ class Character():
 
     def takeDamage(self, source, amt):
         tempHp = self.hp
-        self.hp -= (self.armor.reduceDamage(amt, self) / self.blockDivisor)
+        self.hp -= (self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
-        self.blockDivisor = 1
         return (self.hp <= 0)
 
     def attack(self, target, damageMult = 1):
@@ -123,7 +122,7 @@ class Character():
         return target.takeDamage(self, self.weapon.dealDamage(self) * damageMult * tempCharge)
     
     def block(self):
-        self.blockDivisor += self.blockPower
+        self.blockCharges = 3
 
     def charge(self):
         self.chargeMult += self.chargePower
@@ -141,20 +140,20 @@ class Character():
         if self.weapon.specType == "Sweep":
             print("This attack targets all enemies.")
             for enemy in game.enemies:
-                self.attack(enemy, 0.5)
+                self.attack(enemy, self.weapon.specMult)
         elif self.weapon.specType == "Pierce":
             print("This attack targets the next highest index as well.")
             target = game.getTarget(returnsIndex = True)
-            self.attack(game.enemies[target], 0.75)
-            if len(game.enemies) > 1:
-                self.attack(game.enemies[target + 1], 0.75)
+            self.attack(game.enemies[target], self.weapon.specMult)
+            if target < len(game.enemies) - 1:
+                self.attack(game.enemies[target + 1], self.weapon.specMult)
         elif self.weapon.specType == "Weakening":
             print("This attack causes the enemy's next attack to do much less damage.")
             target = game.getTarget()
-            self.attack(target, 0.8)
+            self.attack(target, self.weapon.specMult)
             target.chargeMult /= 2
         elif self.weapon.specType == "Fracturing":
             print("This attack makes the enemy vulnerable to your next attack.")
             target = game.getTarget()
-            self.attack(target, 0.8)
+            self.attack(target, self.weapon.specMult)
             target.blockDivisor /= 2

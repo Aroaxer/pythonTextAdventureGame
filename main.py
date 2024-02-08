@@ -66,22 +66,28 @@ class Game():
         self.printInfo()
         plResult = self.takePlayerInput()
 
+        tempEnems = []
         if plResult != "No Move":
-            #cycles = 0
             for enemy in self.enemies:
-                if enemy.hp <= 0:
+                if round(enemy.hp) <= 0:
                     self.nextOutput += "You killed the " + enemy.name + "!\n"
-                    self.enemies.remove(enemy)
                 else:
                     enemy.takeAction(self)
-                    #cycles += 1
+                    tempEnems.append(enemy)
+            self.enemies = tempEnems
 
         if self.player.hp <= 0:
             self.emptyTerminal()
             print("Game Over\n\n\n")
             return False
-
+        
+        tempLevel = self.player.level
         self.player.checkLevel()
+        if tempLevel < self.player.level:
+            self.nextOutput += "\nYou gained " + ((str(self.player.level - tempLevel) + " level") if (self.player.level - tempLevel) != 1 else ("a level")) + "!\n"
+
+
+
         return self.mainLoop() # Loops
     
     def emptyTerminal(self):
@@ -112,7 +118,7 @@ class Game():
                     self.stage = preStages.Caves
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
-                    self.removeMatches(self.possibleLoot, preWeapons.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierOne)
 
                     self.possibleLoot.extend(preWeapons.tierThree)
                     self.possibleLoot.extend(preArmors.tierTwo)
@@ -120,8 +126,8 @@ class Game():
                     self.stage = preStages.Castle
                     self.nextOutput += "\nYou advance to the Castle!\n"
 
-                    self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
-                    self.removeMatches(self.possibleLoot, preArmors.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierOne)
 
                     self.possibleLoot.extend(preWeapons.tierFour)
                     self.possibleLoot.extend(preArmors.tierThree)
@@ -129,8 +135,8 @@ class Game():
                     self.stage = preStages.Underworld
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
-                    self.removeMatches(self.possibleLoot, preWeapons.tierThree)
-                    self.removeMatches(self.possibleLoot, preArmors.tierTwo)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierThree)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierTwo)
 
                     self.possibleLoot.extend(preWeapons.tierFive)
                     self.possibleLoot.extend(preArmors.tierFour)
@@ -138,8 +144,8 @@ class Game():
                     self.stage = preStages.Astral
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                     
-                    self.removeMatches(self.possibleLoot, preWeapons.tierFour)
-                    self.removeMatches(self.possibleLoot, preArmors.tierThree)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierFour)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierThree)
                 case preStages.Astral:
                     self.stage = preStages.Infinite
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
@@ -154,10 +160,11 @@ class Game():
             self.enemies = [self.stage.boss]
 
     def removeMatches(self, list, remList):
+        tempList = []
         for entry in list:
-            if entry in remList:
-                list.remove(entry)
-        return list
+            if not entry in remList:
+                tempList.append(entry)
+        return tempList
 
     def tryLoot(self):
         loot = []
@@ -215,6 +222,16 @@ class Game():
                 self.player.useSpecial(self)
                 self.nextOutput += "You used your weapon's special!\n"
                 return "Special"
+            case "pd":
+                target = self.getTarget()
+                damage = self.player.weapon.dealDamage(self.player)
+                damage *= self.player.chargeMult
+                damage = (target.armor.reduceDamage(damage, target) / (target.blockPower if target.blockCharges > 0 else 1))
+
+                self.nextOutput += "You would deal " + str(damage) + " damage to that target!\n"
+                self.nextOutput += "Special: " + str(damage * self.player.weapon.specMult) + " damage\n"
+                return "No Move"
+
             
             case _:
                 return "No Move"
