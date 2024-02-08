@@ -39,6 +39,7 @@ class Game():
 
     def beginGame(self):
         self.emptyTerminal()
+        self.nextOutput = ""
 
         self.possibleLoot = []
         self.possibleLoot.extend(preWeapons.tierOne)
@@ -84,7 +85,7 @@ class Game():
         tempLevel = self.player.level
         self.player.checkLevel()
         if tempLevel < self.player.level:
-            self.nextOutput += "\nYou gained " + ((str(self.player.level - tempLevel) + " level") if (self.player.level - tempLevel) != 1 else ("a level")) + "!\n"
+            self.nextOutput += "\nYou gained " + ((str(self.player.level - tempLevel) + " levels") if (self.player.level - tempLevel) != 1 else ("a level")) + "!\n"
 
 
 
@@ -172,7 +173,7 @@ class Game():
         while cycles < self.difficulty + 2:
             loot.append(self.getRandomLoot())
             cycles += 1
-        print("You opened a chest and found some loot!\nEnter and index starting at 1 to choose\nEnter 'skip' to skip\n")
+        print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\n")
         cycles = 1
         for item in loot:
             print(str(cycles) + ": " + item.name)
