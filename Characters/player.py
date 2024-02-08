@@ -1,3 +1,5 @@
+import math
+
 from Characters.character import Character
 from Playertypes.playertype import Playertype
 from Armor.armor import Armor
@@ -9,6 +11,13 @@ class Player(Character):
     exp = 0
     gold = 0
     type = None # Holds the Playertype
+
+    def getLevel(self):
+        level = 0
+        while self.exp > 5 * level:
+            self.exp -= 5 * level
+            level += 1
+        return level
 
     def __init__(self, type):
         self.type = type
@@ -36,5 +45,8 @@ class Player(Character):
 
     def isProf(self, armor):
         return (armor.armWeight in self.type.armors)
+    
+    def checkLevel(self):
+        self.level = self.getLevel()
 
     

@@ -29,7 +29,7 @@ class Enemy(Character):
             # Stage 2
             case "Bat":
                 self.difficulty = 1
-                super().__init__(4, 8, 12, 6, "Medium Dex")
+                super().__init__(4, 8, 12, 6, "Basic Dex")
             case "Goblin":
                 self.difficulty = 2
                 super().__init__(12, 10, 12, 7, "Medium Str")

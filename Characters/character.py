@@ -147,7 +147,7 @@ class Character():
             target = game.getTarget(returnsIndex = True)
             self.attack(game.enemies[target], 0.75)
             if len(game.enemies) > 1:
-                self.attack(game.enemies[target] + 1, 0.75)
+                self.attack(game.enemies[target + 1], 0.75)
         elif self.weapon.specType == "Weakening":
             print("This attack causes the enemy's next attack to do much less damage.")
             target = game.getTarget()

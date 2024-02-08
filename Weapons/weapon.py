@@ -32,7 +32,7 @@ class Weapon():
                 relevantMod = wielder.getMod("d")
         try:
             if wielder.type.weapon == self.dmgType:
-                return (self.getDamage() + relevantMod)
+                return (self.getDamage() + relevantMod) / 2
             else:
                 return (relevantMod) / 2
         except Exception:

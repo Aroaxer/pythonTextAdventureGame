@@ -23,13 +23,19 @@ class Game():
         self.beginGame()
 
     def setupPlayer(self):
-        choice = input("What class would you like to play as?\n" +
-                       "Warrior - 14 str 16 con 12 dex\n" +
-                       "Knight - 16 str 14 con 8 dex\n" +
-                       "Ranger - 10 str 16 con 14 dex\n" +
-                       "Rogue - 8 str 12 con 16 dex\n").lower()
-        choice = (choice).lower()
-        self.player = Player(preTypes.types[choice])
+        succeeded = False
+        while not succeeded:
+            try:
+                self.emptyTerminal()
+                choice = input("What class would you like to play as?\n" +
+                            "Warrior - 14 str 16 con 12 dex\n" +
+                            "Knight - 16 str 14 con 8 dex\n" +
+                            "Ranger - 10 str 16 con 14 dex\n" +
+                            "Rogue - 8 str 12 con 16 dex\n").lower()
+                self.player = Player(preTypes.types[choice])
+                succeeded = True
+            except Exception:
+                pass
 
     def beginGame(self):
         self.emptyTerminal()
@@ -61,20 +67,21 @@ class Game():
         plResult = self.takePlayerInput()
 
         if plResult != "No Move":
-            cycles = 0
+            #cycles = 0
             for enemy in self.enemies:
                 if enemy.hp <= 0:
-                    self.nextOutput += "You killed the " + self.enemies[cycles].name + "!\n"
-                    del self.enemies[cycles]
+                    self.nextOutput += "You killed the " + enemy.name + "!\n"
+                    self.enemies.remove(enemy)
                 else:
                     enemy.takeAction(self)
-                    cycles += 1
+                    #cycles += 1
 
         if self.player.hp <= 0:
             self.emptyTerminal()
             print("Game Over\n\n\n")
             return False
 
+        self.player.checkLevel()
         return self.mainLoop() # Loops
     
     def emptyTerminal(self):
@@ -103,6 +110,7 @@ class Game():
             match self.stage: # Move to next stage after every boss
                 case preStages.Forest:
                     self.stage = preStages.Caves
+                    self.nextOutput += "\nYou advance to the Caves!\n"
 
                     self.removeMatches(self.possibleLoot, preWeapons.tierOne)
 
@@ -110,6 +118,7 @@ class Game():
                     self.possibleLoot.extend(preArmors.tierTwo)
                 case preStages.Caves:
                     self.stage = preStages.Castle
+                    self.nextOutput += "\nYou advance to the Castle!\n"
 
                     self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
                     self.removeMatches(self.possibleLoot, preArmors.tierOne)
@@ -118,6 +127,7 @@ class Game():
                     self.possibleLoot.extend(preArmors.tierThree)
                 case preStages.Castle:
                     self.stage = preStages.Underworld
+                    self.nextOutput += "\nYou advance to the Underworld!\n"
 
                     self.removeMatches(self.possibleLoot, preWeapons.tierThree)
                     self.removeMatches(self.possibleLoot, preArmors.tierTwo)
@@ -126,13 +136,16 @@ class Game():
                     self.possibleLoot.extend(preArmors.tierFour)
                 case preStages.Underworld:
                     self.stage = preStages.Astral
+                    self.nextOutput += "\nYou advance to the Astral Plane!\n"
                     
                     self.removeMatches(self.possibleLoot, preWeapons.tierFour)
                     self.removeMatches(self.possibleLoot, preArmors.tierThree)
                 case preStages.Astral:
                     self.stage = preStages.Infinite
+                    self.nextOutput += "\nYou advance to the Infinite Realm!\n"
                 case preStages.Infinite:
                     self.difficulty += 1
+                    self.nextOutput += "\nThe enemies grow more dangerous!\n"
                 
         # Get next encounter
         if (self.encountersComplete + 1) % 10 != 0 or self.stage.boss == None:
