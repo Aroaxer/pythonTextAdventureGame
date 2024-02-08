@@ -256,3 +256,11 @@ class Game():
 
 
 game = Game()
+
+while True:
+    goOn = input("Try Again?\n")
+    match goOn.lower():
+        case "yes" | "y" | "ok" | "continue" | "try again":
+            game.beginGame()
+        case _:
+            break
