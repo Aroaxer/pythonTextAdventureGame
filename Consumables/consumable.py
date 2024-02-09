@@ -18,7 +18,10 @@ class Consumable():
                 game.player.bCon += 2
             case "Charge Potion":
                 game.player.chargePower += 0.5
+                game.player.chargeMult += 3 * game.player.chargePower
             case "Block Potion":
+                game.player.blockChargesOnBlock += 1
+                game.player.blockCharges += game.player.blockChargesOnBlock
                 game.player.baseBlock += 1
                 game.player.blockPower += 1
         game.player.inventory.remove(self)

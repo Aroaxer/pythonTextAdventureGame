@@ -98,14 +98,17 @@ class Game():
             cycles += 1
     
     def printInfo(self):
-        print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, " + self.player.weapon.name + ", " + self.player.armor.name)
+        print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
+               + self.player.weapon.name + ", " + self.player.armor.name
+                + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
         for enemy in self.enemies:
             print(enemy.name + ": " + str(round(enemy.hp)) + " health")
     
     def completeEncounter(self):
         self.player.exp += self.player.hp
-        self.player.hp = self.player.maxHealth / 4
-        if self.player.hp > self.player.maxHealth: self.player.hp = self.player.maxHealth
+        self.player.hp += self.player.maxHealth / 2
+        if self.player.hp > self.player.maxHealth: 
+            self.player.hp = self.player.maxHealth
 
         print("You defeated the enemies!\n\n")
         self.encountersComplete += 1
@@ -171,7 +174,7 @@ class Game():
     def tryLoot(self):
         loot = []
         cycles = 0
-        while cycles < self.difficulty + 2:
+        while cycles < self.difficulty + 4:
             loot.append(self.getRandomLoot())
             cycles += 1
         print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\n")
@@ -200,7 +203,7 @@ class Game():
 
     def getRandomLoot(self):
         roll = random.randint(1,100)
-        if roll > (20 if self.stage != preStages.Infinite else 80):
+        if roll > (30 if self.stage != preStages.Infinite else 90):
             return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
         else:
             return cns.Consumable(cns.consumables[random.randint(0, len(cns.consumables) - 1)])
