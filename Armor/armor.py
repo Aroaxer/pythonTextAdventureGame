@@ -28,6 +28,6 @@ class Armor():
             if self.armWeight != "Light":
                 return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction)
             else:
-                return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction - wearer.getMod("d"))
+                return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction - math.ceil(wearer.getMod("d") / 3))
         else:
             return damage

@@ -1,11 +1,11 @@
 from Armor.armor import Armor
 
-clothing = Armor("Clothing", 3, 0, "Light")
+clothing = Armor("Clothing", 3, -2, "Light")
 
-leatherArmor = Armor("Leather Armor", 4, 0, "Light")
-studdedLeather = Armor("Studded Leather", 8, 0, "Light")
-steelsilkArmor = Armor("Steelsilk Armor", 14, 1, "Light")
-runicLeather = Armor("Runic Leather", 17, 1, "Light")
+leatherArmor = Armor("Leather Armor", 3, -2, "Light")
+studdedLeather = Armor("Studded Leather", 7, -2, "Light")
+steelsilkArmor = Armor("Steelsilk Armor", 12, -1, "Light")
+runicLeather = Armor("Runic Leather", 15, -1, "Light")
 
 hideArmor = Armor("Hide Armor", 8, 0, "Medium")
 scaleMail = Armor("Scale Mail", 13, 0, "Medium")

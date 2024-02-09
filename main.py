@@ -5,6 +5,7 @@ from Playertypes import preTypes
 from Stages import preStages
 from Weapons import preWeapons
 from Armor import preArmors
+from Consumables import consumable as cns
 
 class Game():
     player = None
@@ -197,7 +198,11 @@ class Game():
                 
 
     def getRandomLoot(self):
-        return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
+        roll = random.randint(1,100)
+        if roll > (20 if self.stage != preStages.Infinite else 80):
+            return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
+        else:
+            return cns.Consumable(cns.consumables[random.randint(0, len(cns.consumables) - 1)])
 
     def takePlayerInput(self):
         pIn = input("What would you like to do?\n")
@@ -222,6 +227,19 @@ class Game():
                 self.player.useSpecial(self)
                 self.nextOutput += "You used your weapon's special!\n"
                 return "Special"
+            case "use item" | "use" | "u":
+                print("Inventory:")
+                counter = 1
+                for item in self.player.inventory:
+                    print(str(counter) + ": " + item.name)
+                    counter += 1
+                choice = input("Which item would you like to use?\nEnter an index starting at one\nEnter cancel to cancel")
+                if choice.lower() != "cancel":
+                    try:
+                        self.player.inventory[int(choice) - 1].use(self)
+                    except Exception:
+                        self.nextOutput += "Couldn't find an item at that index\n\n"
+                return "No Move"
             case "pd":
                 target = self.getTarget()
                 damage = self.player.weapon.dealDamage(self.player)
@@ -231,7 +249,10 @@ class Game():
                 self.nextOutput += "You would deal " + str(damage) + " damage to that target!\n"
                 self.nextOutput += "Special: " + str(damage * self.player.weapon.specMult) + " damage\n"
                 return "No Move"
-
+            case "get stats" | "stats" | "see stats":
+                self.nextOutput += ("\n" + str(self.player.bStr) + " Str\n" + str(self.player.bCon) + " Con\n"
+                      + str(self.player.bDex) + " Dex\n\n")
+                return "No Move"
             
             case _:
                 return "No Move"

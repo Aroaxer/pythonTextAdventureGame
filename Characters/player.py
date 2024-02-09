@@ -11,6 +11,7 @@ class Player(Character):
     exp = 0
     gold = 0
     type = None # Holds the Playertype
+    inventory = []
 
     def getLevel(self):
         lvl = 0
@@ -38,11 +39,18 @@ class Player(Character):
                 super().__init__(8, 14, 16, 4)
 
     def getItem(self, item):
-        try:
+        try: 
+            # Works if weapon
             item.dealDamage(self)
             self.weapon = item
         except Exception:
-            self.armor = item
+            try: 
+                # Works if armor
+                item.reduceDamage(0, self)
+                self.armor = item
+            except Exception:
+                # Works if item
+                self.inventory.append(item)
 
     def isProf(self, armor):
         return (armor.armWeight in self.type.armors)

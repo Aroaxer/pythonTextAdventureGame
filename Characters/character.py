@@ -21,7 +21,8 @@ class Character():
     weapon = None
     armor = None
 
-    blockPower = 3
+    baseBlock = 3
+    blockPower = baseBlock
     blockCharges = 0
 
     chargeMult = 1
@@ -114,7 +115,7 @@ class Character():
         tempHp = self.hp
         self.hp -= (self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
-        self.blockPower = 2
+        self.blockPower = self.baseBlock
         return (self.hp <= 0)
 
     def attack(self, target, damageMult = 1):
