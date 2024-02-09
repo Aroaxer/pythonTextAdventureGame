@@ -1,5 +1,4 @@
 import random
-import math
 
 from Characters.player import Player
 from Playertypes import preTypes
