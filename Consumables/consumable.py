@@ -9,7 +9,7 @@ class Consumable():
     def use(self, game):
         match self.name:
             case "Heal Potion":
-                game.player.hp = game.player.maxHp
+                game.player.hp = game.player.maxHealth
             case "Strength Potion":
                 game.player.bStr += 2
             case "Dexterity Potion":
@@ -21,9 +21,11 @@ class Consumable():
                 game.player.chargeMult += 3 * game.player.chargePower
             case "Block Potion":
                 game.player.blockChargesOnBlock += 1
-                game.player.blockCharges += game.player.blockChargesOnBlock
+                game.player.blockCharges += 2 * game.player.blockChargesOnBlock
                 game.player.baseBlock += 1
                 game.player.blockPower += 1
+            case _:
+                pass
         game.player.inventory.remove(self)
             
 consumables = [

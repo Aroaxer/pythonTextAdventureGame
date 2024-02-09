@@ -174,7 +174,7 @@ class Game():
     def tryLoot(self):
         loot = []
         cycles = 0
-        while cycles < self.difficulty + 4:
+        while cycles < self.difficulty + 5:
             loot.append(self.getRandomLoot())
             cycles += 1
         print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\n")
@@ -237,7 +237,7 @@ class Game():
                 for item in self.player.inventory:
                     print(str(counter) + ": " + item.name)
                     counter += 1
-                choice = input("Which item would you like to use?\nEnter an index starting at one\nEnter cancel to cancel")
+                choice = input("Which item would you like to use?\nEnter an index starting at one\nEnter cancel to cancel\n")
                 if choice.lower() != "cancel":
                     try:
                         self.player.inventory[int(choice) - 1].use(self)
@@ -284,11 +284,12 @@ game = Game()
 
 while True:
     game.emptyTerminal()
+    print("Game Over\n\n")
     goOn = input("Try Again?\n")
     match goOn.lower():
         case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed":
             game.beginGame()
-        case "a" | "b" | "c" | "s" | "pd" | "u" | "":
+        case "a" | "b" | "c" | "":
             pass
         case _:
             break
