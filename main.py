@@ -283,9 +283,12 @@ class Game():
 game = Game()
 
 while True:
+    game.emptyTerminal()
     goOn = input("Try Again?\n")
     match goOn.lower():
-        case "yes" | "y" | "ok" | "continue" | "try again":
+        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed":
             game.beginGame()
+        case "a" | "b" | "c" | "s" | "pd" | "u" | "":
+            pass
         case _:
             break
