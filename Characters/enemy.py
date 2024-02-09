@@ -47,16 +47,16 @@ class Enemy(Character):
             # Stage 3
             case "Knight":
                 self.difficulty = 3
-                super().__init__(14, 13, 8, 8, "Advanced Str")
+                super().__init__(14, 13, 8, 7, "Advanced Str")
             case "Archer":
                 self.difficulty = 3
-                super().__init__(8, 12, 14, 6, "Advanced Dex")
+                super().__init__(8, 12, 14, 4, "Advanced Dex")
             case "Peasant":
                 self.difficulty = 1
-                super().__init__(12, 16, 12, 8, "Medium Str")
+                super().__init__(12, 16, 12, 5, "Medium Str")
             case "Gladiator":
                 self.difficulty = 4
-                super().__init__(16, 14, 12, 9, "Advanced Str")
+                super().__init__(16, 14, 12, 8, "Advanced Str")
             # Boss
             case "Royal Guard":
                 self.difficulty = 7
@@ -65,16 +65,16 @@ class Enemy(Character):
             # Stage 4
             case "Imp":
                 self.difficulty = 1
-                super().__init__(6, 10, 14, 7, "Advanced Dex")
+                super().__init__(6, 10, 14, 6, "Advanced Dex")
             case "Hellhound":
                 self.difficulty = 3
-                super().__init__(14, 14, 6, 8, "Greater Str")
+                super().__init__(14, 14, 6, 9, "Greater Str")
             case "Cambion":
                 self.difficulty = 5
-                super().__init__(16, 14, 10, 9, "Greater Str")
+                super().__init__(16, 14, 10, 8, "Greater Str")
             case "Bone Devil":
                 self.difficulty = 5
-                super().__init__(10, 12, 16, 8, "Greater Dex")
+                super().__init__(10, 12, 16, 7, "Greater Dex")
             # Boss
             case "Cerberus":
                 self.difficulty = 9
