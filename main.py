@@ -104,7 +104,8 @@ class Game():
     
     def completeEncounter(self):
         self.player.exp += self.player.hp
-        self.player.hp = self.player.maxHealth
+        self.player.hp = self.player.maxHealth / 4
+        if self.player.hp > self.player.maxHealth: self.player.hp = self.player.maxHealth
 
         print("You defeated the enemies!\n\n")
         self.encountersComplete += 1
