@@ -61,11 +61,13 @@ steelJavelin = Weapon("Steel Javelin", 15, "Ranged", "Weakening", 0.8)
 mythrilJavelin = Weapon("Mythril Javelin", 18, "Ranged", "Weakening", 0.8)
 runicJavelin = Weapon("Runic Javelin", 22, "Ranged", "Weakening", 0.9)
 
-tierOne = [bronzeSword, bronzeSpear, bronzeAxe, oakShortbow, crossbow, bronzeJavelin]
-tierTwo = [ironSword, ironSpear, ironAxe, ironShortbow, ironCrossbow, ironJavelin]
-tierThree = [steelSword, steelSpear, steelAxe, oakLongbow, heavyCrossbow, steelJavelin]
-tierFour = [mythrilSword, mythrilSpear, mythrilAxe, ironLongbow, steelCrossbow, mythrilJavelin]
-tierFive = [runicSword, runicSpear, runicAxe, runicBow, runicCrossbow, runicJavelin]
+weaponTier = [
+    [bronzeSword, bronzeSpear, bronzeAxe, oakShortbow, crossbow, bronzeJavelin],
+    [ironSword, ironSpear, ironAxe, ironShortbow, ironCrossbow, ironJavelin],
+    [steelSword, steelSpear, steelAxe, oakLongbow, heavyCrossbow, steelJavelin],
+    [mythrilSword, mythrilSpear, mythrilAxe, ironLongbow, steelCrossbow, mythrilJavelin],
+    [runicSword, runicSpear, runicAxe, runicBow, runicCrossbow, runicJavelin]
+]
 
 
 # Armor
@@ -86,10 +88,12 @@ splintArmor = Armor("Splint", 15, 3, "Heavy")
 plateArmor = Armor("Plate", 20, 4, "Heavy")
 runicPlate = Armor("Runic Plate", 25, 5, "Heavy")
 
-tierOne = [leatherArmor, hideArmor, chainmailArmor]
-tierTwo = [studdedLeather, scaleMail, splintArmor]
-tierThree = [steelsilkArmor, halfPlateArmor, plateArmor]
-tierFour = [runicLeather, runicMail, runicPlate]
+armorTier = [
+    [leatherArmor, hideArmor, chainmailArmor],
+    [studdedLeather, scaleMail, splintArmor],
+    [steelsilkArmor, halfPlateArmor, plateArmor],
+    [runicLeather, runicMail, runicPlate]
+]
 
 
 # Consumables

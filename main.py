@@ -40,9 +40,9 @@ class Game():
         self.nextOutput = ""
 
         self.possibleLoot = []
-        self.possibleLoot.extend(pre.tierOne)
-        self.possibleLoot.extend(pre.tierTwo)
-        self.possibleLoot.extend(pre.tierOne)
+        self.possibleLoot.extend(pre.weaponTier[0])
+        self.possibleLoot.extend(pre.weaponTier[1])
+        self.possibleLoot.extend(pre.armorTier[0])
 
         self.setStage(pre.stages["Forest"])
         self.setupPlayer()
@@ -124,34 +124,34 @@ class Game():
                     self.setStage(pre.stages["Caves"])
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[0])
                 
-                    self.possibleLoot.extend(pre.tierThree)
-                    self.possibleLoot.extend(pre.tierTwo)
+                    self.possibleLoot.extend(pre.weaponTier[2])
+                    self.possibleLoot.extend(pre.armorTier[1])
                 case 1:
                     self.setStage(pre.stages["Castle"])
                     self.nextOutput += "\nYou advance to the Castle!\n"
                 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierTwo)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[1])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[0])
 
-                    self.possibleLoot.extend(pre.tierFour)
-                    self.possibleLoot.extend(pre.tierThree)
+                    self.possibleLoot.extend(pre.weaponTier[3])
+                    self.possibleLoot.extend(pre.armorTier[2])
                 case 2:
                     self.setStage(pre.stages["Underworld"])
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierTwo)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[1])
 
-                    self.possibleLoot.extend(pre.tierFive)
-                    self.possibleLoot.extend(pre.tierFour)
+                    self.possibleLoot.extend(pre.weaponTier[4])
+                    self.possibleLoot.extend(pre.armorTier[3])
                 case 3:
                     self.setStage(pre.stages["Astral"])
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                         
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierFour)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[3])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
                 case 4:
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
