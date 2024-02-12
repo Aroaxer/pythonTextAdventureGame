@@ -1,7 +1,6 @@
 import random
 
-from Weapons import preWeapons
-from Armor import preArmors
+import premades as pre
 
 class Character():
     # Stats
@@ -40,77 +39,77 @@ class Character():
         if not gearSet == None:
             match gearSet:
                 case "Basic Str":
-                    self.weapon = preWeapons.bronzeSword
+                    self.weapon = pre.bronzeSword
                     self.armor = preArmors.leatherArmor
                 case "Basic Dex":
-                    self.weapon = preWeapons.oakShortbow
-                    self.armor = preArmors.clothing
+                    self.weapon = pre.oakShortbow
+                    self.armor = pre.clothing
                 case "Medium Str":
-                    self.weapon = preWeapons.ironSword
-                    self.armor = preArmors.hideArmor
+                    self.weapon = pre.ironSword
+                    self.armor = pre.hideArmor
                 case "Medium Dex":
-                    self.weapon = preWeapons.ironShortbow
-                    self.armor = preArmors.leatherArmor
+                    self.weapon = pre.ironShortbow
+                    self.armor = pre.leatherArmor
                 case "Advanced Str":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.steelSword
+                            self.weapon = pre.steelSword
                         case 3:
-                            self.weapon = preWeapons.steelSpear
+                            self.weapon = pre.steelSpear
                         case 4:
-                            self.weapon = preWeapons.steelAxe
-                    self.armor = preArmors.chainmailArmor
+                            self.weapon = pre.steelAxe
+                    self.armor = pre.chainmailArmor
                 case "Advanced Dex":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.oakLongbow
+                            self.weapon = pre.oakLongbow
                         case 3:
-                            self.weapon = preWeapons.heavyCrossbow
+                            self.weapon = pre.heavyCrossbow
                         case 4:
-                            self.weapon = preWeapons.steelJavelin
-                    self.armor = preArmors.steelsilkArmor
+                            self.weapon = pre.steelJavelin
+                    self.armor = pre.steelsilkArmor
                 case "Greater Str":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.mythrilSword
+                            self.weapon = pre.mythrilSword
                         case 3:
-                            self.weapon = preWeapons.mythrilSpear
+                            self.weapon = pre.mythrilSpear
                         case 4:
-                            self.weapon = preWeapons.mythrilAxe
-                    self.armor = preArmors.splintArmor
+                            self.weapon = pre.mythrilAxe
+                    self.armor = pre.splintArmor
                 case "Greater Dex":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.ironLongbow
+                            self.weapon = pre.ironLongbow
                         case 3:
-                            self.weapon = preWeapons.steelCrossbow
+                            self.weapon = pre.steelCrossbow
                         case 4:
-                            self.weapon = preWeapons.mythrilJavelin
-                    self.armor = preArmors.steelsilkArmor
+                            self.weapon = pre.mythrilJavelin
+                    self.armor = pre.steelsilkArmor
                 case "Runic Str":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.runicSword
+                            self.weapon = pre.runicSword
                         case 3:
-                            self.weapon = preWeapons.runicSpear
+                            self.weapon = pre.runicSpear
                         case 4:
-                            self.weapon = preWeapons.runicAxe
-                    self.armor = preArmors.plateArmor
+                            self.weapon = pre.runicAxe
+                    self.armor = pre.plateArmor
                 case "Runic Dex":
                     kit = random.randint(1, 4)
                     match kit:
                         case 1 | 2:
-                            self.weapon = preWeapons.runicBow
+                            self.weapon = pre.runicBow
                         case 3:
-                            self.weapon = preWeapons.runicCrossbow
+                            self.weapon = pre.runicCrossbow
                         case 4:
-                            self.weapon = preWeapons.runicJavelin
-                    self.armor = preArmors.runicLeather
+                            self.weapon = pre.runicJavelin
+                    self.armor = pre.runicLeather
 
     def takeDamage(self, source, amt):
         tempHp = self.hp

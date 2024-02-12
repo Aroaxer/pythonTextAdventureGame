@@ -28,11 +28,3 @@ class Consumable():
                 pass
         game.player.inventory.remove(self)
             
-consumables = [
-    "Heal Potion",
-    "Strength Potion",
-    "Dexterity Potion",
-    "Constitution Potion",
-    "Charge Potion",
-    "Block Potion"
-]

@@ -1,11 +1,8 @@
 import random
 
 from Characters.player import Player
-from Playertypes import preTypes
-from Stages import preStages
-from Weapons import preWeapons
-from Armor import preArmors
-from Consumables import consumable as cns
+from Consumables.consumable import Consumable
+import premades as pre
 
 class Game():
     player = None
@@ -32,7 +29,7 @@ class Game():
                             "Knight - 16 str 14 con 8 dex\n" +
                             "Ranger - 10 str 16 con 14 dex\n" +
                             "Rogue - 8 str 12 con 16 dex\n").lower()
-                self.player = Player(preTypes.types[choice])
+                self.player = Player(pre.types[choice])
                 succeeded = True
             except Exception:
                 pass
@@ -42,11 +39,11 @@ class Game():
         self.nextOutput = ""
 
         self.possibleLoot = []
-        self.possibleLoot.extend(preWeapons.tierOne)
-        self.possibleLoot.extend(preWeapons.tierTwo)
-        self.possibleLoot.extend(preArmors.tierOne)
+        self.possibleLoot.extend(pre.tierOne)
+        self.possibleLoot.extend(pre.tierTwo)
+        self.possibleLoot.extend(pre.tierOne)
 
-        self.stage = preStages.Forest
+        self.stage = pre.Forest
         self.setupPlayer()
         self.difficulty = 1
         self.encountersComplete = 0
@@ -119,16 +116,16 @@ class Game():
 
         if self.encountersComplete % 10 == 0:
             match self.stage: # Move to next stage after every boss
-                case preStages.Forest:
-                    self.stage = preStages.Caves
+                case pre.Forest:
+                    self.stage = pre.Caves
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierOne)
 
                     self.possibleLoot.extend(preWeapons.tierThree)
                     self.possibleLoot.extend(preArmors.tierTwo)
-                case preStages.Caves:
-                    self.stage = preStages.Castle
+                case pre.Caves:
+                    self.stage = pre.Castle
                     self.nextOutput += "\nYou advance to the Castle!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
@@ -136,8 +133,8 @@ class Game():
 
                     self.possibleLoot.extend(preWeapons.tierFour)
                     self.possibleLoot.extend(preArmors.tierThree)
-                case preStages.Castle:
-                    self.stage = preStages.Underworld
+                case pre.Castle:
+                    self.stage = pre.Underworld
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierThree)
@@ -145,16 +142,16 @@ class Game():
 
                     self.possibleLoot.extend(preWeapons.tierFive)
                     self.possibleLoot.extend(preArmors.tierFour)
-                case preStages.Underworld:
-                    self.stage = preStages.Astral
+                case pre.Underworld:
+                    self.stage = pre.Astral
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                     
                     self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierFour)
                     self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierThree)
-                case preStages.Astral:
-                    self.stage = preStages.Infinite
+                case pre.Astral:
+                    self.stage = pre.Infinite
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
-                case preStages.Infinite:
+                case pre.Infinite:
                     self.difficulty += 1
                     self.nextOutput += "\nThe enemies grow more dangerous!\n"
                 
@@ -203,10 +200,10 @@ class Game():
 
     def getRandomLoot(self):
         roll = random.randint(1,100)
-        if roll > (30 if self.stage != preStages.Infinite else 90):
+        if roll > (30 if self.stage != pre.Infinite else 90):
             return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
         else:
-            return cns.Consumable(cns.consumables[random.randint(0, len(cns.consumables) - 1)])
+            return Consumable(pre.consumables[random.randint(0, len(pre.consumables) - 1)])
 
     def takePlayerInput(self):
         pIn = input("What would you like to do?\n")

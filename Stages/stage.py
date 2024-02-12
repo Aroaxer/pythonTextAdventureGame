@@ -1,14 +1,14 @@
 import random
 
-from Characters import preEnemies
 from Characters.enemy import Enemy
+import premades as pre
 
 class Stage():
     index = 0
     boss = None
 
     def getEnemies(self):
-            return preEnemies.enemies[self.index]
+            return pre.enemies[self.index]
     enemies = property(fget = getEnemies)
 
     def __init__(self, stage, boss) -> None:
@@ -16,7 +16,7 @@ class Stage():
         self.boss = boss
 
     def getRandEnemy(self, level):
-        return Enemy(preEnemies.enemies[self.index][random.randint(0, len(preEnemies.enemies[self.index]) - 1)], level)
+        return Enemy(pre.enemies[self.index][random.randint(0, len(preEnemies.enemies[self.index]) - 1)], level)
 
     def getEncounter(self, challenge):
         enemsToReturn = []
