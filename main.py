@@ -2,6 +2,7 @@ import random
 
 from Characters.player import Player
 from Consumables.consumable import Consumable
+from Stages.stage import Stage
 import premades as pre
 
 class Game():
@@ -43,7 +44,7 @@ class Game():
         self.possibleLoot.extend(pre.tierTwo)
         self.possibleLoot.extend(pre.tierOne)
 
-        self.stage = pre.Forest
+        self.setStage(pre.stages["Forest"])
         self.setupPlayer()
         self.difficulty = 1
         self.encountersComplete = 0
@@ -100,6 +101,9 @@ class Game():
                 + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
         for enemy in self.enemies:
             print(enemy.name + ": " + str(round(enemy.hp)) + " health")
+        
+    def setStage(self, stage):
+        self.stage = Stage(stage[0], stage[1])
     
     def completeEncounter(self):
         self.player.exp += self.player.hp
@@ -115,26 +119,26 @@ class Game():
             self.tryLoot()
 
         if self.encountersComplete % 10 == 0:
-            match self.stage: # Move to next stage after every boss
-                case pre.Forest:
-                    self.stage = pre.Caves
+            match self.stage.index:
+                case 0:
+                    self.setStage(pre.stages["Caves"])
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
-
+                
                     self.possibleLoot.extend(pre.tierThree)
                     self.possibleLoot.extend(pre.tierTwo)
-                case pre.Caves:
-                    self.stage = pre.Castle
+                case 1:
+                    self.setStage(pre.stages["Castle"])
                     self.nextOutput += "\nYou advance to the Castle!\n"
-
+                
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierTwo)
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
 
                     self.possibleLoot.extend(pre.tierFour)
                     self.possibleLoot.extend(pre.tierThree)
-                case pre.Castle:
-                    self.stage = pre.Underworld
+                case 2:
+                    self.setStage(pre.stages["Underworld"])
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
@@ -142,19 +146,19 @@ class Game():
 
                     self.possibleLoot.extend(pre.tierFive)
                     self.possibleLoot.extend(pre.tierFour)
-                case pre.Underworld:
-                    self.stage = pre.Astral
+                case 3:
+                    self.setStage(pre.stages["Astral"])
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
-                    
+                        
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierFour)
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
-                case pre.Astral:
-                    self.stage = pre.Infinite
+                case 4:
+                    self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
-                case pre.Infinite:
+                case 5:
                     self.difficulty += 1
                     self.nextOutput += "\nThe enemies grow more dangerous!\n"
-                
+                    
         # Get next encounter
         if (self.encountersComplete + 1) % 10 != 0 or self.stage.boss == None:
             self.enemies = self.stage.getEncounter(self.difficulty)
@@ -200,7 +204,7 @@ class Game():
 
     def getRandomLoot(self):
         roll = random.randint(1,100)
-        if roll > (30 if self.stage != pre.Infinite else 90):
+        if roll > (30 if (self.stage.index < 5) else 90):
             return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
         else:
             return Consumable(pre.consumables[random.randint(0, len(pre.consumables) - 1)])

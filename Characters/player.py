@@ -1,9 +1,6 @@
 import math
 
 from Characters.character import Character
-from Playertypes.playertype import Playertype
-from Armor.armor import Armor
-from Weapons.weapon import Weapon
 import premades as pre
 
 class Player(Character):
