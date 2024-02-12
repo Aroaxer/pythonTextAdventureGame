@@ -1,16 +1,15 @@
 from Stages.stage import Stage
-from Characters.enemy import Enemy
 from Weapons.weapon import Weapon
 from Armor.armor import Armor
 from Playertypes.playertype import Playertype
 
 
 # Stages
-Forest = Stage(1, Enemy("King Slime", 2))
-Caves = Stage(2, Enemy("Goblin Brute", 4))
-Castle = Stage(3, Enemy("Royal Guard", 6))
-Underworld = Stage(4, Enemy("Cerberus", 8))
-Astral = Stage(5, Enemy("Astral Spirit", 10))
+Forest = Stage(1, "King Slime")
+Caves = Stage(2, "Goblin Brute")
+Castle = Stage(3, "Royal Guard")
+Underworld = Stage(4, "Cerberus")
+Astral = Stage(5, "Astral Spirit")
 Infinite = Stage(6, None)
 
 

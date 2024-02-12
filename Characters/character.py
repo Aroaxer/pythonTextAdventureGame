@@ -40,7 +40,7 @@ class Character():
             match gearSet:
                 case "Basic Str":
                     self.weapon = pre.bronzeSword
-                    self.armor = preArmors.leatherArmor
+                    self.armor = pre.leatherArmor
                 case "Basic Dex":
                     self.weapon = pre.oakShortbow
                     self.armor = pre.clothing
