@@ -120,7 +120,7 @@ class Game():
 
         if self.encountersComplete % 10 == 0:
             match self.stage.index:
-                case 0:
+                case 0: # Forest
                     self.setStage(pre.stages["Caves"])
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
@@ -128,7 +128,7 @@ class Game():
                 
                     self.possibleLoot.extend(pre.weaponTier[2])
                     self.possibleLoot.extend(pre.armorTier[1])
-                case 1:
+                case 1: # Caves
                     self.setStage(pre.stages["Castle"])
                     self.nextOutput += "\nYou advance to the Castle!\n"
                 
@@ -137,7 +137,7 @@ class Game():
 
                     self.possibleLoot.extend(pre.weaponTier[3])
                     self.possibleLoot.extend(pre.armorTier[2])
-                case 2:
+                case 2: # Castle
                     self.setStage(pre.stages["Underworld"])
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
@@ -146,16 +146,16 @@ class Game():
 
                     self.possibleLoot.extend(pre.weaponTier[4])
                     self.possibleLoot.extend(pre.armorTier[3])
-                case 3:
+                case 3: # Underworld
                     self.setStage(pre.stages["Astral"])
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                         
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[3])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
-                case 4:
+                case 4: # Astral
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
-                case 5:
+                case 5: # Infinite
                     self.difficulty += 1
                     self.nextOutput += "\nThe enemies grow more dangerous!\n"
                     
