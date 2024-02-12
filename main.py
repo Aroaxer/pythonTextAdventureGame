@@ -120,34 +120,34 @@ class Game():
                     self.stage = pre.Caves
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
 
-                    self.possibleLoot.extend(preWeapons.tierThree)
-                    self.possibleLoot.extend(preArmors.tierTwo)
+                    self.possibleLoot.extend(pre.tierThree)
+                    self.possibleLoot.extend(pre.tierTwo)
                 case pre.Caves:
                     self.stage = pre.Castle
                     self.nextOutput += "\nYou advance to the Castle!\n"
 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierTwo)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierOne)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierTwo)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierOne)
 
-                    self.possibleLoot.extend(preWeapons.tierFour)
-                    self.possibleLoot.extend(preArmors.tierThree)
+                    self.possibleLoot.extend(pre.tierFour)
+                    self.possibleLoot.extend(pre.tierThree)
                 case pre.Castle:
                     self.stage = pre.Underworld
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierThree)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierTwo)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierTwo)
 
-                    self.possibleLoot.extend(preWeapons.tierFive)
-                    self.possibleLoot.extend(preArmors.tierFour)
+                    self.possibleLoot.extend(pre.tierFive)
+                    self.possibleLoot.extend(pre.tierFour)
                 case pre.Underworld:
                     self.stage = pre.Astral
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                     
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preWeapons.tierFour)
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, preArmors.tierThree)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierFour)
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.tierThree)
                 case pre.Astral:
                     self.stage = pre.Infinite
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
