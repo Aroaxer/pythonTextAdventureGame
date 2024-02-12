@@ -284,7 +284,7 @@ while True:
     print("Game Over\n\n")
     goOn = input("Try Again?\n")
     match goOn.lower():
-        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed":
+        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead":
             game.beginGame()
         case "a" | "b" | "c" | "":
             pass
