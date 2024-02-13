@@ -181,7 +181,7 @@ class Game():
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
                 case 5: # Infinite
-                    self.difficulty += 1
+                    self.difficulty += round(self.difficulty / 10)
                     self.nextOutput += "\nThe enemies grow more dangerous!\n"
                     
         # Get next encounter
