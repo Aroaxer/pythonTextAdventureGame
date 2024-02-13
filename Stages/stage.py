@@ -13,7 +13,10 @@ class Stage():
 
     def __init__(self, stage, boss) -> None:
         self.index = stage - 1
-        self.boss = Enemy(boss, 2 * stage)
+        if boss != None:
+            self.boss = Enemy(boss, 2 * stage)
+        else:
+            self.boss = None
 
     def getRandEnemy(self, level):
         return Enemy(enemies[self.index][random.randint(0, len(enemies[self.index]) - 1)], level)

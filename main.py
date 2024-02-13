@@ -278,6 +278,9 @@ class Game():
                 self.nextOutput += ("\n" + str(self.player.bStr) + " Str\n" + str(self.player.bCon) + " Con\n"
                       + str(self.player.bDex) + " Dex\n\n")
                 return "No Move"
+            case "give up":
+                self.player.hp = 0
+                return "No Move"
             
             case _:
                 return "No Move"
