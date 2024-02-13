@@ -113,10 +113,10 @@ class Character():
 
     def takeDamage(self, source, amt):
         tempHp = self.hp
-        self.hp -= (self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
+        self.hp -= round(self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
         self.blockPower = self.baseBlock
-        self.blockCharges -= 1
+        self.blockCharges -= (1 if self.blockCharges > 0 else 0)
         return (self.hp <= 0)
 
     def attack(self, target, damageMult = 1):
@@ -141,14 +141,17 @@ class Character():
 
     def useSpecial(self, game):
         if self.weapon.specType == "Sweep":
-            print("This attack targets all enemies.")
+            startCharge = self.chargeMult
             for enemy in game.enemies:
+                self.chargeMult = startCharge
                 self.attack(enemy, self.weapon.specMult)
         elif self.weapon.specType == "Pierce":
             print("This attack targets the next highest index as well.")
-            target = game.getTarget(returnsIndex = True)
+            startCharge = self.chargeMult
+            target = game.getTarget(returnsIndex = True, totalTargets = 2)
             self.attack(game.enemies[target], self.weapon.specMult)
             if target < len(game.enemies) - 1:
+                self.chargeMult = startCharge
                 self.attack(game.enemies[target + 1], self.weapon.specMult)
         elif self.weapon.specType == "Weakening":
             print("This attack causes the enemy's next attack to do much less damage.")
@@ -159,5 +162,5 @@ class Character():
             print("This attack makes the enemy vulnerable to your next attack.")
             target = game.getTarget()
             self.attack(target, self.weapon.specMult)
-            target.blockPower /= 2
+            target.blockPower /= 4
             target.blockCharges = 1

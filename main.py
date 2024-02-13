@@ -17,21 +17,42 @@ class Game():
     difficulty = 0
     encountersComplete = 0
 
+    extraSettings = {
+        "printProjDamage" : False,
+        "printDmgOnAction" : False,
+        "displayOwnDamageReduction" : False
+    }
+
     def __init__(self) -> None:
         self.beginGame()
 
     def setupPlayer(self):
         succeeded = False
         while not succeeded:
+            self.emptyTerminal()
+            if self.extraSettings["printProjDamage"]:
+                print("Will automatically project damage")
+            if self.extraSettings["printDmgOnAction"]:
+                print("Will display action damage")
+            if self.extraSettings["displayOwnDamageReduction"]:
+                print("Will display own dr")
+            print("\n\n")
             try:
-                self.emptyTerminal()
                 choice = input("What class would you like to play as?\n" +
                             "Warrior - 14 str 16 con 12 dex\n" +
                             "Knight - 16 str 14 con 8 dex\n" +
                             "Ranger - 10 str 16 con 14 dex\n" +
                             "Rogue - 8 str 12 con 16 dex\n").lower()
-                self.player = Player(pre.types[choice])
-                succeeded = True
+                match choice:
+                    case "project damage":
+                        self.extraSettings["printProjDamage"] = not self.extraSettings["printProjDamage"]
+                    case "show action damage":
+                        self.extraSettings["printDmgOnAction"] = not self.extraSettings["printDmgOnAction"]
+                    case "show own dr":
+                        self.extraSettings["displayOwnDamageReduction"] = not self.extraSettings["displayOwnDamageReduction"]
+                    case _:
+                        self.player = Player(pre.types[choice])
+                        succeeded = True
             except Exception:
                 pass
 
@@ -99,8 +120,12 @@ class Game():
         print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
                + self.player.weapon.name + ", " + self.player.armor.name
                 + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
+        if self.extraSettings["displayOwnDamageReduction"]:
+            print("Damage Reduction: " + str(self.player.armor.defense) + " percent, " + str(self.player.armor.flatReduction) + " flat")
         for enemy in self.enemies:
-            print(enemy.name + ": " + str(round(enemy.hp)) + " health")
+            projection = self.projectDamage(enemy)
+            print(enemy.name + ": " + str(round(enemy.hp)) + " health" + ("" if not self.extraSettings["printProjDamage"] else 
+                                                                          ", " + str(projection[0]) + " damage, " + str(projection[1]) + " special"))
         
     def setStage(self, stage):
         self.stage = Stage(stage[0], stage[1])
@@ -217,8 +242,12 @@ class Game():
         match (pIn).lower():
             case "attack" | "a":
                 target = self.getTarget()
+                tempHp = target.hp
                 self.player.attack(target)
-                self.nextOutput += "You attacked the " + target.name + "!\n"
+                if not self.extraSettings["printDmgOnAction"]:
+                    self.nextOutput += "You attacked the " + target.name + "!\n"
+                else:
+                    self.nextOutput += "You attacked the " + target.name + " for " + str(tempHp - target.hp) + " damage!\n"
                 return "Attack"
             case "block" | "b":
                 self.player.block()
@@ -245,15 +274,6 @@ class Game():
                     except Exception:
                         self.nextOutput += "Couldn't find an item at that index\n\n"
                 return "No Move"
-            case "pd":
-                target = self.getTarget()
-                damage = self.player.weapon.dealDamage(self.player)
-                damage *= self.player.chargeMult
-                damage = (target.armor.reduceDamage(damage, target) / (target.blockPower if target.blockCharges > 0 else 1))
-
-                self.nextOutput += "You would deal " + str(damage) + " damage to that target!\n"
-                self.nextOutput += "Special: " + str(damage * self.player.weapon.specMult) + " damage\n"
-                return "No Move"
             case "get stats" | "stats" | "see stats":
                 self.nextOutput += ("\n" + str(self.player.bStr) + " Str\n" + str(self.player.bCon) + " Con\n"
                       + str(self.player.bDex) + " Dex\n\n")
@@ -261,13 +281,20 @@ class Game():
             
             case _:
                 return "No Move"
+            
+    def projectDamage(self, target):
+        damage = self.player.weapon.dealDamage(self.player)
+        damage *= self.player.chargeMult
+        damage = (target.armor.reduceDamage(damage, target) / (target.blockPower if target.blockCharges > 0 else 1))
+
+        return [round(damage), round(damage * self.player.weapon.specMult)]
                 
-    def getTarget(self, targetsFriendly = False, returnsIndex = False):
+    def getTarget(self, targetsFriendly = False, returnsIndex = False, totalTargets = 1):
         if targetsFriendly:
             pass # May or may not end up using this
         else:
             try:
-                if len(self.enemies) > 1:
+                if len(self.enemies) > totalTargets:
                     pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
                     
                     pIn = int(pIn)
@@ -285,8 +312,14 @@ game = Game()
 
 while True:
     game.emptyTerminal()
-    print("Game Over\n\n")
-    goOn = input("Try Again?\n")
+    print("Game Over\n")
+    if game.stage.index > 1:
+        print("Enter 'project damage' when choosing a class to see how much damage you will deal")
+    if game.stage.index > 2:
+        print("Enter 'show action damage' when choosing a class to see the damage each enemy does")
+    if game.stage.index > 3:
+        print("Enter 'show own dr' when choosing a class to see your own damage reduction")
+    goOn = input("\nTry Again?\n")
     match goOn.lower(): # There are far too many of these, but its funny
         case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "fo sho":
             game.beginGame()

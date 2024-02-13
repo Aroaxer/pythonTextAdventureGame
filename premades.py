@@ -72,6 +72,7 @@ weaponTier = [
 
 # Armor
 clothing = Armor("Clothing", 3, -2, "Light")
+adventureGear = Armor("Adventure Gear", 5, 0, "Medium")
 
 leatherArmor = Armor("Leather Armor", 3, -2, "Light")
 studdedLeather = Armor("Studded Leather", 7, -1, "Light")

@@ -116,8 +116,12 @@ class Enemy(Character):
     def takeAction(self, game):
         roll = random.randint(0, 100)
         if roll > 40:
+            tempHp = game.player.hp
             self.attack(game.player)
-            game.nextOutput += "The " + self.name + " Attacked!\n"
+            if not game.extraSettings["printDmgOnAction"]:
+                game.nextOutput += "The " + self.name + " Attacked!\n"
+            else:
+                game.nextOutput += "The " + self.name + " Attacked for " + str(tempHp - game.player.hp) + " damage!\n"
         else:
             self.charge()
             game.nextOutput += "The " + self.name + " Charged its attack!\n"
