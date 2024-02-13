@@ -286,9 +286,18 @@ class Game():
                 return "No Move"
             
     def projectDamage(self, target):
-        damage = self.player.weapon.dealDamage(self.player)
-        damage *= self.player.chargeMult
-        damage = (target.armor.reduceDamage(damage, target) / (target.blockPower if target.blockCharges > 0 else 1))
+        startHp = target.hp
+        startCharge = self.player.chargeMult
+        startBlock = target.blockPower
+        startBCharges = target.blockCharges
+
+        self.player.attack(target)
+        damage = startHp - target.hp
+
+        target.hp = startHp
+        self.player.chargeMult = startCharge
+        target.blockPower = startBlock
+        target.blockCharges = startBCharges
 
         return [round(damage), round(damage * self.player.weapon.specMult)]
                 

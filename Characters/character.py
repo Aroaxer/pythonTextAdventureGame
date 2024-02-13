@@ -111,7 +111,7 @@ class Character():
                             self.weapon = pre.runicJavelin
                     self.armor = pre.runicLeather
 
-    def takeDamage(self, source, amt):
+    def takeDamage(self, amt):
         tempHp = self.hp
         self.hp -= round(self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
@@ -122,7 +122,7 @@ class Character():
     def attack(self, target, damageMult = 1):
         tempCharge = self.chargeMult
         self.chargeMult = 1
-        return target.takeDamage(self, self.weapon.dealDamage(self) * damageMult * tempCharge)
+        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge)
     
     def block(self):
         self.blockCharges = self.blockChargesOnBlock
