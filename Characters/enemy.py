@@ -14,13 +14,13 @@ class Enemy(Character):
             # Stage 1
             case "Slime":
                 self.difficulty = 1
-                super().__init__(12, 10, 8, 5, "Basic Str")
+                super().__init__(12, 10, 8, 7, "Basic Str")
             case "Skeleton":
                 self.difficulty = 1
-                super().__init__(10, 8, 14, 5, "Basic Dex")
+                super().__init__(10, 8, 14, 6, "Basic Dex")
             case "Zombie":
                 self.difficulty = 1
-                super().__init__(12, 12, 6, 6, "Basic Str")
+                super().__init__(12, 12, 6, 8, "Basic Str")
             # Boss
             case "King Slime":
                 self.difficulty = 3
