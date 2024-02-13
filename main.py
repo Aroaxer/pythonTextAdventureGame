@@ -325,17 +325,17 @@ game = Game()
 while True:
     game.emptyTerminal()
     print("Game Over\n")
-    if game.stage.index > 1:
+    if game.stage.index > 0:
         print("Enter 'project damage' when choosing a class to see how much damage you will deal")
-    if game.stage.index > 2:
+    if game.stage.index > 1:
         print("Enter 'show action damage' when choosing a class to see the damage each enemy does")
-    if game.stage.index > 3:
+    if game.stage.index > 2:
         print("Enter 'show own dr' when choosing a class to see your own damage reduction")
     goOn = input("\nTry Again?\n")
     match goOn.lower(): # There are far too many of these, but its funny
-        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "fo sho":
+        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "fo sho" | "try":
             game.beginGame()
-        case "a" | "b" | "c" | "":
+        case "a" | "b" | "c" | "s" | "":
             pass
         case _:
             break
