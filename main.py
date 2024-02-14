@@ -26,7 +26,7 @@ class Game():
     def __init__(self) -> None:
         self.beginGame()
 
-    def setupPlayer(self):
+    def setupPlayer(self): # Sets up player and special settings
         succeeded = False
         while not succeeded:
             self.emptyTerminal()
@@ -50,17 +50,17 @@ class Game():
                         self.extraSettings["printDmgOnAction"] = not self.extraSettings["printDmgOnAction"]
                     case "show own dr":
                         self.extraSettings["displayOwnDamageReduction"] = not self.extraSettings["displayOwnDamageReduction"]
-                    case _:
-                        self.player = Player(pre.types[choice])
+                    case _: # Chose class or invalid input
+                        self.player = Player(pre.types[choice]) # Gives error with bad input
                         succeeded = True
             except Exception:
-                pass
+                pass # Input doesn't have something associated
 
     def beginGame(self):
         self.emptyTerminal()
         self.nextOutput = ""
 
-        self.possibleLoot = []
+        self.possibleLoot = [] # Initial loot
         self.possibleLoot.extend(pre.weaponTier[0])
         self.possibleLoot.extend(pre.weaponTier[1])
         self.possibleLoot.extend(pre.armorTier[0])
@@ -74,7 +74,7 @@ class Game():
 
         self.mainLoop()
 
-    def mainLoop(self):
+    def mainLoop(self): # Recurses to loop
         self.emptyTerminal()
 
         print(self.nextOutput + "\n\n")
@@ -87,7 +87,7 @@ class Game():
         plResult = self.takePlayerInput()
 
         tempEnems = []
-        if plResult != "No Move":
+        if plResult != "No Move": # Enemies take turns / die
             for enemy in self.enemies:
                 if round(enemy.hp) <= 0:
                     self.nextOutput += "You killed the " + enemy.name + "!\n"
@@ -99,10 +99,10 @@ class Game():
         if self.player.hp <= 0:
             self.emptyTerminal()
             print("Game Over\n\n\n")
-            return False
+            return False # End loop
         
         tempLevel = self.player.level
-        self.player.checkLevel()
+        self.player.checkLevel() # Level up (maybe)
         if tempLevel < self.player.level:
             self.nextOutput += "\nYou gained " + ((str(self.player.level - tempLevel) + " levels") if (self.player.level - tempLevel) != 1 else ("a level")) + "!\n"
 
@@ -110,13 +110,13 @@ class Game():
 
         return self.mainLoop() # Loops
     
-    def emptyTerminal(self):
+    def emptyTerminal(self): # Prints 60 newlines
         cycles = 0
         while cycles < 15:
             print("\n\n\n")
             cycles += 1
     
-    def printInfo(self):
+    def printInfo(self): # Looks really complicated, just prints stats
         print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
                + self.player.weapon.name + ", " + self.player.armor.name
                 + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
@@ -143,7 +143,7 @@ class Game():
             self.difficulty += 1
             self.tryLoot()
 
-        if self.encountersComplete % 10 == 0:
+        if self.encountersComplete % 10 == 0: # Just beat boss
             match self.stage.index:
                 case 0: # Forest
                     self.setStage(pre.stages["Caves"])

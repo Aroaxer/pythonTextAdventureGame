@@ -1,6 +1,7 @@
 from Weapons.weapon import Weapon
 from Armor.armor import Armor
 from Playertypes.playertype import Playertype
+from Accesories.accesory import Accesory
 
 
 # Stages
@@ -95,6 +96,27 @@ armorTier = [
     [steelsilkArmor, halfPlateArmor, plateArmor],
     [runicLeather, runicMail, runicPlate]
 ]
+
+
+# Accesories
+oldAmulet = Accesory("Old Amulet")
+crystalNecklace = Accesory("Crystal Necklace")
+
+ironGauntlets = Accesory("Iron Gauntlets")
+steelGauntlets = Accesory("Steel Gauntlets")
+steelsilkGloves = Accesory("Steelsilk Gloves")
+
+ironShield = Accesory("Iron Shield")
+towerShield = Accesory("Tower Shield")
+
+ritualDagger = Accesory("Ritual Dagger")
+
+accTier = [
+    [ironGauntlets, ironShield]
+    [crystalNecklace, steelGauntlets, steelsilkGloves]
+    [ritualDagger]
+]
+
 
 
 # Consumables

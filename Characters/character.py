@@ -19,6 +19,7 @@ class Character():
 
     weapon = None
     armor = None
+    accesory = None
 
     baseBlock = 3
     blockPower = baseBlock
