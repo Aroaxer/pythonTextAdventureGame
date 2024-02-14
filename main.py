@@ -125,7 +125,7 @@ class Game():
         for enemy in self.enemies:
             projection = self.projectDamage(enemy)
             print(enemy.name + ": " + str(round(enemy.hp)) + " health" + ("" if not self.extraSettings["printProjDamage"] else 
-                                                                          ", " + str(projection[0]) + " damage, " + str(projection[1]) + " special"))
+                                                                          ", You will deal: " + str(projection[0]) + " damage, " + str(projection[1]) + " special"))
         
     def setStage(self, stage):
         self.stage = Stage(stage[0], stage[1])
