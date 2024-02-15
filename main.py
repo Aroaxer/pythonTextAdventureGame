@@ -64,6 +64,8 @@ class Game():
         self.possibleLoot.extend(pre.weaponTier[0])
         self.possibleLoot.extend(pre.weaponTier[1])
         self.possibleLoot.extend(pre.armorTier[0])
+        self.possibleLoot.extend(pre.accTier[0])
+        self.possibleLoot.extend(pre.accTier[1])
 
         self.setStage(pre.stages["Forest"])
         self.setupPlayer()
@@ -87,7 +89,8 @@ class Game():
         plResult = self.takePlayerInput()
 
         tempEnems = []
-        if plResult != "No Move": # Enemies take turns / die
+        if plResult != "No Move": # Enemies take turns / die, trigger accesory passive
+            self.player.accesory.passive(self)
             for enemy in self.enemies:
                 if round(enemy.hp) <= 0:
                     self.nextOutput += "You killed the " + enemy.name + "!\n"
@@ -119,7 +122,7 @@ class Game():
     def printInfo(self): # Looks really complicated, just prints stats
         print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
                + self.player.weapon.name + ", " + self.player.armor.name
-                + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
+                + ", " + self.player.accesory.name + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
         if self.extraSettings["displayOwnDamageReduction"]:
             print("Damage Reduction: " + str(self.player.armor.defense) + " percent, " + str(self.player.armor.flatReduction) + " flat")
         for enemy in self.enemies:
@@ -150,33 +153,40 @@ class Game():
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[0])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[0])
                 
                     self.possibleLoot.extend(pre.weaponTier[2])
                     self.possibleLoot.extend(pre.armorTier[1])
+                    self.possibleLoot.extend(pre.accTier[2])
                 case 1: # Caves
                     self.setStage(pre.stages["Castle"])
                     self.nextOutput += "\nYou advance to the Castle!\n"
                 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[1])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[0])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[1])
 
                     self.possibleLoot.extend(pre.weaponTier[3])
                     self.possibleLoot.extend(pre.armorTier[2])
+                    self.possibleLoot.extend(pre.accTier[3])
                 case 2: # Castle
                     self.setStage(pre.stages["Underworld"])
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[1])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[2])
 
                     self.possibleLoot.extend(pre.weaponTier[4])
                     self.possibleLoot.extend(pre.armorTier[3])
+                    self.possibleLoot.extend(pre.accTier[4])
                 case 3: # Underworld
                     self.setStage(pre.stages["Astral"])
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                         
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[3])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[3])
                 case 4: # Astral
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
@@ -274,9 +284,15 @@ class Game():
                     except Exception:
                         self.nextOutput += "Couldn't find an item at that index\n\n"
                 return "No Move"
+            case "accesory" | "acc":
+                if self.player.accesory.use(self):
+                    self.nextOutput += "You used your accesory!"
+                    return "Accesory"
+                self.nextOutput += "You can't use that accesory!"
+                return "No Move"
             case "get stats" | "stats" | "see stats":
-                self.nextOutput += ("\n" + str(self.player.bStr) + " Str\n" + str(self.player.bCon) + " Con\n"
-                      + str(self.player.bDex) + " Dex\n\n")
+                self.nextOutput += ("\n" + str(self.player.bStr * self.player.accesory.statMods["str"]) + " Str\n" + str(self.player.bCon * self.player.accesory.statMods["con"]) + " Con\n"
+                      + str(self.player.bDex * self.player.accesory.statMods["dex"]) + " Dex\n\n")
                 return "No Move"
             case "give up":
                 self.player.hp = 0
@@ -299,7 +315,15 @@ class Game():
         target.blockPower = startBlock
         target.blockCharges = startBCharges
 
-        return [round(damage), round(damage * self.player.weapon.specMult)]
+        self.player.attack(target, self.player.weapon.specMult)
+        specDamage = startHp - target.hp
+
+        target.hp = startHp
+        self.player.chargeMult = startCharge
+        target.blockPower = startBlock
+        target.blockCharges = startBCharges
+
+        return [round(damage), round(specDamage)]
                 
     def getTarget(self, targetsFriendly = False, returnsIndex = False, totalTargets = 1):
         if targetsFriendly:

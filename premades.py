@@ -101,20 +101,31 @@ armorTier = [
 # Accesories
 oldAmulet = Accesory("Old Amulet")
 crystalNecklace = Accesory("Crystal Necklace")
+runicAmulet = Accesory("Runic Amulet")
 
 ironGauntlets = Accesory("Iron Gauntlets")
 steelGauntlets = Accesory("Steel Gauntlets")
 steelsilkGloves = Accesory("Steelsilk Gloves")
 
+runicSheath = Accesory("Runic Sheath")
+runicQuiver = Accesory("Runic Quiver")
+ 
 ironShield = Accesory("Iron Shield")
 towerShield = Accesory("Tower Shield")
+runicShield = Accesory("Runic Shield")
 
 ritualDagger = Accesory("Ritual Dagger")
 
+animatedShield = Accesory("Animated Shield")
+energyAccumulator = Accesory("Energy Accumulator")
+runicAccumulator = Accesory("Runic Accumulator")
+
 accTier = [
-    [ironGauntlets, ironShield]
-    [crystalNecklace, steelGauntlets, steelsilkGloves]
-    [ritualDagger]
+    [ironGauntlets, ironShield],
+    [crystalNecklace, steelGauntlets, steelsilkGloves],
+    [ritualDagger, animatedShield, energyAccumulator],
+    [runicSheath, runicQuiver],
+    [runicShield, runicAccumulator, runicAmulet]
 ]
 
 

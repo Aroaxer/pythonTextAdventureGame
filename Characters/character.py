@@ -11,8 +11,12 @@ class Character():
     level = 1
     hpPerLevel = 5
 
+
+    isEnemy = True
     def getMaxHp(self): 
         levelHp = self.hpPerLevel + self.getMod("c")
+        if self.isEnemy:
+            levelHp *= 1.5
         return (1 + (self.level / 5)) * levelHp
     maxHealth = property(fget = getMaxHp)
     hp = 0
@@ -30,7 +34,11 @@ class Character():
     chargePower = 1
 
     # Methods
-    def __init__(self, str, con , dex, hpPerLevel, gearSet = None) -> None:
+    def __init__(self, str, con , dex, hpPerLevel, gearSet = None, isEnemy = True) -> None:
+        self.accesory = pre.oldAmulet
+
+        self.isEnemy = isEnemy
+
         self.bStr = str
         self.bDex = dex
         self.bCon = con
@@ -114,7 +122,7 @@ class Character():
 
     def takeDamage(self, amt):
         tempHp = self.hp
-        self.hp -= round(self.armor.reduceDamage(amt, self) / (self.blockPower if self.blockCharges > 0 else 1))
+        self.hp -= round(self.armor.reduceDamage(amt, self) / ((self.blockPower * self.accesory.statMods["block"]) if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
         self.blockPower = self.baseBlock
         self.blockCharges -= (1 if self.blockCharges > 0 else 0)
@@ -129,16 +137,16 @@ class Character():
         self.blockCharges = self.blockChargesOnBlock
 
     def charge(self):
-        self.chargeMult += self.chargePower
+        self.chargeMult += self.chargePower * self.accesory.statMods["charge"]
 
     def getMod(self, stat): 
         match stat:
             case "s":
-                return round((self.bStr - 10) / 2)
+                return round(((self.bStr * self.accesory.statMods["str"]) - 10) / 2)
             case "d":
-                return round((self.bDex - 10) / 2)
+                return round(((self.bDex * self.accesory.statMods["dex"]) - 10) / 2)
             case "c":
-                return round((self.bCon - 10) / 2)
+                return round(((self.bCon * self.accesory.statMods["con"]) - 10) / 2)
 
     def useSpecial(self, game):
         if self.weapon.specType == "Sweep":
@@ -163,5 +171,5 @@ class Character():
             print("This attack makes the enemy vulnerable to your next attack.")
             target = game.getTarget()
             self.attack(target, self.weapon.specMult)
-            target.blockPower /= 4
+            target.blockPower /= 6
             target.blockCharges = 1

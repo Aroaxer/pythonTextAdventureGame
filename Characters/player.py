@@ -23,19 +23,19 @@ class Player(Character):
             case "Warrior":
                 self.weapon = pre.bronzeSword
                 self.armor = pre.adventureGear
-                super().__init__(14, 16, 12, 6)
+                super().__init__(14, 16, 12, 6, isEnemy = False)
             case "Knight":
                 self.weapon = pre.bronzeSword
                 self.armor = pre.adventureGear
-                super().__init__(16, 14, 8, 5)
+                super().__init__(16, 14, 8, 5, isEnemy = False)
             case "Ranger":
                 self.weapon = pre.oakShortbow
                 self.armor = pre.clothing
-                super().__init__(12, 16, 14, 5)
+                super().__init__(12, 16, 14, 5, isEnemy = False)
             case "Rogue":
                 self.weapon = pre.oakShortbow
                 self.armor = pre.clothing
-                super().__init__(8, 14, 16, 4)
+                super().__init__(8, 14, 16, 4, isEnemy = False)
 
     def getItem(self, item):
         try: 
@@ -48,8 +48,13 @@ class Player(Character):
                 item.reduceDamage(0, self)
                 self.armor = item
             except Exception:
-                # Works if item
-                self.inventory.append(item)
+                try:
+                    # Works if accesory
+                    item.isAcc()
+                    self.accesory = item
+                except Exception:
+                    # Works if item
+                    self.inventory.append(item)
 
     def isProf(self, armor):
         return (armor.armWeight in self.type.armors)
