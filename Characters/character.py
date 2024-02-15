@@ -31,7 +31,7 @@ class Character():
     blockChargesOnBlock = 3
 
     chargeMult = 1
-    chargePower = 1
+    chargePower = 0.5
 
     # Methods
     def __init__(self, str, con , dex, hpPerLevel, gearSet = None, isEnemy = True) -> None:
