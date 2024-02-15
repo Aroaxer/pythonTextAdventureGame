@@ -4,13 +4,11 @@ class Accesory():
     name = ""
     canUse = False
     useDesc = ""
-    statMods = {
-        "str" : 1,
-        "dex" : 1,
-        "con" : 1,
-        "charge" : 1,
-        "block" : 1
-    }
+    strMod = 1
+    dexMod = 1
+    conMod = 1
+    chrMod = 1
+    blkMod = 1
     hasPassive = False
 
     def __init__(self, name) -> None:
@@ -18,84 +16,84 @@ class Accesory():
 
         match name:
             case "Iron Gauntlets":
-                self.statMods["charge"] = 1.5
-                self.statMods["dex"] = 0.9
-                self.statMods["str"] = 0.9
-                self.statMods["con"] = 1.2
+                self.chrMod = 1.5
+                self.dexMod = 0.9
+                self.strMod = 0.9
+                self.conMod = 1.2
             case "Iron Shield":
-                self.statMods["block"] = 1.5
-                self.statMods["dex"] = 0.8
-                self.statMods["str"] = 0.9
-                self.statMods["con"] = 1.2
+                self.blkMod = 1.5
+                self.dexMod = 0.8
+                self.strMod = 0.9
+                self.conMod = 1.2
             case "Crystal Necklace":
                 self.canUse = True
                 self.useDesc = "Weakens all enemies to your next attack."
-                self.statMods["con"] = 0.8
+                self.conMod = 0.8
             case "Steel Gauntlets":
-                self.statMods["charge"] = 1.5
-                self.statMods["str"] = 1.2
-                self.statMods["con"] = 1.2
+                self.chrMod = 1.5
+                self.strMod = 1.2
+                self.conMod = 1.2
             case "Steelsilk Gloves":
-                self.statMods["charge"] = 1.5
-                self.statMods["dex"] = 1.2
-                self.statMods["con"] = 1.2
+                self.chrMod = 1.5
+                self.dexMod = 1.2
+                self.conMod = 1.2
             case "Tower Shield":
-                self.statMods["block"] = 2
-                self.statMods["con"] = 1.4
-                self.statMods["dex"] = 0.6
+                self.blkMod = 2
+                self.conMod = 1.4
+                self.dexMod = 0.6
             case "Ritual Dagger":
                 self.canUse = True
                 self.useDesc = "If you get a kill, your stats increase."
-                self.statMods["str"] = 2
-                self.statMods["dex"] = 2
-                self.statMods["con"] = 0.6
-                self.statMods["block"] = 0
+                self.strMod = 2
+                self.dexMod = 2
+                self.conMod = 0.6
+                self.blkMod = 0
             case "Animated Shield":
                 self.hasPassive = True
-                self.statMods["block"] = 1.5
+                self.blkMod = 1.5
             case "Energy Accumulator":
                 self.hasPassive = True
-                self.statMods["charge"] = 1.5
+                self.chrMod = 1.5
             case "Runic Sheath":
                 self.canUse = True
-                self.statMods["str"] = 2
-                self.statMods["charge"] = 2
-                self.statMods["dex"] = 0.8
+                self.strMod = 2
+                self.chrMod = 2
+                self.dexMod = 0.8
             case "Runic Quiver":
                 self.canUse = True
-                self.statMods["dex"] = 2
-                self.statMods["str"] = 0
+                self.dexMod = 2
+                self.strMod = 0
             case "Runic Shield":
                 self.hasPassive = True
                 self.canUse = True
-                self.statMods["block"] = 2
-                self.statMods["con"] = 1.2
+                self.blkMod = 2
+                self.conMod = 1.2
             case "Runic Accumulator":
                 self.hasPassive = True
-                self.statMods["charge"] = 2
-                self.statMods["str"] = 1.2
-                self.statMods["dex"] = 1.2
+                self.chrMod = 2
+                self.strMod = 1.2
+                self.dexMod = 1.2
             case "Runic Amulet":
                 self.hasPassive = True
                 self.canUse = True
                 self.useDesc = "Weakens all enemies to your next attack."
-                self.statMods["str"] = 1.4
-                self.statMods["dex"] = 1.4
-                self.statMods["con"] = 0.8
+                self.strMod = 1.4
+                self.dexMod = 1.4
+                self.conMod = 0.8
             case "Sacrificial Blade":
                 self.canUse = True
                 self.useDesc = "If you get a kill, your stats increase. Does 20 percent extra damage."
-                self.statMods["str"] = 2.2
-                self.statMods["dex"] = 2.2
-                self.statMods["con"] = 0.6
-                self.statMods["block"] = 0.5
+                self.strMod = 2.2
+                self.dexMod = 2.2
+                self.conMod = 0.6
+                self.blkMod = 0.5
             case "Recovery Jewel":
                 self.canUse = True
-                self.statMods["con"] = 2
+                self.conMod = 2
             case "Regenerative Circlet":
                 self.canUse = True
                 self.hasPassive = True
-                self.statMods["con"] = 3
+                self.conMod = 3
             case _:
                 pass
 
@@ -122,7 +120,7 @@ class Accesory():
                         game.player.hp = game.player.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Runic Sheath":
-                    game.player.chargeMult += (game.player.chargePower * 2) * self.statMods["charge"]
+                    game.player.chargeMult += (game.player.chargePower * 2) * self.chrMod
                     game.player.blockPower /= 6
                     game.player.blockCharges = 1
                 case "Runic Quiver":
@@ -132,7 +130,7 @@ class Accesory():
                         game.player.attack(enemy, 1)
                 case "Runic Shield":
                     game.player.blockCharges += game.player.blockChargesOnBlock
-                    game.player.chargeMult += (game.player.chargePower / 2) * self.statMods["charge"]
+                    game.player.chargeMult += (game.player.chargePower / 2) * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
                         enemy.blockCharges = 1
@@ -159,11 +157,11 @@ class Accesory():
                 case "Animated Shield":
                     game.player.blockCharges += round(game.player.blockChargesOnBlock / 3)
                 case "Energy Accumulator":
-                    game.player.chargeMult += (game.player.chargePower / 2) * self.statMods["charge"]
+                    game.player.chargeMult += (game.player.chargePower / 2) * self.chrMod
                 case "Runic Shield":
                     game.player.blockCharges += round(game.player.blockChargesOnBlock * (2 / 3))
                 case "Runic Accumulator":
-                    game.player.chargeMult += game.player.chargePower * self.statMods["charge"]
+                    game.player.chargeMult += game.player.chargePower * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
                         enemy.blockCharges = 1

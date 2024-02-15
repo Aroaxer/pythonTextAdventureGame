@@ -291,8 +291,8 @@ class Game():
                 self.nextOutput += "You can't use that accesory!\n"
                 return "No Move"
             case "get stats" | "stats" | "see stats":
-                self.nextOutput += ("\n" + str(self.player.bStr * self.player.accesory.statMods["str"]) + " Str\n" + str(self.player.bCon * self.player.accesory.statMods["con"]) + " Con\n"
-                      + str(self.player.bDex * self.player.accesory.statMods["dex"]) + " Dex\n\n")
+                self.nextOutput += ("\n" + str(self.player.bStr * self.player.accesory.strMod) + " Str\n" + str(self.player.bCon * self.player.accesory.conMod) + " Con\n"
+                      + str(self.player.bDex * self.player.accesory.dexMod) + " Dex\n\n")
                 return "No Move"
             case "give up":
                 self.player.hp = 0

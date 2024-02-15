@@ -36,7 +36,6 @@ class Character():
     # Methods
     def __init__(self, str, con , dex, hpPerLevel, gearSet = None, isEnemy = True) -> None:
         self.accesory = pre.oldAmulet
-        print(pre.oldAmulet.statMods)
 
         self.isEnemy = isEnemy
 
@@ -123,7 +122,7 @@ class Character():
 
     def takeDamage(self, amt):
         tempHp = self.hp
-        self.hp -= round(self.armor.reduceDamage(amt, self) / ((self.blockPower * self.accesory.statMods["block"]) if self.blockCharges > 0 else 1))
+        self.hp -= round(self.armor.reduceDamage(amt, self) / ((self.blockPower * self.accesory.blkMod) if self.blockCharges > 0 else 1))
         if self.hp > tempHp: self.hp = tempHp
         self.blockPower = self.baseBlock
         self.blockCharges -= (1 if self.blockCharges > 0 else 0)
@@ -138,16 +137,16 @@ class Character():
         self.blockCharges = self.blockChargesOnBlock
 
     def charge(self):
-        self.chargeMult += self.chargePower * self.accesory.statMods["charge"]
+        self.chargeMult += self.chargePower * self.accesory.chrMod
 
     def getMod(self, stat): 
         match stat:
             case "s":
-                return round(((self.bStr * self.accesory.statMods["str"]) - 10) / 2)
+                return round(((self.bStr * self.accesory.strMod) - 10) / 2)
             case "d":
-                return round(((self.bDex * self.accesory.statMods["dex"]) - 10) / 2)
+                return round(((self.bDex * self.accesory.dexMod) - 10) / 2)
             case "c":
-                return round(((self.bCon * self.accesory.statMods["con"]) - 10) / 2)
+                return round(((self.bCon * self.accesory.conMod) - 10) / 2)
 
     def useSpecial(self, game):
         if self.weapon.specType == "Sweep":
