@@ -36,6 +36,7 @@ class Character():
     # Methods
     def __init__(self, str, con , dex, hpPerLevel, gearSet = None, isEnemy = True) -> None:
         self.accesory = pre.oldAmulet
+        print(pre.oldAmulet.statMods)
 
         self.isEnemy = isEnemy
 

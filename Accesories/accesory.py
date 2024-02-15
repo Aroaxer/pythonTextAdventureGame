@@ -17,8 +17,6 @@ class Accesory():
         self.name = name
 
         match name:
-            case "Old Amulet":
-                pass
             case "Iron Gauntlets":
                 self.statMods["charge"] = 1.5
                 self.statMods["dex"] = 0.9
@@ -98,6 +96,8 @@ class Accesory():
                 self.canUse = True
                 self.hasPassive = True
                 self.statMods["con"] = 3
+            case _:
+                pass
 
 
     def isAcc(self):
