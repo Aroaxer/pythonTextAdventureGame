@@ -286,9 +286,9 @@ class Game():
                 return "No Move"
             case "accesory" | "acc":
                 if self.player.accesory.use(self):
-                    self.nextOutput += "You used your accesory!"
+                    self.nextOutput += "You used your accesory!\n"
                     return "Accesory"
-                self.nextOutput += "You can't use that accesory!"
+                self.nextOutput += "You can't use that accesory!\n"
                 return "No Move"
             case "get stats" | "stats" | "see stats":
                 self.nextOutput += ("\n" + str(self.player.bStr * self.player.accesory.statMods["str"]) + " Str\n" + str(self.player.bCon * self.player.accesory.statMods["con"]) + " Con\n"

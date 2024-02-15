@@ -115,17 +115,21 @@ towerShield = Accesory("Tower Shield")
 runicShield = Accesory("Runic Shield")
 
 ritualDagger = Accesory("Ritual Dagger")
+sacrificialBlade = Accesory("Sacrificial Blade")
 
 animatedShield = Accesory("Animated Shield")
 energyAccumulator = Accesory("Energy Accumulator")
 runicAccumulator = Accesory("Runic Accumulator")
 
+recoveryJewel = Accesory("Recovery Jewel")
+regenerativeCirclet = Accesory("Regenerative Circlet")
+
 accTier = [
-    [ironGauntlets, ironShield],
+    [ironGauntlets, ironShield, recoveryJewel],
     [crystalNecklace, steelGauntlets, steelsilkGloves],
     [ritualDagger, animatedShield, energyAccumulator],
-    [runicSheath, runicQuiver],
-    [runicShield, runicAccumulator, runicAmulet]
+    [runicSheath, runicQuiver, regenerativeCirclet],
+    [runicShield, runicAccumulator, runicAmulet, sacrificialBlade]
 ]
 
 
