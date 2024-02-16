@@ -28,3 +28,17 @@ class Consumable():
                 pass
         game.player.inventory.remove(self)
             
+    def getStatDisplay(self):
+        match self.name:
+            case "Heal Potion":
+                return "Heals you to full"
+            case "Strength Potion":
+                return "Permanently increases strength by 2"
+            case "Dexterity Potion":
+                return "Permanently increases dexterity by 2"
+            case "Constitution Potion":
+                return "Permanently increases constitution by 2"
+            case "Charge Potion":
+                return "Permanently improves the damage boost of charge, immediately gives a large charge"
+            case "Block Potion":
+                return "Permanently increases block charges on block, immediately gives a significant amount of block charges"

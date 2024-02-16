@@ -38,3 +38,7 @@ class Weapon():
         except Exception:
             return (self.damage + relevantMod) / 5
         
+    def getStatDisplay(self):
+        return (str(self.name) + ": " + str(self.damage) + " " + str(self.dmgType) + " damage\n" +
+                      str(self.specType) + " special, hits " + str(self.multi) + " enemies" + ((", " + str(self.specMult) + " special damage multiplier") if self.specType != "Oneshot" and self.specMult != "Finisher" else ("")))
+        

@@ -16,11 +16,13 @@ class Game():
     stage = 0
     difficulty = 0
     encountersComplete = 0
+    enemiesKilled = 0
 
     extraSettings = {
         "printProjDamage" : False,
         "printDmgOnAction" : False,
-        "displayOwnDamageReduction" : False
+        "displayOwnDamageReduction" : False,
+        "displayRunStats" : False
     }
 
     def __init__(self) -> None:
@@ -36,6 +38,8 @@ class Game():
                 print("Will display action damage")
             if self.extraSettings["displayOwnDamageReduction"]:
                 print("Will display own dr")
+            if self.extraSettings["displayRunStats"]:
+                print("Will display run stats")
             print("\n\n")
             try:
                 choice = input("What class would you like to play as?\n" +
@@ -50,6 +54,8 @@ class Game():
                         self.extraSettings["printDmgOnAction"] = not self.extraSettings["printDmgOnAction"]
                     case "show own dr":
                         self.extraSettings["displayOwnDamageReduction"] = not self.extraSettings["displayOwnDamageReduction"]
+                    case "show run stats":
+                        self.extraSettings["showRunStats"] = not self.extraSettings["showRunStats"]
                     case _: # Chose class or invalid input
                         self.player = Player(pre.types[choice]) # Gives error with bad input
                         succeeded = True
@@ -94,6 +100,7 @@ class Game():
             for enemy in self.enemies:
                 if round(enemy.hp) <= 0:
                     self.nextOutput += "You killed the " + enemy.name + "!\n"
+                    self.enemiesKilled += 1
                 else:
                     enemy.takeAction(self)
                     tempEnems.append(enemy)
@@ -120,6 +127,9 @@ class Game():
             cycles += 1
     
     def printInfo(self): # Looks really complicated, just prints stats
+        if self.extraSettings["displayRunStats"]:
+            print("Level: " + self.player.level + ", Enemies Killed: " + self.enemiesKilled)
+            print("\n")
         print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
                + self.player.weapon.name + ", " + self.player.armor.name
                 + ", " + self.player.accesory.name + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
@@ -230,7 +240,7 @@ class Game():
             loot.append(self.getRandomLoot(valid))
             cycles += 1
 
-        print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\n")
+        print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\nEnter 'info [index]' to see info\n")
         cycles = 1
         for item in loot:
             print(str(cycles) + ": " + item.name)
@@ -242,6 +252,12 @@ class Game():
             try:
                 choice = input("\n")
                 if choice.lower() != "skip":
+                    if choice.lower()[:4] == "info":
+                        choiceVal = int(choice[5:])
+                        print(loot[choiceVal - 1].getStatDisplay())
+                        choice = None
+                        continue
+
                     choice = int(choice)
                 else:
                     didSkip = True
@@ -360,7 +376,8 @@ class Game():
                          "What do you want help with?\n" +
                          "'controls'\n" +
                          "'gear'\n" +
-                         "'specials'\n").lower()
+                         "'specials'\n" +
+                         "'consumables'\n").lower()
                 
         match helpType:
             case "controls":
@@ -378,11 +395,11 @@ class Game():
             case "gear":
                 plr = self.player
                 # Weapon
-                print(str(plr.weapon.name) + ": " + str(plr.weapon.damage) + " " + str(plr.weapon.dmgType) + " damage\n" +
-                      str(plr.weapon.specType) + " special, hits " + str(plr.weapon.multi) + " enemies" + (", " + str(plr.weapon.specMult) + " special damage multiplier") if plr.weapon.specType != "Oneshot" and plr.weapon.specMult != "Finisher" else (""))
-                print("\n")
-                print(str(plr.armor.name) + ": " + str(plr.armor.defense) + " defense, " + str(plr.armor.flatReduction) + " flat reduction")
-                print("\n")
+                print("")
+                print(plr.weapon.getStatDisplay())
+                print("")
+                print(plr.armor.getStatDisplay())
+                print("")
                 print(str(plr.accesory.name) + ":\n" + (("Active: " + str(plr.accesory.useDesc)) if plr.accesory.canUse else "Can't be used") + "\n"
                        + (("Passive: " + str(plr.accesory.passiveDesc)) if plr.accesory.hasPassive else "Has no passive") + "\n"
                        + str(plr.accesory.strMod) + "x str\n" + str(plr.accesory.dexMod) + "x dex\n" + str(plr.accesory.conMod) + "x con\n" + str(plr.accesory.blkMod) + "x block charges\n" + str(plr.accesory.chrMod) + "x charge")
@@ -406,6 +423,7 @@ class Game():
                       "Block Potion: Permanently increases block charges on block, immediately gives a significant amount of block charges\n" +
                       "\n" +
                       "Press enter to exit\n")
+                
                 
     def getTarget(self, returnsIndex = False, totalTargets = 1):
         try:

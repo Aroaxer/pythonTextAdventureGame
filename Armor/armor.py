@@ -31,3 +31,6 @@ class Armor():
                 return math.ceil((damage * (1 - (self.defense / 100))) - self.flatReduction - math.ceil(wearer.getMod("d") / 3))
         else:
             return damage
+        
+    def getStatDisplay(self):
+        return (str(self.name) + ": " + str(self.defense) + " defense, " + str(self.flatReduction) + " flat reduction")

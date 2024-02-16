@@ -184,3 +184,8 @@ class Accesory():
                         game.player.hp = game.player.maxHealth
             return True
         return False
+    
+    def getStatDisplay(self):
+        return (str(self.name) + ":\n" + (("Active: " + str(self.useDesc)) if self.canUse else "Can't be used") + "\n"
+                       + (("Passive: " + str(self.passiveDesc)) if self.hasPassive else "Has no passive") + "\n"
+                       + str(self.strMod) + "x str\n" + str(self.dexMod) + "x dex\n" + str(self.conMod) + "x con\n" + str(self.blkMod) + "x block charges\n" + str(self.chrMod) + "x charge")
