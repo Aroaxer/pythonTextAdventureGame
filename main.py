@@ -55,7 +55,7 @@ class Game():
                     case "show own dr":
                         self.extraSettings["displayOwnDamageReduction"] = not self.extraSettings["displayOwnDamageReduction"]
                     case "show run stats":
-                        self.extraSettings["showRunStats"] = not self.extraSettings["showRunStats"]
+                        self.extraSettings["displayRunStats"] = not self.extraSettings["displayRunStats"]
                     case _: # Chose class or invalid input
                         self.player = Player(pre.types[choice]) # Gives error with bad input
                         succeeded = True
@@ -448,6 +448,7 @@ while True:
     print("Game Over\n")
     if game.stage.index > 0:
         print("Enter 'project damage' when choosing a class to see how much damage you will deal")
+        print("Enter 'show run stats' when choosing a class to show extra run stats")
     if game.stage.index > 1:
         print("Enter 'show action damage' when choosing a class to see the damage each enemy does")
     if game.stage.index > 2:
