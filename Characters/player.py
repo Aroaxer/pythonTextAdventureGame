@@ -78,7 +78,7 @@ class Player(Character):
 
         
     def isProf(self, armor):
-        return (armor.armWeight in self.type.armors)
+        return (armor.armWeight == self.type.armor)
     
     def checkLevel(self):
         self.level = self.getLevel()

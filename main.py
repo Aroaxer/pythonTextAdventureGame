@@ -208,16 +208,34 @@ class Game():
         return tempList
 
     def tryLoot(self):
+        valid = []
+        plr = self.player
+        for item in self.possibleLoot:
+            try: 
+                # Weapon
+                if item.dmgType == plr.type.weapon:
+                    valid.append(item)
+            except Exception:
+                try: 
+                    # Armor
+                    if item.armWeight == plr.type.armor:
+                        valid.append(item)
+                except Exception:
+                    # Accesory
+                    valid.append(item)
+
         loot = []
         cycles = 0
         while cycles < self.difficulty + 5:
-            loot.append(self.getRandomLoot())
+            loot.append(self.getRandomLoot(valid))
             cycles += 1
+
         print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\n")
         cycles = 1
         for item in loot:
             print(str(cycles) + ": " + item.name)
             cycles += 1
+
         choice = None
         didSkip = False
         while choice == None:
@@ -231,16 +249,16 @@ class Game():
                 if choice < 1 or choice > len(loot):
                     raise ValueError
                 if not didSkip:
-                    self.player.getItem(loot[choice - 1])
+                    plr.getItem(loot[choice - 1])
             except ValueError:
                 choice = None
                 print("Bad Input")
                 
 
-    def getRandomLoot(self):
+    def getRandomLoot(self, pool):
         roll = random.randint(1,100)
         if roll > (30 if (self.stage.index < 5) else 90):
-            return self.possibleLoot[random.randint(0, len(self.possibleLoot) - 1)]
+            return pool[random.randint(0, len(pool) - 1)]
         else:
             return Consumable(pre.consumables[random.randint(0, len(pre.consumables) - 1)])
 
@@ -310,7 +328,7 @@ class Game():
                         input("\n" +
                               "'attack' or 'a' to attack an enemy\n" +
                               "'block' or 'b' to partially block the next three attacks\n" +
-                              "'charge' or 'c' to increase the damage of your next attack\n" +
+                              "'charge' or 'c' to increase the damage of your next attack, stacks\n" +
                               "'special' or 's' to use your weapon's special\n" +
                               "'use' or 'u' to use a consumable\n" +
                               "'accesory' or 'acc' to use your accesory\n" +
