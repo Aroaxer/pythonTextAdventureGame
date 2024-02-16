@@ -98,14 +98,13 @@ class Accesory():
                 self.blkMod = 0.5
             case "Recovery Jewel":
                 self.canUse = True
-                self.useDesc = "Fully heals you"
-                self.conMod = 2
+                self.useDesc = "Partially heals you"
             case "Regenerative Circlet":
                 self.canUse = True
                 self.hasPassive = True
-                self.useDesc = "Fully heals you"
-                self.passiveDesc = "Heals part of your health every turn"
-                self.conMod = 3
+                self.useDesc = "Partially heals you"
+                self.passiveDesc = "Heals a small part of your health every turn"
+                self.conMod = 1.5
             case _:
                 pass
 
@@ -158,7 +157,9 @@ class Accesory():
                         game.player.hp = game.player.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Recovery Jewel" | "Regerative Circlet":
-                    game.player.hp = game.player.maxHealth
+                    game.player.hp += game.player.maxHealth / 2
+                    if game.player.hp > game.player.maxHealth:
+                        game.player.hp = game.player.maxHealth
             return True
         return False
 
@@ -179,7 +180,7 @@ class Accesory():
                         enemy.blockCharges = 1
                         enemy.blockPower /= 1.5
                 case "Regenerative Circlet":
-                    game.player.hp += game.player.maxHealth / 3
+                    game.player.hp += game.player.maxHealth / 10
                     if game.player.hp > game.player.maxHealth:
                         game.player.hp = game.player.maxHealth
             return True

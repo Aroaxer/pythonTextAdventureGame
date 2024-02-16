@@ -17,7 +17,7 @@ class Character():
         levelHp = self.hpPerLevel + self.getMod("c")
         if self.isEnemy:
             levelHp *= 3
-        return (1 + (self.level / 5)) * levelHp
+        return ((1 if self.isEnemy else 2) + (self.level / 5)) * levelHp
     maxHealth = property(fget = getMaxHp)
     hp = 0
 
@@ -131,7 +131,7 @@ class Character():
     def attack(self, target, damageMult = 1):
         tempCharge = self.chargeMult
         self.chargeMult = 1
-        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge * (0.25 if self.isEnemy else 1))
+        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge * (0.5 if self.isEnemy else 1))
     
     def block(self):
         self.blockCharges = self.blockChargesOnBlock
@@ -158,8 +158,10 @@ class Character():
         target = game.getTarget(returnsIndex = True, totalTargets = wep.multi)
 
         # Target as many enemies as the weapon should
+        startCharge = self.chargeMult
         while target < wep.multi and target < len(game.enemies):
             trg = game.enemies[target]
+            self.chargeMult = startCharge
 
             if wep.specType == "Oneshot":
                 enemPercent = (trg.hp / trg.maxHealth) * 100

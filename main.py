@@ -89,9 +89,6 @@ class Game():
         print(self.nextOutput + "\n\n")
         self.nextOutput = ""
 
-        if len(self.enemies) == 0:
-            self.completeEncounter()
-
         self.printInfo()
         plResult = self.takePlayerInput()
 
@@ -112,6 +109,9 @@ class Game():
             print("Game Over\n\n\n")
             return False # End loop
         
+        if len(self.enemies) == 0:
+            self.completeEncounter()
+
         tempLevel = self.player.level
         self.player.checkLevel() # Level up (maybe)
         if tempLevel < self.player.level:
@@ -140,7 +140,7 @@ class Game():
             projection = self.projectDamage(enemy)
             print(enemy.name + ": " + str(round(enemy.hp)) + " health" + ("" if not self.extraSettings["printProjDamage"] else 
                                                                           ", You will deal: " + str(projection[0]) + " damage, " + str(projection[1]) + " special"))
-        
+
     def setStage(self, stage):
         self.stage = Stage(stage[0], stage[1])
     
@@ -456,7 +456,7 @@ while True:
         print("Enter 'show own dr' when choosing a class to see your own damage reduction")
     goOn = input("\nTry Again?\n")
     match goOn.lower(): # There are far too many of these, but its funny
-        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "fo sho" | "try":
+        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "mhmhm" | "fo sho" | "try" | "for real" | "for real for real" | "fr" | "fr fr" | "frfr" | "thumbs up" | "👍" | "truly one of the best ideas of all time" | "truly one of the greatest ideas of all time" | "truly one of the most wonderful ideas of all time" | "truly one of the most wonderous ideas of all time" | "truly one of the most exquisite ideas of all time" | "truly one of the most beautiful ideas of all time" | "YES":
             game.beginGame()
         case "a" | "b" | "c" | "s" | "":
             pass
