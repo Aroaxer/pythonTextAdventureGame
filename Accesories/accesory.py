@@ -122,7 +122,6 @@ class Accesory():
                         enemy.blockCharges = 1
                         enemy.blockPower /= 6
                 case "Ritual Dagger":
-                    print(self.useDesc)
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
                     game.player.attack(target, (1 - enemPercent) / 30)
@@ -149,7 +148,6 @@ class Accesory():
                         enemy.blockCharges = 1
                         enemy.blockPower /= 4
                 case "Sacrificial Blade":
-                    print(self.useDesc)
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
                     game.player.attack(target, ((1 - enemPercent) / 20))
