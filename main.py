@@ -58,6 +58,7 @@ class Game():
                         self.extraSettings["displayRunStats"] = not self.extraSettings["displayRunStats"]
                     case _: # Chose class or invalid input
                         self.player = Player(pre.types[choice]) # Gives error with bad input
+                        self.player.inventory = [Consumable("Heal Potion"), Consumable("Heal Potion")]
                         succeeded = True
             except Exception:
                 pass # Input doesn't have something associated
