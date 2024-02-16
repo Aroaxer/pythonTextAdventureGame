@@ -315,6 +315,13 @@ class Game():
         target.blockPower = startBlock
         target.blockCharges = startBCharges
 
+        if self.player.weapon.specType == "Oneshot":
+            enemPercent = target.hp / target.maxHealth
+            self.player.weapon.specMult = enemPercent / 30
+        elif self.player.weapon.specType == "Finisher":
+            enemPercent = target.hp / target.maxHealth
+            self.player.weapon.specMult = (1 - enemPercent) / 25
+
         self.player.attack(target, self.player.weapon.specMult)
         specDamage = startHp - target.hp
 
@@ -325,23 +332,20 @@ class Game():
 
         return [round(damage), round(specDamage)]
                 
-    def getTarget(self, targetsFriendly = False, returnsIndex = False, totalTargets = 1):
-        if targetsFriendly:
-            pass # May or may not end up using this
-        else:
-            try:
-                if len(self.enemies) > totalTargets:
-                    pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
-                    
-                    pIn = int(pIn)
-                    if pIn > 0 and pIn <= len(self.enemies):
-                        return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)
-                    else: 
-                        raise ValueError
-                else:
+    def getTarget(self, returnsIndex = False, totalTargets = 1):
+        try:
+            if len(self.enemies) > totalTargets:
+                pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
+                
+                pIn = int(pIn)
+                if pIn > 0 and pIn <= len(self.enemies): # Return entered enemy
+                    return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)
+                else: 
                     raise ValueError
-            except ValueError:
-                return (self.enemies[0]) if not returnsIndex else 0
+            else:
+                raise ValueError
+        except ValueError: # Return first enemy
+            return (self.enemies[0]) if not returnsIndex else 0
 
 
 game = Game()

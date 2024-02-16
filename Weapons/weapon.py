@@ -10,13 +10,15 @@ class Weapon():
     
     damage = 0
     specMult = 0
+    multi = 1
 
 
     # Methods
-    def __init__(self, name, dmg, type, specType, specMult) -> None:
+    def __init__(self, name, dmg, type, specType, specMult, multi = 1) -> None:
         self.name = name
         self.dmgType = type
         self.specType = specType
+        self.multi = multi
         
         self.damage = dmg
         self.specMult = specMult

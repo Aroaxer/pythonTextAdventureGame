@@ -149,27 +149,34 @@ class Character():
                 return round(((self.bCon * self.accesory.conMod) - 10) / 2)
 
     def useSpecial(self, game):
-        if self.weapon.specType == "Sweep":
-            startCharge = self.chargeMult
-            for enemy in game.enemies:
-                self.chargeMult = startCharge
-                self.attack(enemy, self.weapon.specMult)
-        elif self.weapon.specType == "Pierce":
-            print("This attack targets the next highest index as well.")
-            startCharge = self.chargeMult
-            target = game.getTarget(returnsIndex = True, totalTargets = 2)
-            self.attack(game.enemies[target], self.weapon.specMult)
-            if target < len(game.enemies) - 1:
-                self.chargeMult = startCharge
-                self.attack(game.enemies[target + 1], self.weapon.specMult)
-        elif self.weapon.specType == "Weakening":
-            print("This attack causes the enemy's next attack to do much less damage.")
-            target = game.getTarget()
-            self.attack(target, self.weapon.specMult)
-            target.chargeMult /= 2
-        elif self.weapon.specType == "Fracturing":
-            print("This attack makes the enemy vulnerable to your next attack.")
-            target = game.getTarget()
-            self.attack(target, self.weapon.specMult)
-            target.blockPower /= 6
-            target.blockCharges = 1
+        wep = self.weapon
+        shouldReset = False
+        if wep.multi < 0: # Target every enemy
+            wep.multi = len(game.enemies)
+            shouldReset = True
+
+        target = game.getTarget(returnsIndex = True, totalTargets = wep.multi)
+
+        # Target as many enemies as the weapon should
+        while target < wep.multi and target < len(game.enemies):
+            trg = game.enemies[target]
+
+            if wep.specType == "Oneshot":
+                enemPercent = (trg.hp / trg.maxHealth) * 100
+                wep.specMult = enemPercent / 30
+            elif wep.specType == "Finisher":
+                enemPercent = (trg.hp / trg.maxHealth) * 100
+                wep.specMult = (100 - enemPercent) / 25
+            
+            self.attack(trg, wep.specMult)
+
+            if wep.specType == "Weakening":
+                trg.chargeMult /= 2
+            elif wep.specType == "Fracturing":  
+                trg.blockPower /= 6
+                trg.blockCharges = 1
+
+            target += 1
+
+        if shouldReset: # Reset multi back to negative
+            wep.multi = -1

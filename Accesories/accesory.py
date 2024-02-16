@@ -44,8 +44,8 @@ class Accesory():
             case "Ritual Dagger":
                 self.canUse = True
                 self.useDesc = "If you get a kill, your stats increase."
-                self.strMod = 2
-                self.dexMod = 2
+                self.strMod = 1.2
+                self.dexMod = 1.2
                 self.conMod = 0.6
                 self.blkMod = 0
             case "Animated Shield":
@@ -83,8 +83,8 @@ class Accesory():
             case "Sacrificial Blade":
                 self.canUse = True
                 self.useDesc = "If you get a kill, your stats increase. Does 20 percent extra damage."
-                self.strMod = 2.2
-                self.dexMod = 2.2
+                self.strMod = 1.5
+                self.dexMod = 1.5
                 self.conMod = 0.6
                 self.blkMod = 0.5
             case "Recovery Jewel":
@@ -114,9 +114,9 @@ class Accesory():
                     target = game.getTarget()
                     game.player.attack(target)
                     if target.hp <= 0:
-                        game.player.bCon += 0.5
-                        game.player.bStr += 0.5
-                        game.player.bDex += 0.5
+                        game.player.bCon += 0.1
+                        game.player.bStr += 0.1
+                        game.player.bDex += 0.1
                         game.player.hp = game.player.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Runic Sheath":
@@ -140,9 +140,9 @@ class Accesory():
                     target = game.getTarget()
                     game.player.attack(target, 1.2)
                     if target.hp <= 0:
-                        game.player.bCon += 1
-                        game.player.bStr += 1
-                        game.player.bDex += 1
+                        game.player.bCon += 0.25
+                        game.player.bStr += 0.25
+                        game.player.bDex += 0.25
                         game.player.hp = game.player.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Recovery Jewel" | "Regerative Circlet":
