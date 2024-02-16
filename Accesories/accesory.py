@@ -43,7 +43,7 @@ class Accesory():
                 self.dexMod = 0.6
             case "Ritual Dagger":
                 self.canUse = True
-                self.useDesc = "If you get a kill, your stats increase."
+                self.useDesc = "If you get a kill, your stats increase. Finisher"
                 self.strMod = 1.2
                 self.dexMod = 1.2
                 self.conMod = 0.6
@@ -82,7 +82,7 @@ class Accesory():
                 self.conMod = 0.8
             case "Sacrificial Blade":
                 self.canUse = True
-                self.useDesc = "If you get a kill, your stats increase. Does 20 percent extra damage."
+                self.useDesc = "If you get a kill, your stats increase. Does 20 percent extra damage. Finisher"
                 self.strMod = 1.5
                 self.dexMod = 1.5
                 self.conMod = 0.6
@@ -112,7 +112,8 @@ class Accesory():
                 case "Ritual Dagger":
                     print(self.useDesc)
                     target = game.getTarget()
-                    game.player.attack(target)
+                    enemPercent = target.hp / target.maxHealth
+                    game.player.attack(target, (1 - enemPercent) / 30)
                     if target.hp <= 0:
                         game.player.bCon += 0.1
                         game.player.bStr += 0.1
@@ -138,7 +139,8 @@ class Accesory():
                 case "Sacrificial Blade":
                     print(self.useDesc)
                     target = game.getTarget()
-                    game.player.attack(target, 1.2)
+                    enemPercent = target.hp / target.maxHealth
+                    game.player.attack(target, ((1 - enemPercent) / 20))
                     if target.hp <= 0:
                         game.player.bCon += 0.25
                         game.player.bStr += 0.25

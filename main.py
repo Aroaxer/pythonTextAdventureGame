@@ -298,6 +298,10 @@ class Game():
                 self.player.hp = 0
                 return "No Move"
             
+            case "help":
+                
+                return "No Move"
+            
             case _:
                 return "No Move"
             

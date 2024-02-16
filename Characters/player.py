@@ -56,6 +56,10 @@ class Player(Character):
                     # Works if item
                     self.inventory.append(item)
 
+    def startWepPrompt(self, type):
+        for wep in pre.weaponTier[0]:
+            pass
+        
     def isProf(self, armor):
         return (armor.armWeight in self.type.armors)
     

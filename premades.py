@@ -85,10 +85,10 @@ unholyBow = Weapon("Unholy Bow", 22, "Ranged", "Finisher", 0.0, multi = 2)
 
 weaponTier = [
     [bronzeSword, bronzeSpear, bronzeAxe, oakShortbow, crossbow, bronzeJavelin],
-    [ironSword, ironSpear, ironAxe, ironShortbow, ironCrossbow, ironJavelin, silverBlade],
-    [steelSword, steelSpear, steelAxe, oakLongbow, heavyCrossbow, steelJavelin, steelHalberd, steelKnives, pureBlade],
-    [mythrilSword, mythrilSpear, mythrilAxe, ironLongbow, steelCrossbow, mythrilJavelin, mythrilHalberd, mythrilKnives, holyBlade],
-    [runicSword, runicSpear, runicAxe, runicBow, runicCrossbow, runicJavelin, whirlingBlade, runicHalberd, dualAxes, trinityBow, ballista, runicKnives, sacredBlade]
+    [ironSword, ironSpear, ironAxe, ironShortbow, ironCrossbow, ironJavelin, silverBlade, flamingBow],
+    [steelSword, steelSpear, steelAxe, oakLongbow, heavyCrossbow, steelJavelin, steelHalberd, steelKnives, pureBlade, crimsonBow],
+    [mythrilSword, mythrilSpear, mythrilAxe, ironLongbow, steelCrossbow, mythrilJavelin, mythrilHalberd, mythrilKnives, holyBlade, helfireBow],
+    [runicSword, runicSpear, runicAxe, runicBow, runicCrossbow, runicJavelin, whirlingBlade, runicHalberd, dualAxes, trinityBow, ballista, runicKnives, sacredBlade, unholyBow]
 ]
 
 
