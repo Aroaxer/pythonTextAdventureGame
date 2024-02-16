@@ -10,6 +10,7 @@ class Accesory():
     chrMod = 1
     blkMod = 1
     hasPassive = False
+    passiveDesc = ""
 
     def __init__(self, name) -> None:
         self.name = name
@@ -50,26 +51,33 @@ class Accesory():
                 self.blkMod = 0
             case "Animated Shield":
                 self.hasPassive = True
+                self.passiveDesc = "Gives you a small amount of block charges every turn"
                 self.blkMod = 1.5
             case "Energy Accumulator":
                 self.hasPassive = True
+                self.passiveDesc = "Gives you a small amount of charge every turn"
                 self.chrMod = 1.5
             case "Runic Sheath":
                 self.canUse = True
+                self.useDesc = "Charges twice as much but makes you vulnerable to the next attack"
                 self.strMod = 2
                 self.chrMod = 2
                 self.dexMod = 0.8
             case "Runic Quiver":
                 self.canUse = True
+                self.useDesc = "Attacks every enemy for full damage"
                 self.dexMod = 2
                 self.strMod = 0
             case "Runic Shield":
                 self.hasPassive = True
                 self.canUse = True
+                self.useDesc = "Blocks while giving a small amount of charge"
+                self.passiveDesc = "Gives you a moderate amount of block charges every turn"
                 self.blkMod = 2
                 self.conMod = 1.2
             case "Runic Accumulator":
                 self.hasPassive = True
+                self.passiveDesc = "Gives you a significant amount of charge every turn"
                 self.chrMod = 2
                 self.strMod = 1.2
                 self.dexMod = 1.2
@@ -77,6 +85,7 @@ class Accesory():
                 self.hasPassive = True
                 self.canUse = True
                 self.useDesc = "Weakens all enemies to your next attack."
+                self.passiveDesc = "Weakens enemies slightly every turn"
                 self.strMod = 1.4
                 self.dexMod = 1.4
                 self.conMod = 0.8
@@ -89,10 +98,13 @@ class Accesory():
                 self.blkMod = 0.5
             case "Recovery Jewel":
                 self.canUse = True
+                self.useDesc = "Fully heals you"
                 self.conMod = 2
             case "Regenerative Circlet":
                 self.canUse = True
                 self.hasPassive = True
+                self.useDesc = "Fully heals you"
+                self.passiveDesc = "Heals part of your health every turn"
                 self.conMod = 3
             case _:
                 pass

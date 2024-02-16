@@ -299,6 +299,47 @@ class Game():
                 return "No Move"
             
             case "help":
+                helpType = input("\n" +
+                                 "What do you want help with?\n" +
+                                 "'controls'\n" +
+                                 "'gear'\n" +
+                                 "'specials'\n")
+                
+                match helpType:
+                    case "controls":
+                        input("\n" +
+                              "'attack' or 'a' to attack an enemy\n" +
+                              "'block' or 'b' to partially block the next three attacks\n" +
+                              "'charge' or 'c' to increase the damage of your next attack\n" +
+                              "'special' or 's' to use your weapon's special\n" +
+                              "'use' or 'u' to use a consumable\n" +
+                              "'accesory' or 'acc' to use your accesory\n" +
+                              "'stats' to see your current stats\n" +
+                              "'give up' to end your run\n" +
+                              "\n" +
+                              "Press enter to exit\n")
+                    case "gear":
+                        plr = self.player
+                        # Weapon
+                        print(str(plr.weapon.name) + ": " + str(plr.weapon.damage) + " " + str(plr.weapon.dmgType) + " damage\n" +
+                              str(plr.weapon.specType) + " special, hits " + str(plr.weapon.multi) + " enemies" + (", " + str(plr.weapon.specMult) + " special damage multiplier") if plr.weapon.specType != "Oneshot" and plr.weapon.specMult != "Finisher" else (""))
+                        print("\n")
+                        print(str(plr.armor.name) + ": " + str(plr.armor.defense) + " defense, " + str(plr.armor.flatReduction) + " flat reduction")
+                        print("\n")
+                        print(str(plr.accesory.name) + ":\n" + (("Active: " + str(plr.accesory.useDesc)) if plr.accesory.canUse else "Can't be used") + "\n"
+                               + (("Passive: " + str(plr.accesory.passiveDesc)) if plr.accesory.hasPassive else "Has no passive") + "\n"
+                               + str(plr.accesory.strMod) + "x str\n" + str(plr.accesory.dexMod) + "x dex\n" + str(plr.accesory.conMod) + "x con\n" + str(plr.accesory.blkMod) + "x block charges\n" + str(plr.accesory.chrMod) + "x charge")
+                        input("\nPress enter to exit\n")
+                    case "specials":
+                        input("\n" + 
+                              "Multi: hits multiple enemies, nothing else\n" + 
+                              "Weakening: the enemy's next attack does less damage, stacks\n" + 
+                              "Fracturing: the enemy takes increased damage from your next attack\n" +
+                              "Oneshot: does increased damage the higher the enemy's health\n" + 
+                              "Finisher: does increased damage the lower the enemy's health\n" +
+                              "\n" +
+                              "Press enter to exit\n")
+                
                 
                 return "No Move"
             
