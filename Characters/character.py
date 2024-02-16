@@ -16,7 +16,7 @@ class Character():
     def getMaxHp(self): 
         levelHp = self.hpPerLevel + self.getMod("c")
         if self.isEnemy:
-            levelHp *= 1.5
+            levelHp *= 3
         return (1 + (self.level / 5)) * levelHp
     maxHealth = property(fget = getMaxHp)
     hp = 0
@@ -131,7 +131,7 @@ class Character():
     def attack(self, target, damageMult = 1):
         tempCharge = self.chargeMult
         self.chargeMult = 1
-        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge)
+        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge * (0.25 if self.isEnemy else 1))
     
     def block(self):
         self.blockCharges = self.blockChargesOnBlock

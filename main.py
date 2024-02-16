@@ -113,9 +113,9 @@ class Game():
 
         return self.mainLoop() # Loops
     
-    def emptyTerminal(self): # Prints 60 newlines
+    def emptyTerminal(self): # Prints 80 newlines
         cycles = 0
-        while cycles < 15:
+        while cycles < 20:
             print("\n\n\n")
             cycles += 1
     
