@@ -40,5 +40,5 @@ class Weapon():
         
     def getStatDisplay(self):
         return (str(self.name) + ": " + str(self.damage) + " " + str(self.dmgType) + " damage\n" +
-                      str(self.specType) + " special, hits " + str(self.multi) + " enemies" + ((", " + str(self.specMult) + " special damage multiplier") if self.specType != "Oneshot" and self.specMult != "Finisher" else ("")))
+                      str(self.specType) + " special, hits " + (str(self.multi) if self.multi >= 0 else "all") + " enemies" + ((", " + str(self.specMult) + " special damage multiplier") if self.specType != "Oneshot" and self.specMult != "Finisher" else ("")))
         

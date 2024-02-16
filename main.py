@@ -129,7 +129,7 @@ class Game():
     
     def printInfo(self): # Looks really complicated, just prints stats
         if self.extraSettings["displayRunStats"]:
-            print("Level: " + self.player.level + ", Enemies Killed: " + self.enemiesKilled)
+            print("Level: " + str(self.player.level) + ", Enemies Killed: " + str(self.enemiesKilled))
             print("\n")
         print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
                + self.player.weapon.name + ", " + self.player.armor.name
@@ -356,10 +356,10 @@ class Game():
         target.blockCharges = startBCharges
 
         if self.player.weapon.specType == "Oneshot":
-            enemPercent = target.hp / target.maxHealth
+            enemPercent = (target.hp / target.maxHealth) * 100
             self.player.weapon.specMult = enemPercent / 30
         elif self.player.weapon.specType == "Finisher":
-            enemPercent = target.hp / target.maxHealth
+            enemPercent = (target.hp / target.maxHealth) * 100
             self.player.weapon.specMult = (1 - enemPercent) / 25
 
         self.player.attack(target, self.player.weapon.specMult)
