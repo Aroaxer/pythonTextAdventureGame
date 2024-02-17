@@ -161,6 +161,8 @@ class Game():
         self.player.armor.reactiveCharges = self.player.armor.baseReactiveCharges
         for item in self.player.inventory:
             item.charges = item.maxCharges
+        self.player.chargeMult = 1
+        self.player.blockCharges = 0
 
         print("You defeated the enemies!\n\n")
         self.encountersComplete += 1

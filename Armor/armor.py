@@ -113,6 +113,9 @@ class Armor():
     
     def passive(self, game):
         if self.hasPassive:
+            enemyStartHps = []
+            for enemy in game.enemies:
+                enemyStartHps.append(enemy.hp)
             plr = game.player
             acc = plr.accesory
             match self.name:
@@ -139,12 +142,20 @@ class Armor():
                     plr.hp += plr.maxHealth / 10
                     if plr.hp > plr.maxHealth:
                         plr.hp = plr.maxHealth
+                
+            for i, enemy in enumerate(game.enemies):
+                if enemy.hp != enemyStartHps[i]:
+                    game.nextOutput += f"{enemy.name} took {enemyStartHps[i] - enemy.hp} damage from your armor!\n"
             
             return True
         return False
 
     def reactive(self, game, attacker, dmg):
         if self.hasReactive and self.reactiveCharges != 0:
+            enemyStartHps = []
+            for enemy in game.enemies:
+                enemyStartHps.append(enemy.hp)
+
             plr = game.player
             acc = plr.accesory
             match self.name:
@@ -194,6 +205,11 @@ class Armor():
                         self.reactiveCharges += 1
                 case "Adaptive Mail":
                     plr.tempDamageModifier /= (dmg / 7)
+
+            for i, enemy in enumerate(game.enemies):
+                if enemy.hp != enemyStartHps[i]:
+                    game.nextOutput += f"{enemy.name} took {enemyStartHps[i] - enemy.hp} damage from your armor!\n"
+
                     
             self.reactiveCharges -= 1 if self.reactiveCharges > 0 else 0
             return True
