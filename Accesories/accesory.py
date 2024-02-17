@@ -99,6 +99,7 @@ class Accesory():
             case "Recovery Jewel":
                 self.canUse = True
                 self.useDesc = "Partially heals you"
+                self.conMod = 1.2
             case "Regenerative Circlet":
                 self.canUse = True
                 self.hasPassive = True

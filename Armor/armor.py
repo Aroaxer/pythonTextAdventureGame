@@ -16,6 +16,7 @@ class Armor():
     reactiveDesc = ""
     reactiveCharges = -1
     baseReactiveCharges = -1
+    recharge = ""
 
     # Methods
     def __init__(self, name, defense, flatReduction, weight):
@@ -24,11 +25,16 @@ class Armor():
         self.flatReduction = flatReduction
         self.armWeight = weight
 
+        self.recharge = "Turn"
+
         match self.name:
             case "Spiked Mail":
                 self.hasReactive = True
                 self.reactiveDesc = "Damages attackers"
             case "Battlerager Mail":
+                self.hasReactive = True
+                self.reactiveDesc = "Damages attackers and charges your attack"
+            case "Ragnarok Mail":
                 self.hasReactive = True
                 self.reactiveDesc = "Damages attackers and charges your attack"
             case "Stony Plate":
@@ -37,29 +43,56 @@ class Armor():
             case "Overgrown Plate":
                 self.hasPassive = True
                 self.passiveDesc = "Gains a moderate amount of block charges"
+            case "Yggdrasil Plate":
+                self.hasPassive = True
+                self.passiveDesc = "Gains a notable amount of block charges"
+                self.hasReactive = True
+                self.baseReactiveCharges = 1
+                self.reactiveDesc = "You survive one hit that would kill you at one hp each turn"
             case "Shadowed Cloak":
                 self.hasReactive = True
                 self.baseReactiveCharges = 1
                 self.reactiveDesc = "Completely block the first attack each turn"
             case "Midnight Cloak":
                 self.hasReactive = True
-                self.baseReactiveCharges = 3
-                self.reactiveDesc = "Completely block the first three attacks each turn"
+                self.baseReactiveCharges = 2
+                self.reactiveDesc = "Completely block the first two attacks each turn"
+            case "Purenight Cloak":
+                self.hasReactive = True
+                self.baseReactiveCharges = 2
+                self.reactiveDesc = "Completely block the first two strong / deadly attacks each turn"
             case "Holy Plate":
                 self.hasReactive = True
                 self.reactiveDesc = "Slightly damages all attackers"
             case "Sacred Plate":
                 self.hasReactive = True
                 self.reactiveDesc = "Slightly damages all attackers"
+            case "Heavenly Plate":
+                self.hasReactive = True
+                self.reactiveDesc = "Slightly damages all attackers, you heal to full on dying once per fight"
+                self.baseReactiveCharges = 1
+                self.recharge = "Encounter"
             case "Coat of Knives":
                 self.hasPassive = True
                 self.passiveDesc = "Attacks a random enemy for a quarter damage, doesn't use charge"
-            case "Cloak of Blades":
+            case "Cloak of Daggers":
                 self.hasPassive = True
                 self.passiveDesc = "Attacks 2 random enemies for a quarter damage, doesn't use charge"
+            case "Cloak of Blades" :
+                self.hasPassive = True
+                self.passiveDesc = "Attacks 2 random enemies for a quarter damage, doesn't use charge"
+                self.hasReactive = True
+                self.reactiveDesc = "Attacks enemies that hit you for a sixteenth damage, doesn't use charge"
             case "Explorer's Leathers":
                 self.hasPassive = True
                 self.passiveDesc = "Slightly heals you"
+            case "Dungeoneer's Mail":
+                self.hasPassive = True
+                self.passiveDesc = "Slightly heals you"
+                self.hasReactive = True
+                self.baseReactiveCharges = 2
+                self.reactiveDesc = "Heals you when on low health twice per fight"
+                self.recharge = "Encounter"
             case "Adaptive Mail":
                 self.hasReactive = True
                 self.reactiveDesc = "Reduces damage taken from next attack proportional to damage taken"
@@ -87,12 +120,14 @@ class Armor():
                     plr.blockCharges += (plr.blockChargesOnBlock / 3) * acc.blkMult
                 case "Overgrown Plate":
                     plr.blockCharges += (plr.blockChargesOnBlock * (2 / 3)) * acc.blkMult
+                case "Yggdrasil Plate":
+                    plr.blockCharges += plr.blockChargesOnBlock * acc.blkMult
                 case "Coat of Knives":
                     enem = game.enemies[random.randint(0, len(game.enemies) - 1)]
                     startCharge = plr.chargeMult
                     plr.attack(enem, 0.25)
                     plr.chargeMult = startCharge
-                case "Cloak of Blades":
+                case "Cloak of Daggers" | "Cloak of Blades":
                     enem = game.enemies[random.randint(0, len(game.enemies) - 1)]
                     startCharge = plr.chargeMult
                     plr.attack(enem, 0.25)
@@ -100,7 +135,7 @@ class Armor():
                     enem = game.enemies[random.randint(0, len(game.enemies) - 1)]
                     plr.attack(enem, 0.25)
                     plr.chargeMult = startCharge
-                case "Explorer's Leathers":
+                case "Explorer's Leathers" | "Dungeoneer's Mail":
                     plr.hp += plr.maxHealth / 10
                     if plr.hp > plr.maxHealth:
                         plr.hp = plr.maxHealth
@@ -113,23 +148,52 @@ class Armor():
             plr = game.player
             acc = plr.accesory
             match self.name:
+                case "Yggdrasil Plate":
+                    if plr.hp <= 0:
+                        plr.hp = 1
+                    else:
+                        self.reactiveCharges += 1
                 case "Spiked Mail":
                     attacker.takeDamage(5)
                 case "Battlerager Mail":
                     attacker.takeDamage(10)
                     plr.chargePow += (plr.chargeMult / 4) * acc.chrMult
+                case "Ragnarok Mail":
+                    attacker.takeDamage(15)
+                    plr.chargePow += (plr.chargeMult / 3) * acc.chrMult
                 case "Shadowed Cloak":
                     plr.hp += dmg
                 case "Midnight Cloak":
                     plr.hp += dmg
+                case "Purenight Cloak":
+                    if dmg >= plr.maxHealth / 5 or plr.hp <= 0:
+                        plr.hp += dmg
+                    else:
+                        self.reactiveCharges += 1
+                case "Cloak of Blades":
+                    startCharge = plr.chargeMult
+                    plr.attack(attacker, 0.0625)
+                    plr.chargeMult = startCharge
                 case "Holy Plate":
                     for enem in game.enemies:
                         enem.hp -= 1
                 case "Sacred Plate":
                     for enem in game.enemies:
                         enem.hp -= 2
+                case "Heavenly Plate":
+                    for enem in game.enemies:
+                        enem.hp -= 3
+                    if plr.hp <= 0:
+                        plr.hp = plr.maxHealth
+                    else:
+                        self.reactiveCharges += 1
+                case "Dungeoneer's Mail":
+                    if plr.hp <= plr.maxHealth / 3:
+                        plr.hp += plr.maxHealth / 3
+                    else:
+                        self.reactiveCharges += 1
                 case "Adaptive Mail":
-                    plr.tempDamageModifier /= dmg
+                    plr.tempDamageModifier /= (dmg / 7)
                     
             self.reactiveCharges -= 1 if self.reactiveCharges > 0 else 0
             return True

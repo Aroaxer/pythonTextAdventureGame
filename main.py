@@ -63,7 +63,7 @@ class Game():
                         self.extraSettings["displayRunStats"] = True
                     case _: # Chose class or invalid input
                         self.player = Player(pre.types[choice]) # Gives error with bad input
-                        self.player.inventory = [Consumable("Heal Potion"), Consumable("Heal Potion")]
+                        self.player.inventory = [Consumable("Heal Potion")]
                         succeeded = True
             except Exception:
                 pass # Input doesn't have something associated
@@ -127,7 +127,8 @@ class Game():
         if tempLevel < self.player.level:
             self.nextOutput += "\nYou gained " + ((str(self.player.level - tempLevel) + " levels") if (self.player.level - tempLevel) != 1 else ("a level")) + "!\n"
 
-
+        if self.player.armor.recharge == "Turn":
+            self.player.armor.reactiveCharges = self.player.armor.baseReactiveCharges
 
         return self.mainLoop() # Loops
     
@@ -139,7 +140,7 @@ class Game():
     
     def printInfo(self): # Looks really complicated, just prints stats
         if self.extraSettings["displayRunStats"]:
-            print(f"Level: {self.player.level}, Enemies Killed: {self.enemiesKilled}\n\n")
+            print(f"Level: {self.player.level}, Enemies Killed: {self.enemiesKilled}, Stage: {self.stage.name} ({self.stage.index + 1})\n\n")
         plr = self.player
         print(f"Player ({plr.type.name}): {round(plr.hp)} health, {plr.weapon.name}, {plr.armor.name}, {plr.accesory.name}" + ((f", {plr.blockCharges} block charges left") if plr.blockCharges > 0 else ""))
         if self.extraSettings["displayOwnDamageReduction"]:
@@ -150,7 +151,7 @@ class Game():
                                                                           ", You will deal: " + str(projection[0]) + " damage, " + str(projection[1]) + " special"))
 
     def setStage(self, stage):
-        self.stage = Stage(stage[0], stage[1])
+        self.stage = Stage(stage[2], stage[0], stage[1])
     
     def completeEncounter(self):
         self.player.exp += self.player.hp
@@ -170,7 +171,7 @@ class Game():
 
         if self.encountersComplete % 10 == 0: # Just beat boss
             match self.stage.index:
-                case 0: # Forest
+                case 0: # Forest -> Caves
                     self.setStage(pre.stages["Caves"])
                     self.nextOutput += "\nYou advance to the Caves!\n"
 
@@ -180,7 +181,7 @@ class Game():
                     self.possibleLoot.extend(pre.weaponTier[2])
                     self.possibleLoot.extend(pre.armorTier[1])
                     self.possibleLoot.extend(pre.accTier[2])
-                case 1: # Caves
+                case 1: # Caves -> Castle
                     self.setStage(pre.stages["Castle"])
                     self.nextOutput += "\nYou advance to the Castle!\n"
                 
@@ -191,7 +192,7 @@ class Game():
                     self.possibleLoot.extend(pre.weaponTier[3])
                     self.possibleLoot.extend(pre.armorTier[2])
                     self.possibleLoot.extend(pre.accTier[3])
-                case 2: # Castle
+                case 2: # Castle -> Underworld
                     self.setStage(pre.stages["Underworld"])
                     self.nextOutput += "\nYou advance to the Underworld!\n"
 
@@ -202,17 +203,26 @@ class Game():
                     self.possibleLoot.extend(pre.weaponTier[4])
                     self.possibleLoot.extend(pre.armorTier[3])
                     self.possibleLoot.extend(pre.accTier[4])
-                case 3: # Underworld
+                case 3: # Underworld -> Astral
                     self.setStage(pre.stages["Astral"])
                     self.nextOutput += "\nYou advance to the Astral Plane!\n"
                         
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[3])
-                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[2])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[2])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[3])
-                case 4: # Astral
+
+                    self.possibleLoot.extend(pre.weaponTier[5])
+                    self.possibleLoot.extend(pre.armorTier[4])
+                case 4: # Astral -> Celestia
+                    self.setStage(pre.stages["Celestia"])
+                    self.nextOutput += "\nYou advance to Mount Celestia!\n"
+
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[4])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[3])
+                case 5: # Celestia -> Infinite
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
-                case 5: # Infinite
+                case 6: # Infinite Repeat
                     self.difficulty += round(self.difficulty / 10)
                     self.nextOutput += "\nThe enemies grow more dangerous!\n"
                     

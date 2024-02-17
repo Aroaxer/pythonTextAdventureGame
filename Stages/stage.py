@@ -5,14 +5,16 @@ from premades import enemies
 
 class Stage():
     index = 0
+    name = ""
     boss = None
 
     def getEnemies(self):
             return enemies[self.index]
     enemies = property(fget = getEnemies)
 
-    def __init__(self, stage, boss) -> None:
+    def __init__(self, name, stage, boss) -> None:
         self.index = stage - 1
+        self.name = name
         if boss != None:
             self.boss = Enemy(boss, 2 * stage)
         else:

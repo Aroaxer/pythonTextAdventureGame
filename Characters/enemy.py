@@ -24,7 +24,7 @@ class Enemy(Character):
             # Boss
             case "King Slime":
                 self.difficulty = 3
-                super().__init__(14, 14, 10, 10, "Basic Str")
+                super().__init__(14, 14, 10, 13, "Basic Str")
 
             # Stage 2
             case "Bat":
@@ -42,7 +42,7 @@ class Enemy(Character):
             # Boss
             case "Goblin Brute":
                 self.difficulty = 5
-                super().__init__(16, 16, 12, 13, "Medium Str")
+                super().__init__(16, 16, 12, 16, "Medium Str")
 
             # Stage 3
             case "Knight":
@@ -60,7 +60,7 @@ class Enemy(Character):
             # Boss
             case "Royal Guard":
                 self.difficulty = 7
-                super().__init__(18, 14, 8, 16, "Advanced Str")
+                super().__init__(18, 14, 8, 19, "Advanced Str")
 
             # Stage 4
             case "Imp":
@@ -78,7 +78,7 @@ class Enemy(Character):
             # Boss
             case "Cerberus":
                 self.difficulty = 9
-                super().__init__(20, 16, 8, 20, "Greater Str")
+                super().__init__(20, 16, 8, 22, "Greater Str")
 
             # Stage 5
             case "Githyanki Trainee":
@@ -97,8 +97,29 @@ class Enemy(Character):
             case "Astral Spirit":
                 self.difficulty = 11
                 super().__init__(18, 20, 22, 25, "Runic Dex")
-            
+
             # Stage 6
+            case "Angel":
+                self.difficulty = 2
+                super().__init__(18, 16, 16, 8, "Runic Str")
+            case "Seraph":
+                self.difficulty = 5
+                super().__init__(14, 16, 20, 10, "Infused Dex")
+            case "Archangel":
+                self.difficulty = 5
+                super().__init__(20, 18, 16, 11, "Infused Str")
+            case "Ki-rin":
+                self.difficulty = 7
+                super().__init__(16, 20, 16, 13, "Infused Dex")
+            case "Demigod":
+                self.difficulty = 8
+                super().__init__(22, 20, 12, 12, "Infused Str")
+            # Boss
+            case "Lesser Deity":
+                self.difficulty = 13
+                super().__init__(24, 20, 20, 28, "Infused Str")
+            
+            # Stage 7
             case "Infinity Warrior":
                 self.difficulty = 5
                 super().__init__(16, 18, 12, 13, "Runic Str")
