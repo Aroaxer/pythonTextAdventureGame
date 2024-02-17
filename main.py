@@ -135,11 +135,9 @@ class Game():
     
     def printInfo(self): # Looks really complicated, just prints stats
         if self.extraSettings["displayRunStats"]:
-            print("Level: " + str(self.player.level) + ", Enemies Killed: " + str(self.enemiesKilled))
-            print("\n")
-        print("Player (" + self.player.type.name + "): " + str(round(self.player.hp)) + " health, "
-               + self.player.weapon.name + ", " + self.player.armor.name
-                + ", " + self.player.accesory.name + (", " + (str(self.player.blockCharges) + " block charges left") if self.player.blockCharges > 0 else ""))
+            print(f"Level: {self.player.level}, Enemies Killed: {self.enemiesKilled}\n\n")
+        plr = self.player
+        print(f"Player ({plr.type.name}): {round(plr.hp)} health, {plr.weapon.name}, {plr.armor.name}, {plr.accesory.name}" + ((f", {self.player.blockCharges} block charges left") if self.player.blockCharges > 0 else ""))
         if self.extraSettings["displayOwnDamageReduction"]:
             print("Damage Reduction: " + str(self.player.armor.defense) + " percent, " + str(self.player.armor.flatReduction) + " flat")
         for enemy in self.enemies:
