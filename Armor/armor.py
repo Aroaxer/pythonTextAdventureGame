@@ -117,11 +117,11 @@ class Armor():
             acc = plr.accesory
             match self.name:
                 case "Stony Plate":
-                    plr.blockCharges += (plr.blockChargesOnBlock / 3) * acc.blkMult
+                    plr.blockCharges += (plr.blockChargesOnBlock / 3) * acc.blkMod
                 case "Overgrown Plate":
-                    plr.blockCharges += (plr.blockChargesOnBlock * (2 / 3)) * acc.blkMult
+                    plr.blockCharges += (plr.blockChargesOnBlock * (2 / 3)) * acc.blMod
                 case "Yggdrasil Plate":
-                    plr.blockCharges += plr.blockChargesOnBlock * acc.blkMult
+                    plr.blockCharges += plr.blockChargesOnBlock * acc.blkMod
                 case "Coat of Knives":
                     enem = game.enemies[random.randint(0, len(game.enemies) - 1)]
                     startCharge = plr.chargeMult
@@ -157,10 +157,10 @@ class Armor():
                     attacker.takeDamage(5)
                 case "Battlerager Mail":
                     attacker.takeDamage(10)
-                    plr.chargePow += (plr.chargeMult / 4) * acc.chrMult
+                    plr.chargePow += (plr.chargeMult / 4) * acc.chrMod
                 case "Ragnarok Mail":
                     attacker.takeDamage(15)
-                    plr.chargePow += (plr.chargeMult / 3) * acc.chrMult
+                    plr.chargePow += (plr.chargeMult / 3) * acc.chrMod
                 case "Shadowed Cloak":
                     plr.hp += dmg
                 case "Midnight Cloak":

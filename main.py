@@ -213,12 +213,14 @@ class Game():
 
                     self.possibleLoot.extend(pre.weaponTier[5])
                     self.possibleLoot.extend(pre.armorTier[4])
+                    self.possibleLoot.extend(pre.accTier[5])
                 case 4: # Astral -> Celestia
                     self.setStage(pre.stages["Celestia"])
                     self.nextOutput += "\nYou advance to Mount Celestia!\n"
 
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.weaponTier[4])
                     self.possibleLoot = self.removeMatches(self.possibleLoot, pre.armorTier[3])
+                    self.possibleLoot = self.removeMatches(self.possibleLoot, pre.accTier[4])
                 case 5: # Celestia -> Infinite
                     self.setStage(pre.stages["Infinite"])
                     self.nextOutput += "\nYou advance to the Infinite Realm!\n"
@@ -281,6 +283,8 @@ class Game():
                         print(loot[choiceVal - 1].getStatDisplay())
                         choice = None
                         continue
+                    elif choice.lower() == "help":
+                        self.getHelp()
 
                     choice = int(choice)
                 else:

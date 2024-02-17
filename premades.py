@@ -136,8 +136,8 @@ runicMail = Armor("Runic Mail", 20, 3, "Medium")
 infusedMail = Armor("Infused Mail", 24, 4, "Medium")
 
 spikedMail = Armor("Spiked Mail", 10, 1, "Medium")
-battleragerMail = Armor("Battlerager Mail", 15, 3, "Medium")
-ragnarokMail = Armor("Ragnarok Mail", 1)
+battleragerMail = Armor("Battlerager Mail", 15, 2, "Medium")
+ragnarokMail = Armor("Ragnarok Mail", 21, 3, "Medium")
 
 explorersLeathers = Armor("Explorer's Leathers", 15, 1, "Medium")
 dungeoneersMail = Armor("Dungeoneer's Mail", 20, 2, "Medium")
@@ -178,14 +178,19 @@ steelGauntlets = Accesory("Steel Gauntlets")
 steelsilkGloves = Accesory("Steelsilk Gloves")
 
 runicSheath = Accesory("Runic Sheath")
+mythicSheath = Accesory("Mythic Sheath")
 runicQuiver = Accesory("Runic Quiver")
+mythicQuiver = Accesory("Mythic Quiver")
  
 ironShield = Accesory("Iron Shield")
 towerShield = Accesory("Tower Shield")
 runicShield = Accesory("Runic Shield")
 
+accumulatorShield = Accesory("Accumulator Shield")
+
 ritualDagger = Accesory("Ritual Dagger")
 sacrificialBlade = Accesory("Sacrificial Blade")
+ritualAltar = Accesory("Ritual Altar")
 
 animatedShield = Accesory("Animated Shield")
 energyAccumulator = Accesory("Energy Accumulator")
@@ -193,13 +198,15 @@ runicAccumulator = Accesory("Runic Accumulator")
 
 recoveryJewel = Accesory("Recovery Jewel")
 regenerativeCirclet = Accesory("Regenerative Circlet")
+restorativeCrown = Accesory("Restorative Crown")
 
 accTier = [
     [ironGauntlets, ironShield, recoveryJewel],
     [crystalNecklace, steelGauntlets, steelsilkGloves],
     [ritualDagger, animatedShield, energyAccumulator],
     [runicSheath, runicQuiver, regenerativeCirclet],
-    [runicShield, runicAccumulator, runicAmulet, sacrificialBlade]
+    [runicShield, runicAccumulator, runicAmulet, sacrificialBlade],
+    [mythicSheath, mythicQuiver, accumulatorShield, ritualAltar, restorativeCrown]
 ]
 
 
