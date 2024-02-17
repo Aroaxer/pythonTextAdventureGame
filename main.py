@@ -314,15 +314,15 @@ class Game():
         match (pIn).lower():
             case "attack" | "a":
                 target = self.getTarget()
-                if not target:
-                    tempHp = target.hp
-                    self.player.attack(target)
-                    if not self.extraSettings["printDmgOnAction"]:
-                        self.nextOutput += "You attacked the " + target.name + "!\n"
-                    else:
-                        self.nextOutput += "You attacked the " + target.name + " for " + str(tempHp - target.hp) + " damage!\n"
-                    return "Attack"
-                return "No Move"
+                if target == "cancel":
+                    return "No Move"
+                tempHp = target.hp
+                self.player.attack(target)
+                if not self.extraSettings["printDmgOnAction"]:
+                    self.nextOutput += "You attacked the " + target.name + "!\n"
+                else:
+                    self.nextOutput += "You attacked the " + target.name + " for " + str(tempHp - target.hp) + " damage!\n"
+                return "Attack"
             case "block" | "b":
                 self.player.block()
                 self.nextOutput += "You blocked!\n"
@@ -332,7 +332,7 @@ class Game():
                 self.nextOutput += "You charged your attack!\n"
                 return "Charge"
             case "special" | "s":
-                if not self.player.useSpecial(self):
+                if self.player.useSpecial(self) == "cancel":
                     return "No Move"
                 self.nextOutput += "You used your weapon's special!\n"
                 return "Special"
@@ -467,7 +467,7 @@ class Game():
                 pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\nEnter 'cancel' to cancel\n")
                 
                 if pIn.lower() == "cancel":
-                    return False
+                    return "cancel"
 
                 pIn = int(pIn)
                 if pIn > 0 and pIn <= len(self.enemies): # Return entered enemy

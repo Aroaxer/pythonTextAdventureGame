@@ -161,8 +161,8 @@ class Character():
         target = game.getTarget(returnsIndex = True, totalTargets = wep.multi)
         initTarget = target
 
-        if not target:
-            return False
+        if target == "cancel":
+            return "cancel"
 
         # Target as many enemies as the weapon should
         startCharge = self.chargeMult
