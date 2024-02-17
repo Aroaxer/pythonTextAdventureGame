@@ -107,7 +107,11 @@ class Game():
                     self.enemiesKilled += 1
                 else:
                     enemy.takeAction(self)
-                    tempEnems.append(enemy)
+                    if round(enemy.hp) <= 0:
+                        self.nextOutput += "You killed the " + enemy.name + "!\n"
+                        self.enemiesKilled += 1
+                    else:
+                        tempEnems.append(enemy)
             self.enemies = tempEnems
 
         if self.player.hp <= 0:
@@ -137,9 +141,9 @@ class Game():
         if self.extraSettings["displayRunStats"]:
             print(f"Level: {self.player.level}, Enemies Killed: {self.enemiesKilled}\n\n")
         plr = self.player
-        print(f"Player ({plr.type.name}): {round(plr.hp)} health, {plr.weapon.name}, {plr.armor.name}, {plr.accesory.name}" + ((f", {self.player.blockCharges} block charges left") if self.player.blockCharges > 0 else ""))
+        print(f"Player ({plr.type.name}): {round(plr.hp)} health, {plr.weapon.name}, {plr.armor.name}, {plr.accesory.name}" + ((f", {plr.blockCharges} block charges left") if plr.blockCharges > 0 else ""))
         if self.extraSettings["displayOwnDamageReduction"]:
-            print("Damage Reduction: " + str(self.player.armor.defense) + " percent, " + str(self.player.armor.flatReduction) + " flat")
+            print("Damage Reduction: " + str(plr.armor.defense) + " percent, " + str(plr.armor.flatReduction + (plr.getMod("d") if plr.armor.armWeight == "Light" else 0)) + " flat")
         for enemy in self.enemies:
             projection = self.projectDamage(enemy)
             print(enemy.name + ": " + str(round(enemy.hp)) + " health" + ("" if not self.extraSettings["printProjDamage"] else 
@@ -153,6 +157,9 @@ class Game():
         self.player.hp += self.player.maxHealth / 2
         if self.player.hp > self.player.maxHealth: 
             self.player.hp = self.player.maxHealth
+        self.player.armor.reactiveCharges = self.player.armor.baseReactiveCharges
+        for item in self.player.inventory:
+            item.charges = item.maxCharges
 
         print("You defeated the enemies!\n\n")
         self.encountersComplete += 1
@@ -313,12 +320,12 @@ class Game():
                 self.nextOutput += "You used your weapon's special!\n"
                 return "Special"
             case "use item" | "use" | "u":
-                print("Inventory:")
+                print("Inventory:\n")
                 counter = 1
                 for item in self.player.inventory:
-                    print(str(counter) + ": " + item.name)
+                    print(str(counter) + ": " + item.name + ((", " + str(item.charges) + " charges") if item.maxCharges >= 0 else ""))
                     counter += 1
-                choice = input("Which item would you like to use?\nEnter an index starting at one\nEnter cancel to cancel\n")
+                choice = input("\nWhich item would you like to use?\nEnter an index starting at one\nEnter cancel to cancel\n")
                 if choice.lower() != "cancel":
                     try:
                         self.player.inventory[int(choice) - 1].use(self)

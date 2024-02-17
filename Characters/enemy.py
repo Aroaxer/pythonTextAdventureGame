@@ -14,13 +14,13 @@ class Enemy(Character):
             # Stage 1
             case "Slime":
                 self.difficulty = 1
-                super().__init__(12, 10, 8, 7, "Basic Str")
+                super().__init__(12, 10, 8, 5, "Basic Str")
             case "Skeleton":
                 self.difficulty = 1
-                super().__init__(10, 8, 14, 6, "Basic Dex")
+                super().__init__(10, 8, 14, 4, "Basic Dex")
             case "Zombie":
                 self.difficulty = 1
-                super().__init__(12, 12, 6, 8, "Basic Str")
+                super().__init__(12, 12, 6, 6, "Basic Str")
             # Boss
             case "King Slime":
                 self.difficulty = 3
@@ -29,16 +29,16 @@ class Enemy(Character):
             # Stage 2
             case "Bat":
                 self.difficulty = 1
-                super().__init__(4, 8, 12, 6, "Basic Dex")
+                super().__init__(4, 8, 12, 5, "Basic Dex")
             case "Goblin":
                 self.difficulty = 2
-                super().__init__(12, 10, 12, 7, "Medium Str")
+                super().__init__(12, 10, 12, 6, "Medium Str")
             case "Goblin Archer":
                 self.difficulty = 2
-                super().__init__(7, 10, 14, 5, "Medium Dex")
+                super().__init__(7, 10, 14, 4, "Medium Dex")
             case "Cave Bear":
                 self.difficulty = 3
-                super().__init__(15, 15, 8, 8, "Medium Str")
+                super().__init__(16, 14, 8, 6, "Medium Str")
             # Boss
             case "Goblin Brute":
                 self.difficulty = 5

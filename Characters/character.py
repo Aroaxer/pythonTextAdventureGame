@@ -134,7 +134,7 @@ class Character():
     def attack(self, target, damageMult = 1):
         tempCharge = self.chargeMult
         self.chargeMult = 1
-        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge * (0.5 if self.isEnemy else 1))
+        return target.takeDamage(self.weapon.dealDamage(self) * damageMult * tempCharge * (1.75 if self.isEnemy else 1))
     
     def block(self):
         self.blockCharges = self.blockChargesOnBlock
@@ -179,8 +179,7 @@ class Character():
             if wep.specType == "Weakening":
                 trg.chargeMult /= 2
             elif wep.specType == "Fracturing":  
-                trg.blockPower /= 6
-                trg.blockCharges = 1
+                trg.tempDamageModifier += 1
 
             target += 1
 

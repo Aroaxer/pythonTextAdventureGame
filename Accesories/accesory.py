@@ -17,7 +17,7 @@ class Accesory():
 
         match name:
             case "Iron Gauntlets":
-                self.chrMod = 1.5
+                self.chrMod = 1.8
                 self.dexMod = 0.9
                 self.strMod = 0.9
                 self.conMod = 1.2
@@ -31,11 +31,11 @@ class Accesory():
                 self.useDesc = "Weakens all enemies to your next attack."
                 self.conMod = 0.8
             case "Steel Gauntlets":
-                self.chrMod = 1.5
+                self.chrMod = 2.1
                 self.strMod = 1.2
                 self.conMod = 1.2
             case "Steelsilk Gloves":
-                self.chrMod = 1.5
+                self.chrMod = 2.1
                 self.dexMod = 1.2
                 self.conMod = 1.2
             case "Tower Shield":
@@ -119,8 +119,7 @@ class Accesory():
             match self.name:
                 case "Crystal Necklace":
                     for enemy in game.enemies:
-                        enemy.blockCharges = 1
-                        enemy.blockPower /= 6
+                        enemy.tempDamageModifier += 0.4
                 case "Ritual Dagger":
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
@@ -133,20 +132,18 @@ class Accesory():
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Runic Sheath":
                     plr.chargeMult += (plr.chargePower * 2) * self.chrMod
-                    plr.blockPower /= 6
-                    plr.blockCharges = 1
+                    plr.tempDamageModifier += 1
                 case "Runic Quiver":
                     startCharge = plr.chargeMult
                     for enemy in game.enemies:
                         plr.chargeMult = startCharge
-                        plr.attack(enemy, 1)
+                        plr.attack(enemy, 0.8)
                 case "Runic Shield":
                     plr.blockCharges += plr.blockChargesOnBlock * self.blkMod
                     plr.chargeMult += (plr.chargePower / 2) * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
-                        enemy.blockCharges = 1
-                        enemy.blockPower /= 4
+                        enemy.tempDamageModifier += 0.6
                 case "Sacrificial Blade":
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
@@ -179,8 +176,7 @@ class Accesory():
                     plr.chargeMult += plr.chargePower * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
-                        enemy.blockCharges = 1
-                        enemy.blockPower /= 1.5
+                        enemy.tempDamageModifier += 0.2
                 case "Regenerative Circlet":
                     plr.hp += plr.maxHealth / 10
                     if plr.hp > plr.maxHealth:
