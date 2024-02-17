@@ -44,7 +44,7 @@ class Game():
             try:
                 choice = input("What class would you like to play as?\n" +
                             "Warrior - 14 str 16 con 12 dex\n" +
-                            "Knight - 16 str 14 con 8 dex\n" +
+                            "Knight - 16 str 12 con 8 dex\n" +
                             "Ranger - 10 str 16 con 14 dex\n" +
                             "Rogue - 8 str 12 con 16 dex\n").lower()
                 match choice:
@@ -314,13 +314,15 @@ class Game():
         match (pIn).lower():
             case "attack" | "a":
                 target = self.getTarget()
-                tempHp = target.hp
-                self.player.attack(target)
-                if not self.extraSettings["printDmgOnAction"]:
-                    self.nextOutput += "You attacked the " + target.name + "!\n"
-                else:
-                    self.nextOutput += "You attacked the " + target.name + " for " + str(tempHp - target.hp) + " damage!\n"
-                return "Attack"
+                if not target:
+                    tempHp = target.hp
+                    self.player.attack(target)
+                    if not self.extraSettings["printDmgOnAction"]:
+                        self.nextOutput += "You attacked the " + target.name + "!\n"
+                    else:
+                        self.nextOutput += "You attacked the " + target.name + " for " + str(tempHp - target.hp) + " damage!\n"
+                    return "Attack"
+                return "No Move"
             case "block" | "b":
                 self.player.block()
                 self.nextOutput += "You blocked!\n"
@@ -330,7 +332,8 @@ class Game():
                 self.nextOutput += "You charged your attack!\n"
                 return "Charge"
             case "special" | "s":
-                self.player.useSpecial(self)
+                if not self.player.useSpecial(self):
+                    return "No Move"
                 self.nextOutput += "You used your weapon's special!\n"
                 return "Special"
             case "use item" | "use" | "u":
@@ -373,6 +376,7 @@ class Game():
         startCharge = self.player.chargeMult
         startBlock = target.blockPower
         startBCharges = target.blockCharges
+        startDmgMod = target.tempDamageModifier
 
         self.player.attack(target)
         damage = startHp - target.hp
@@ -381,6 +385,7 @@ class Game():
         self.player.chargeMult = startCharge
         target.blockPower = startBlock
         target.blockCharges = startBCharges
+        target.tempDamageModifier = startDmgMod
 
         if self.player.weapon.specType == "Oneshot":
             enemPercent = (target.hp / target.maxHealth) * 100
@@ -396,6 +401,7 @@ class Game():
         self.player.chargeMult = startCharge
         target.blockPower = startBlock
         target.blockCharges = startBCharges
+        target.tempDamageModifier = startDmgMod
 
         return [round(damage), round(specDamage)]
 
@@ -443,12 +449,14 @@ class Game():
                       "Press enter to exit\n")
             case "consumables":
                 input("\n" + 
-                      "Heal Potion: Heals you to full health\n" +
+                      "Heal Potion: Heals you to full health, 1 charge\n" +
                       "Strength Potion: Permanently raises strength by 2\n" +
                       "Dexterity Potion: Permanently raises dexterity by 2\n" + 
                       "Constitution Potion: Permanently raises constitution by 2\n" +
                       "Charge Potion: Permanently improves the damage boost of charge, immediately gives a large charge\n" +
                       "Block Potion: Permanently increases block charges on block, immediately gives a significant amount of block charges\n" +
+                      "Throwing Daggers: Small damage to an enemy, weakens their next attack, 2 charges\n" +
+                      "Tomahawk: Small damage to an enemy, makes them vulnerable to your next attack, 2 charges\n" + 
                       "\n" +
                       "Press enter to exit\n")
                 
@@ -456,8 +464,11 @@ class Game():
     def getTarget(self, returnsIndex = False, totalTargets = 1):
         try:
             if len(self.enemies) > totalTargets:
-                pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\n")
+                pIn = input("Which enemy would you like to target?\nEnter an index starting at 1\nEnter 'cancel' to cancel\n")
                 
+                if pIn.lower() == "cancel":
+                    return False
+
                 pIn = int(pIn)
                 if pIn > 0 and pIn <= len(self.enemies): # Return entered enemy
                     return (self.enemies[pIn - 1]) if not returnsIndex else (pIn - 1)

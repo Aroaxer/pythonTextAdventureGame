@@ -218,7 +218,9 @@ consumables = [
     "Dexterity Potion",
     "Constitution Potion",
     "Charge Potion",
-    "Block Potion"
+    "Block Potion",
+    "Throwing Daggers",
+    "Tomahawk"
 ]
 
 

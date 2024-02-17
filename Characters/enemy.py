@@ -5,6 +5,7 @@ from Characters.character import Character
 class Enemy(Character):
     name = ""
     difficulty = 0
+    actions = 1
 
     def __init__(self, name, level):
         self.name = name
@@ -24,7 +25,8 @@ class Enemy(Character):
             # Boss
             case "King Slime":
                 self.difficulty = 3
-                super().__init__(14, 14, 10, 13, "Basic Str")
+                self.actions = 2
+                super().__init__(14, 14, 10, 11, "Basic Str")
 
             # Stage 2
             case "Bat":
@@ -42,7 +44,8 @@ class Enemy(Character):
             # Boss
             case "Goblin Brute":
                 self.difficulty = 5
-                super().__init__(16, 16, 12, 16, "Medium Str")
+                self.actions = 2
+                super().__init__(16, 16, 12, 14, "Medium Str")
 
             # Stage 3
             case "Knight":
@@ -60,7 +63,8 @@ class Enemy(Character):
             # Boss
             case "Royal Guard":
                 self.difficulty = 7
-                super().__init__(18, 14, 8, 19, "Advanced Str")
+                self.actions = 3
+                super().__init__(18, 14, 8, 17, "Advanced Str")
 
             # Stage 4
             case "Imp":
@@ -78,7 +82,8 @@ class Enemy(Character):
             # Boss
             case "Cerberus":
                 self.difficulty = 9
-                super().__init__(20, 16, 8, 22, "Greater Str")
+                self.actions = 3
+                super().__init__(20, 16, 8, 20, "Greater Str")
 
             # Stage 5
             case "Githyanki Trainee":
@@ -96,7 +101,8 @@ class Enemy(Character):
             # Boss
             case "Astral Spirit":
                 self.difficulty = 11
-                super().__init__(18, 20, 22, 25, "Runic Dex")
+                self.actions = 4
+                super().__init__(18, 20, 22, 23, "Runic Dex")
 
             # Stage 6
             case "Angel":
@@ -113,11 +119,13 @@ class Enemy(Character):
                 super().__init__(16, 20, 16, 13, "Infused Dex")
             case "Demigod":
                 self.difficulty = 8
+                self.actions = 2
                 super().__init__(22, 20, 12, 12, "Infused Str")
             # Boss
             case "Lesser Deity":
                 self.difficulty = 13
-                super().__init__(24, 20, 20, 28, "Infused Str")
+                self.actions = 4
+                super().__init__(24, 20, 20, 26, "Infused Str")
             
             # Stage 7
             case "Infinity Warrior":
@@ -135,18 +143,21 @@ class Enemy(Character):
                 
                 
     def takeAction(self, game):
-        roll = random.randint(0, 100)
-        if roll > 40:
-            tempHp = game.player.hp
-            self.attack(game.player)
-            if not game.extraSettings["printDmgOnAction"]:
-                game.nextOutput += "The " + self.name + " Attacked!\n"
+        counter = 0
+        while counter < self.actions:
+            roll = random.randint(0, 100)
+            if roll > 40:
+                tempHp = game.player.hp
+                self.attack(game.player)
+                if not game.extraSettings["printDmgOnAction"]:
+                    game.nextOutput += "The " + self.name + " Attacked!\n"
+                else:
+                    game.nextOutput += "The " + self.name + " Attacked for " + str(tempHp - game.player.hp) + " damage!\n"
+                game.player.armor.reactive(game, self, (tempHp - game.player.hp))
             else:
-                game.nextOutput += "The " + self.name + " Attacked for " + str(tempHp - game.player.hp) + " damage!\n"
-            game.player.armor.reactive(game, self, (tempHp - game.player.hp))
-        else:
-            self.charge()
-            game.nextOutput += "The " + self.name + " Charged its attack!\n"
+                self.charge()
+                game.nextOutput += "The " + self.name + " Charged its attack!\n"
+            counter += 1
 
     def isProf(self, armor):
         return True

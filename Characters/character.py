@@ -161,6 +161,9 @@ class Character():
         target = game.getTarget(returnsIndex = True, totalTargets = wep.multi)
         initTarget = target
 
+        if not target:
+            return False
+
         # Target as many enemies as the weapon should
         startCharge = self.chargeMult
         while target < wep.multi + initTarget and target < len(game.enemies):

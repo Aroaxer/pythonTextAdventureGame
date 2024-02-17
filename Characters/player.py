@@ -27,7 +27,7 @@ class Player(Character):
             case "Knight":
                 self.weapon = self.startWepPrompt("Melee")
                 self.armor = pre.adventureGear
-                super().__init__(16, 14, 8, 5, isEnemy = False)
+                super().__init__(16, 12, 8, 5, isEnemy = False)
             case "Ranger":
                 self.weapon = self.startWepPrompt("Ranged")
                 self.armor = pre.clothing
