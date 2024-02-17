@@ -115,6 +115,7 @@ class Accesory():
 
     def use(self, game):
         if self.canUse:
+            plr = game.player
             match self.name:
                 case "Crystal Necklace":
                     for enemy in game.enemies:
@@ -123,25 +124,25 @@ class Accesory():
                 case "Ritual Dagger":
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
-                    game.player.attack(target, (1 - enemPercent) / 30)
+                    plr.attack(target, (1 - enemPercent) / 30)
                     if target.hp <= 0:
-                        game.player.bCon += 0.1
-                        game.player.bStr += 0.1
-                        game.player.bDex += 0.1
-                        game.player.hp = game.player.maxHealth
+                        plr.bCon += 0.1
+                        plr.bStr += 0.1
+                        plr.bDex += 0.1
+                        plr.hp = plr.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Runic Sheath":
-                    game.player.chargeMult += (game.player.chargePower * 2) * self.chrMod
-                    game.player.blockPower /= 6
-                    game.player.blockCharges = 1
+                    plr.chargeMult += (plr.chargePower * 2) * self.chrMod
+                    plr.blockPower /= 6
+                    plr.blockCharges = 1
                 case "Runic Quiver":
-                    startCharge = game.player.chargeMult
+                    startCharge = plr.chargeMult
                     for enemy in game.enemies:
-                        game.player.chargeMult = startCharge
-                        game.player.attack(enemy, 1)
+                        plr.chargeMult = startCharge
+                        plr.attack(enemy, 1)
                 case "Runic Shield":
-                    game.player.blockCharges += game.player.blockChargesOnBlock
-                    game.player.chargeMult += (game.player.chargePower / 2) * self.chrMod
+                    plr.blockCharges += plr.blockChargesOnBlock * self.blkMod
+                    plr.chargeMult += (plr.chargePower / 2) * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
                         enemy.blockCharges = 1
@@ -149,40 +150,41 @@ class Accesory():
                 case "Sacrificial Blade":
                     target = game.getTarget()
                     enemPercent = target.hp / target.maxHealth
-                    game.player.attack(target, ((1 - enemPercent) / 20))
+                    plr.attack(target, ((1 - enemPercent) / 20))
                     if target.hp <= 0:
-                        game.player.bCon += 0.25
-                        game.player.bStr += 0.25
-                        game.player.bDex += 0.25
-                        game.player.hp = game.player.maxHealth
+                        plr.bCon += 0.25
+                        plr.bStr += 0.25
+                        plr.bDex += 0.25
+                        plr.hp = plr.maxHealth
                         game.nextOutput += "You absorb some of the enemy's power!\n"
                 case "Recovery Jewel" | "Regerative Circlet":
-                    game.player.hp += game.player.maxHealth / 2
-                    if game.player.hp > game.player.maxHealth:
-                        game.player.hp = game.player.maxHealth
+                    plr.hp += plr.maxHealth / 2
+                    if plr.hp > plr.maxHealth:
+                        plr.hp = plr.maxHealth
             return True
         return False
 
 
     def passive(self, game):
         if self.hasPassive:
+            plr = game.player
             match self.name:
                 case "Animated Shield":
-                    game.player.blockCharges += round(game.player.blockChargesOnBlock / 3)
+                    plr.blockCharges += round(plr.blockChargesOnBlock / 3) * self.blkMod
                 case "Energy Accumulator":
-                    game.player.chargeMult += (game.player.chargePower / 2) * self.chrMod
+                    plr.chargeMult += (plr.chargePower / 2) * self.chrMod
                 case "Runic Shield":
-                    game.player.blockCharges += round(game.player.blockChargesOnBlock * (2 / 3))
+                    plr.blockCharges += round(plr.blockChargesOnBlock * (2 / 3)) * self.blkMod
                 case "Runic Accumulator":
-                    game.player.chargeMult += game.player.chargePower * self.chrMod
+                    plr.chargeMult += plr.chargePower * self.chrMod
                 case "Runic Amulet":
                     for enemy in game.enemies:
                         enemy.blockCharges = 1
                         enemy.blockPower /= 1.5
                 case "Regenerative Circlet":
-                    game.player.hp += game.player.maxHealth / 10
-                    if game.player.hp > game.player.maxHealth:
-                        game.player.hp = game.player.maxHealth
+                    plr.hp += plr.maxHealth / 10
+                    if plr.hp > plr.maxHealth:
+                        plr.hp = plr.maxHealth
             return True
         return False
     

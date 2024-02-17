@@ -30,6 +30,8 @@ class Character():
     blockCharges = 0
     blockChargesOnBlock = 3
 
+    tempDamageModifier = 1
+
     chargeMult = 1
     chargePower = 0.5
 
@@ -122,9 +124,10 @@ class Character():
 
     def takeDamage(self, amt):
         tempHp = self.hp
-        self.hp -= round(self.armor.reduceDamage(amt, self) / ((self.blockPower * self.accesory.blkMod) if self.blockCharges > 0 else 1))
+        self.hp -= round((self.armor.reduceDamage(amt, self) / ((self.blockPower * self.accesory.blkMod) if self.blockCharges > 0 else 1)) * self.tempDamageModifier)
         if self.hp > tempHp: self.hp = tempHp
         self.blockPower = self.baseBlock
+        self.tempDamageModifier = 1
         self.blockCharges -= (1 if self.blockCharges > 0 else 0)
         return (self.hp <= 0)
 
@@ -156,10 +159,11 @@ class Character():
             shouldReset = True
 
         target = game.getTarget(returnsIndex = True, totalTargets = wep.multi)
+        initTarget = target
 
         # Target as many enemies as the weapon should
         startCharge = self.chargeMult
-        while target < wep.multi and target < len(game.enemies):
+        while target < wep.multi + initTarget and target < len(game.enemies):
             trg = game.enemies[target]
             self.chargeMult = startCharge
 

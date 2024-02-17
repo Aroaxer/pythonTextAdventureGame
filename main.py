@@ -56,6 +56,11 @@ class Game():
                         self.extraSettings["displayOwnDamageReduction"] = not self.extraSettings["displayOwnDamageReduction"]
                     case "show run stats":
                         self.extraSettings["displayRunStats"] = not self.extraSettings["displayRunStats"]
+                    case "show all":
+                        self.extraSettings["printProjDamage"] = True
+                        self.extraSettings["printDmgOnAction"] = True
+                        self.extraSettings["displayOwnDamageReduction"] = True
+                        self.extraSettings["displayRunStats"] = True
                     case _: # Chose class or invalid input
                         self.player = Player(pre.types[choice]) # Gives error with bad input
                         self.player.inventory = [Consumable("Heal Potion"), Consumable("Heal Potion")]
@@ -93,8 +98,9 @@ class Game():
         plResult = self.takePlayerInput()
 
         tempEnems = []
-        if plResult != "No Move": # Enemies take turns / die, trigger accesory passive
+        if plResult != "No Move": # Enemies take turns / die, trigger passives
             self.player.accesory.passive(self)
+            self.player.armor.passive(self)
             for enemy in self.enemies:
                 if round(enemy.hp) <= 0:
                     self.nextOutput += "You killed the " + enemy.name + "!\n"
@@ -234,12 +240,14 @@ class Game():
                 except Exception:
                     # Accesory
                     valid.append(item)
-
         loot = []
-        cycles = 0
-        while cycles < self.difficulty + 5:
-            loot.append(self.getRandomLoot(valid))
-            cycles += 1
+        if not (self.encountersComplete + 1) % 10 == 0:
+            cycles = 0
+            while cycles < 7:
+                loot.append(self.getRandomLoot(valid))
+                cycles += 1 
+        else:
+            loot = valid
 
         print("You opened a chest and found some loot!\nEnter an index starting at 1 to choose\nEnter 'skip' to skip\nEnter 'info [index]' to see info\n")
         cycles = 1
@@ -360,7 +368,7 @@ class Game():
             self.player.weapon.specMult = enemPercent / 30
         elif self.player.weapon.specType == "Finisher":
             enemPercent = (target.hp / target.maxHealth) * 100
-            self.player.weapon.specMult = (1 - enemPercent) / 25
+            self.player.weapon.specMult = (100 - enemPercent) / 25
 
         self.player.attack(target, self.player.weapon.specMult)
         specDamage = startHp - target.hp
@@ -456,7 +464,7 @@ while True:
         print("Enter 'show own dr' when choosing a class to see your own damage reduction")
     goOn = input("\nTry Again?\n")
     match goOn.lower(): # There are far too many of these, but its funny
-        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "mhmhm" | "fo sho" | "try" | "for real" | "for real for real" | "fr" | "fr fr" | "frfr" | "thumbs up" | "👍" | "truly one of the best ideas of all time" | "truly one of the greatest ideas of all time" | "truly one of the most wonderful ideas of all time" | "truly one of the most wonderous ideas of all time" | "truly one of the most exquisite ideas of all time" | "truly one of the most beautiful ideas of all time" | "YES":
+        case "yes" | "y" | "ok" | "continue" | "try again" | "affirmative" | "yes please" | "indeed" | "certainly" | "sure" | "quite so" | "why not" | "lets do it" | "let's do it" | "go ahead" | "aight" | "k" | "kk" | "okie" | "okie dokie" | "hell yeah" | "yeah" | "most definitely" | "heck yeah" | "most certainly" | "i don't see why not" | "i dont see why not" | "i guess" | "i guess so" | "ig" | "for sure" | "yes sir" | "okie doki" | "bet" | "ight" | "yh" | "lets go" | "let's go" | "totally" | "mhm" | "mhm hm" | "mhm-hm" | "mhmhm" | "fo sho" | "try" | "for real" | "for real for real" | "fr" | "fr fr" | "frfr" | "thumbs up" | "👍" | "truly one of the best ideas of all time" | "truly one of the greatest ideas of all time" | "truly one of the most wonderful ideas of all time" | "truly one of the most wonderous ideas of all time" | "truly one of the most exquisite ideas of all time" | "truly one of the most beautiful ideas of all time" | "YES" | "agreed" | "absolutely":
             game.beginGame()
         case "a" | "b" | "c" | "s" | "":
             pass

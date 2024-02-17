@@ -122,6 +122,7 @@ class Enemy(Character):
                 game.nextOutput += "The " + self.name + " Attacked!\n"
             else:
                 game.nextOutput += "The " + self.name + " Attacked for " + str(tempHp - game.player.hp) + " damage!\n"
+            game.player.armor.reactive(game, self, (tempHp - game.player.hp))
         else:
             self.charge()
             game.nextOutput += "The " + self.name + " Charged its attack!\n"

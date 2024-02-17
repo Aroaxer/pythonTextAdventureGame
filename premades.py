@@ -96,26 +96,48 @@ weaponTier = [
 clothing = Armor("Clothing", 3, -2, "Light")
 adventureGear = Armor("Adventure Gear", 5, 0, "Medium")
 
+# Light
 leatherArmor = Armor("Leather Armor", 3, -2, "Light")
 studdedLeather = Armor("Studded Leather", 7, -1, "Light")
 steelsilkArmor = Armor("Steelsilk Armor", 12, 0, "Light")
 runicLeather = Armor("Runic Leather", 15, 1, "Light")
 
+shadowedCloak = Armor("Shadowed Cloak", -20, 1, "Light")
+midnightCloak = Armor("Midnight Cloak", -10, 2, "Light")
+
+coatOfKnives = Armor("Coat of Knives", 10, -1, "Light")
+cloakOfBlades = Armor("Cloak of Blades", 12, 0, "Light")
+
+# Medium
 hideArmor = Armor("Hide Armor", 8, 0, "Medium")
 scaleMail = Armor("Scale Mail", 13, 1, "Medium")
 halfPlateArmor = Armor("Half Plate", 17, 2, "Medium")
 runicMail = Armor("Runic Mail", 20, 3, "Medium")
 
+spikedMail = Armor("Spiked Mail", 10, 1, "Medium")
+battleragerMail = Armor("Battlerager Mail", 15, 3, "Medium")
+
+explorersLeathers = Armor("Explorer's Leathers", 15, 1, "Medium")
+
+adaptiveMail = Armor("Adaptive Mail", 15, 2, "Medium")
+
+# Heavy
 chainmailArmor = Armor("Chainmail", 10, 2, "Heavy")
 splintArmor = Armor("Splint", 15, 3, "Heavy")
 plateArmor = Armor("Plate", 20, 4, "Heavy")
 runicPlate = Armor("Runic Plate", 25, 5, "Heavy")
 
+stonyPlate = Armor("Stony Plate", 10, 2, "Heavy")
+overgrownPlate = Armor("Overgrown Plate", 17, 3, "Heavy")
+
+holyPlate = Armor("Holy Plate", 12, 1, "Heavy")
+sacredPlate = Armor("Sacred Plate", 22, 3, "Heavy")
+
 armorTier = [
     [leatherArmor, hideArmor, chainmailArmor],
-    [studdedLeather, scaleMail, splintArmor],
-    [steelsilkArmor, halfPlateArmor, plateArmor],
-    [runicLeather, runicMail, runicPlate]
+    [studdedLeather, scaleMail, splintArmor, shadowedCloak, spikedMail, stonyPlate, holyPlate],
+    [steelsilkArmor, halfPlateArmor, plateArmor, coatOfKnives, explorersLeathers, overgrownPlate],
+    [runicLeather, runicMail, runicPlate, midnightCloak, cloakOfBlades, adaptiveMail, sacredPlate]
 ]
 
 
