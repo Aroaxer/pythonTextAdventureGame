@@ -54,7 +54,7 @@ class Consumable():
     def getStatDisplay(self):
         match self.name:
             case "Heal Potion":
-                return "Heals you to full"
+                return "Heals you to full, 1 charge"
             case "Strength Potion":
                 return "Permanently increases strength by 2"
             case "Dexterity Potion":
@@ -65,3 +65,7 @@ class Consumable():
                 return "Permanently improves the damage boost of charge, immediately gives a large charge"
             case "Block Potion":
                 return "Permanently increases block charges on block, immediately gives a significant amount of block charges"
+            case "Throwing Daggers":
+                return "Small damage to an enemy, weakens their next attack, 2 charges"
+            case "Tomahawk":
+                return "Small damage to an enemy, makes them vulnerable to your next attack, 2 charges"
